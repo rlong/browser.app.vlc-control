@@ -1,0 +1,12 @@
+{
+  "name": "VlcControl",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {},
+  "proxies": [
+    {
+      "path": "/requests",
+      "proxyUrl": "http://127.0.0.1:8080/requests"
+    }
+  ]
+}

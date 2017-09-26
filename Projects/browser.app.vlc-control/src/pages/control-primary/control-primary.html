@@ -1,0 +1,47 @@
+<!--
+  Generated template for the ControlPrimaryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>ControlPrimary</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid>
+
+    <ion-row>
+      <ion-col col-4>
+        <button ion-button (click)="playlistPrevious()" style="width: 100%">
+          Previous
+        </button>
+      </ion-col>
+      <ion-col col-4>
+        <button ion-button (click)="toggleFullScreen()" style="width: 100%">
+          Toggle fullscreen
+        </button>
+      </ion-col>
+      <ion-col col-4>
+        <button ion-button (click)="playlistNext()" style="width: 100%">
+          Next
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button (click)="playPause()" style="width: 100%">
+          Play / Pause
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
