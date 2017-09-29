@@ -11,7 +11,7 @@ Browser
 ### Serve ###
 
 ```
-cd ~/Projects/browser.app.vlc-contol/Projects/browser.app.vlc-control
+cd ~/Projects/browser.app.vlc-control/Projects/browser.app.vlc-control
 ionic serve -p 10000
 ```
 
