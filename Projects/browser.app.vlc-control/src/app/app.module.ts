@@ -9,24 +9,28 @@ import { HomePage } from '../pages/home/home';
 import {VlcService} from "./VLC"
 import { HttpModule } from '@angular/http';
 import {PlaylistPageModule} from "../pages/playlist/playlist.module";
+import {HelpSetupVlcOnOsxPage} from "../pages/help-setup-vlc-on-osx/help-setup-vlc-on-osx";
+import {HelpPage} from "../pages/help/help";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    // PlaylistPage
+    HelpPage,
+    HelpSetupVlcOnOsxPage,
   ],
   imports: [
     HttpModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
     PlaylistPageModule,
-    // IonicPageModule.forChild(PlaylistPage),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    HelpPage,
+    HelpSetupVlcOnOsxPage,
   ],
   providers: [
     VlcService,

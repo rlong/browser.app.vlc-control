@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-// import { PlaylistPage } from "../playlist/playlist"
 import { VlcService } from "../../app/VLC"
 import {PlaylistPage} from "../playlist/playlist";
+import {HelpPage} from "../help/help";
 
 @Component({
   selector: 'page-home',
@@ -18,9 +18,12 @@ export class HomePage {
 
     console.log( [this], "playlistOpen" );
     PlaylistPage.pushOnTo( this.navCtrl );
-    // this.navCtrl.push( 'PlaylistPage' );
   }
 
+  helpOpen() {
+
+    this.navCtrl.push( HelpPage );
+  }
 
   async ngOnInit() {
 
