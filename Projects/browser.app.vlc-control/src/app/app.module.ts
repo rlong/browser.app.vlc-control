@@ -11,6 +11,7 @@ import { HttpModule } from '@angular/http';
 import {PlaylistPageModule} from "../pages/playlist/playlist.module";
 import {HelpSetupVlcOnOsxPage} from "../pages/help-setup-vlc-on-osx/help-setup-vlc-on-osx";
 import {HelpPage} from "../pages/help/help";
+import {HelpSetupVlcOnWindowsPage} from "../pages/help-setup-vlc-on-windows/help-setup-vlc-on-windows";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {HelpPage} from "../pages/help/help";
     HomePage,
     HelpPage,
     HelpSetupVlcOnOsxPage,
+    HelpSetupVlcOnWindowsPage
   ],
   imports: [
     HttpModule,
@@ -31,6 +33,7 @@ import {HelpPage} from "../pages/help/help";
     HomePage,
     HelpPage,
     HelpSetupVlcOnOsxPage,
+    HelpSetupVlcOnWindowsPage
   ],
   providers: [
     VlcService,
