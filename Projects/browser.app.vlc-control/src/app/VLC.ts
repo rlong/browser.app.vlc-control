@@ -167,7 +167,7 @@ export class LeafNode extends Node {
 
         this._isCurrent = true;
       } else {
-        
+
         this._isCurrent = false;
       }
     }
@@ -209,6 +209,11 @@ export class VlcProxy {
 
   constructor(private http:Http) {
 
+    // VLC is hosting this site
+    if( "8080" == window.location.port ) {
+
+      this.baseUrl = "/assets"
+    }
     console.log( [this], "constructor", this.baseUrl);
 
     let headers =  new Headers();
