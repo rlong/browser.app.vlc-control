@@ -2,39 +2,25 @@
 
 -------------------------------------------------------------------------------
 
-Debug/Development
-=================
 
-Browser
--------
+Session setup
+=============
 
-### Serve ###
 
 ```
 cd ~/Projects/browser.app.vlc-control/Projects/browser.app.vlc-control
-ionic serve -p 10000
+export PATH=/usr/local/opt/node@6/bin:$PATH
 ```
 
 
-Setup
-=====
+Debug/Development
+=================
 
-System
-------
 
 ```
-sudo npm install -g cordova ionic
+ionic serve -p 10000 -all --nobrowser --env=test
 ```
 
-
-Project
--------
-
-```
-git clone https://github.com/rlong/browser.app.vlc-control
-cd browser.app.vlc-contol/Projects/browser.app.vlc-control
-yarn install
-```
 
 -------------------------------------------------------------------------------
 

@@ -1,8 +1,6 @@
-
-
 import {Http, Headers, RequestOptionsArgs} from "@angular/http"
-import 'rxjs/Rx';
-import {Injectable} from "@angular/core";
+import {Observable} from "rxjs/Observable";
+import 'rxjs/add/operator/first';
 
 
 export enum ENodeType {
@@ -201,6 +199,8 @@ export class Playlist implements ICurrentNodeReference {
 }
 
 
+
+
 export class VlcProxy {
 
   // private baseUrl = "http://127.0.0.1:8080";
@@ -286,43 +286,3 @@ export class VlcProxy {
 
 
 
-@Injectable()
-export class VlcService {
-
-  proxy: VlcProxy;
-
-
-  constructor(private http:Http) {
-    this.proxy = new VlcProxy( this.http );
-  }
-
-
-  async status(): Promise<Status> {
-    return this.proxy.status();
-  }
-
-  async playlist(): Promise<Playlist> {
-    return this.proxy.playlist();
-  }
-
-  async playPause(): Promise<Status> {
-    return this.proxy.playPause();
-  }
-
-  async playlistNext(): Promise<Status> {
-    return this.proxy.playlistNext();
-  }
-
-  async playlistPlay( node: Node): Promise<Status> {
-    return this.proxy.playlistPlay( node );
-  }
-
-  async playlistPrevious(): Promise<Status> {
-    return this.proxy.playlistPrevious();
-  }
-
-  async toggleFullScreen(): Promise<Status> {
-    return this.proxy.toggleFullScreen();
-  }
-
-}

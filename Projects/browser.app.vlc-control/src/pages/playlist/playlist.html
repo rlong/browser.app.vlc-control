@@ -7,37 +7,26 @@
 <ion-header>
 
   <ion-navbar>
-
-    <ion-title>Playlist</ion-title>
-
-    <ion-buttons end >
-      <button ion-button icon-only color="royal" *ngIf="playlist&&playlist.current">
-        Current
-        <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>playlist</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-
-
-
 <ion-content padding>
+
   Playlist
 
-  <ion-list *ngIf="playlist">
-    <button ion-item *ngFor="let child of playlist.root.children" (click)="nodeSelected(child)">
+  <ion-list *ngIf="playlist.value">
+    <button ion-item *ngFor="let child of playlist.value.root.children" (click)="nodeSelected(child)">
       {{ child.value.name }}
     </button>
   </ion-list>
+
 </ion-content>
-
-
 
 <ion-footer>
   <ion-toolbar>
-    <ion-title>Playlist</ion-title>
+    <!--<ion-title>Help</ion-title>-->
   </ion-toolbar>
 </ion-footer>

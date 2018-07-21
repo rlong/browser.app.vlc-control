@@ -1,43 +1,117 @@
-<ion-menu [content]="content" id="menu1">
-
-  <ion-header>
-    <ion-toolbar color="secondary">
-      <ion-title>Menu 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content>
-    <ion-list>
-      <button ion-item menuClose="menu1" detail-none>
-        Close Menu 1
-      </button>
-    </ion-list>
-  </ion-content>
-
-</ion-menu>
-
-
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      VLC Control
-    </ion-title>
+    <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
+  <h2>Welcome to Ionic!</h2>
   <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
+    This starter project comes with simple tabs-based layout for apps
+    that are going to primarily use a Tabbed UI.
+  </p>
+  <p>
+    Take a look at the <code>src/pages/</code> directory to add or change tabs,
+    update any existing page or create new pages.
   </p>
 
-  <button ion-button (click)="playlistOpen()">
+
+  <button mat-raised-button
+          color="primary"
+          (click)="playlistOpen()">
     Playlist
   </button>
 
+  <button mat-raised-button
+          color="primary"
+          (click)="controlOpen()">
+    Control
+  </button>
+
+
+  <hr>
+  <hr>
+  <hr>
+  <hr>
+
+
+  <button mat-button>Click me!</button>
+
+  <button mat-raised-button>Basic</button>
+
+
+
+  <hr>
+
+
+  <h3>Basic Buttons</h3>
+  <div class="button-row">
+    <button mat-button>Basic</button>
+    <button mat-button color="primary">Primary</button>
+    <button mat-button color="accent">Accent</button>
+    <button mat-button color="warn">Warn</button>
+    <button mat-button disabled>Disabled</button>
+    <a mat-button routerLink=".">Link</a>
+  </div>
+
+  <h3>Raised Buttons</h3>
+  <div class="button-row">
+    <button mat-raised-button>Basic</button>
+    <button mat-raised-button color="primary">Primary</button>
+    <button mat-raised-button color="accent">Accent</button>
+    <button mat-raised-button color="warn">Warn</button>
+    <button mat-raised-button disabled>Disabled</button>
+    <a mat-raised-button routerLink=".">Link</a>
+  </div>
+
+  <h3>Icon Buttons</h3>
+  <div class="button-row">
+    <button mat-icon-button>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button color="primary">
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button color="accent">
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button color="warn">
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button disabled>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+  </div>
+
+  <h3>Fab Buttons</h3>
+  <div class="button-row">
+    <button mat-fab>Basic</button>
+    <button mat-fab color="primary">Primary</button>
+    <button mat-fab color="accent">Accent</button>
+    <button mat-fab color="warn">Warn</button>
+    <button mat-fab disabled>Disabled</button>
+    <button mat-fab>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <a mat-fab routerLink=".">Link</a>
+  </div>
+
+  <h3>Mini Fab Buttons</h3>
+  <div class="button-row">
+    <button mat-mini-fab>Basic</button>
+    <button mat-mini-fab color="primary">Primary</button>
+    <button mat-mini-fab color="accent">Accent</button>
+    <button mat-mini-fab color="warn">Warn</button>
+    <button mat-mini-fab disabled>Disabled</button>
+    <button mat-mini-fab>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <a mat-mini-fab routerLink=".">Link</a>
+  </div>
 
 
 </ion-content>
+
 
 <ion-footer>
   <ion-toolbar>
@@ -58,7 +132,7 @@
     </ion-buttons>
   </ion-toolbar>
   <!--<ion-toolbar>-->
-    <!--<ion-title>VLC Control</ion-title>-->
+  <!--<ion-title>VLC Control</ion-title>-->
   <!--</ion-toolbar>-->
 </ion-footer>
 

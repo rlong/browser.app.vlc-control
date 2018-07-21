@@ -1,45 +1,52 @@
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule, IonicPageModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
-
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+
+import { AboutPage } from '../pages/about/about';
+import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import {VlcService} from "./VLC"
+import { TabsPage } from '../pages/tabs/tabs';
+
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
+import {MatButtonModule, MatIconModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { VlcProvider } from '../providers/vlc/vlc';
 import { HttpModule } from '@angular/http';
-import {PlaylistPageModule} from "../pages/playlist/playlist.module";
-import {HelpSetupVlcOnOsxPage} from "../pages/help-setup-vlc-on-osx/help-setup-vlc-on-osx";
-import {HelpPage} from "../pages/help/help";
-import {HelpSetupVlcOnWindowsPage} from "../pages/help-setup-vlc-on-windows/help-setup-vlc-on-windows";
 
 @NgModule({
   declarations: [
     MyApp,
+    AboutPage,
+    ContactPage,
     HomePage,
-    HelpPage,
-    HelpSetupVlcOnOsxPage,
-    HelpSetupVlcOnWindowsPage
+    TabsPage
   ],
   imports: [
-    HttpModule,
+    BrowserAnimationsModule,
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
-    PlaylistPageModule,
+
+    MatButtonModule,
+    MatIconModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    AboutPage,
+    ContactPage,
     HomePage,
-    HelpPage,
-    HelpSetupVlcOnOsxPage,
-    HelpSetupVlcOnWindowsPage
+    TabsPage
   ],
   providers: [
-    VlcService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    VlcProvider
   ]
 })
 export class AppModule {}

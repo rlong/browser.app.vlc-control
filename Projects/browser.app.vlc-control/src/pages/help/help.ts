@@ -26,11 +26,11 @@ export class HelpPage {
 
   helpSetupVlcOnOsx() {
 
-    this.navCtrl.push( HelpSetupVlcOnOsxPage );
+    this.navCtrl.push( "HelpSetupVlcOnOsxPage" );
   }
 
   helpSetupVlcOnWindows() {
 
-    this.navCtrl.push( HelpSetupVlcOnWindowsPage );
+    this.navCtrl.push( "HelpSetupVlcOnWindowsPage" );
   }
 }

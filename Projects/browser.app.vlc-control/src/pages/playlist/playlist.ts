@@ -1,37 +1,39 @@
-import { Component,OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {CompositeNode, ENodeType, INode, Node, Playlist, VlcService} from "../../app/VLC"
-import {ControlPrimaryPage} from "../control-primary/control-primary";
+import {ENodeType,Node} from "../../model/vlc";
+import {PlaylistReference, StatusReference, VlcProvider} from "../../providers/vlc/vlc";
+import {ControlPage} from "../control/control";
 
 /**
- * Generated class for the PlaylistPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
   selector: 'page-playlist',
   templateUrl: 'playlist.html',
 })
-export class PlaylistPage implements OnInit {
+export class PlaylistPage implements OnInit{
+  public status: StatusReference;
+  public playlist: PlaylistReference;
 
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public vlc: VlcProvider) {
 
-  private static readonly NAME = "PlaylistPage";
-
-  private playlist: Playlist;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, private vlcService:VlcService) {
+    this.status = vlc.status;
+    this.playlist = vlc.playlist;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PlaylistPage');
+
+    // console.log('ionViewDidLoad PlaylistPage');
   }
 
-  async ngOnInit() {
+  ngOnInit(): void {
 
-    this.playlist = await this.vlcService.playlist();
-    console.log( [this], "ngOnInit", this.playlist );
+    console.log( [this], 'ngOnInit');
+
+    this.vlc.getPlaylist();
+
   }
 
 
@@ -41,17 +43,17 @@ export class PlaylistPage implements OnInit {
 
     if( node.type === ENodeType.leaf ) {
 
-      this.vlcService.playlistPlay( node );
-      ControlPrimaryPage.pushOnTo( this.navCtrl );
+      this.vlc.playlistPlay( node );
+      ControlPage.pushOnTo( this.navCtrl );
     } else {
 
       console.log( [this], "nodeSelected", node );
     }
   }
 
-
   public static pushOnTo( navCtrl: NavController ) {
 
-    navCtrl.push(PlaylistPage.NAME);
+    navCtrl.push("PlaylistPage");
   }
+
 }

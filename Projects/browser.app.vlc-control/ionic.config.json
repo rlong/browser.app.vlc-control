@@ -1,5 +1,5 @@
 {
-  "name": "VlcControl",
+  "name": "vlc-pal",
   "app_id": "",
   "type": "ionic-angular",
   "integrations": {},
@@ -9,4 +9,5 @@
       "proxyUrl": "http://127.0.0.1:8080/requests"
     }
   ]
+
 }
