@@ -1,17 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {ENodeType,Node} from "../../model/vlc";
+import {EPlaylistNodeType,PlaylistNode} from "../../model/vlc";
 import {PlaylistReference, StatusReference, VlcProvider} from "../../providers/vlc/vlc";
 import {ControlPage} from "../control/control";
 
 /**
  */
-@IonicPage()
+
 @Component({
   selector: 'page-playlist',
   templateUrl: 'playlist.html',
 })
 export class PlaylistPage implements OnInit{
+
+
   public status: StatusReference;
   public playlist: PlaylistReference;
 
@@ -37,13 +39,13 @@ export class PlaylistPage implements OnInit{
   }
 
 
-  async nodeSelected( node: Node ) {
+  async nodeSelected( node: PlaylistNode ) {
 
-    console.log( [this], "nodeSelected", ENodeType.leaf );
+    console.log( [this], "nodeSelected", EPlaylistNodeType.leaf );
 
-    if( node.type === ENodeType.leaf ) {
+    if( node.type === EPlaylistNodeType.leaf ) {
 
-      this.vlc.playlistPlay( node );
+      this.vlc.pl_play( node );
       ControlPage.pushOnTo( this.navCtrl );
     } else {
 
@@ -53,7 +55,7 @@ export class PlaylistPage implements OnInit{
 
   public static pushOnTo( navCtrl: NavController ) {
 
-    navCtrl.push("PlaylistPage");
+    navCtrl.push(PlaylistPage);
   }
 
 }

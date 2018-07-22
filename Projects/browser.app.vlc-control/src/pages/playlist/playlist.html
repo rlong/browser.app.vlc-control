@@ -15,13 +15,17 @@
 
 <ion-content padding>
 
-  Playlist
 
-  <ion-list *ngIf="playlist.value">
-    <button ion-item *ngFor="let child of playlist.value.root.children" (click)="nodeSelected(child)">
+  <mat-list *ngIf="playlist.value" [disableRipple]="false">
+    <mat-list-item
+      [disableRipple]="false"
+      *ngFor="let child of playlist.value.root.children"
+      (click)="nodeSelected(child)">
       {{ child.value.name }}
-    </button>
-  </ion-list>
+      <mat-divider [inset]="true"></mat-divider>
+    </mat-list-item>
+  </mat-list>
+
 
 </ion-content>
 

@@ -3,10 +3,11 @@ import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/first';
 
 
-export enum ENodeType {
+export enum EPlaylistNodeType {
   leaf,
   node
 }
+
 
 
 export interface IVideoEffects {
@@ -17,6 +18,12 @@ export interface IVideoEffects {
   hue: number;
 }
 export interface IAudioFilters {
+}
+
+
+export interface IBrowseResponse {
+
+  element: IFileNode[];
 }
 
 export interface ICategory {
@@ -35,6 +42,46 @@ export interface ICategoryMeta {
   artwork_url: string;
 }
 
+
+export interface IFileNode {
+
+  type: string;
+  path: string;
+  name: string;
+  access_time: number;
+  uid: number;
+  creation_time: number;
+  gid: number;
+  modification_time: number;
+  mode: number;
+  uri: string;
+  size: number;
+}
+
+
+export class FileNode {
+
+  isDirectory: boolean = false;
+  isFile: boolean = false;
+
+  constructor( public value: IFileNode ) {
+
+    if( "dir" === value.type ) {
+
+      this.isDirectory = true;
+    } else if( "file" === value.type ) {
+
+      this.isFile = true;
+    } else {
+
+      console.error( [this], "constructor", value.type );
+    }
+  }
+}
+
+
+
+
 export interface IInformation {
 
   category: ICategory;
@@ -52,7 +99,7 @@ export interface IStatus {
   audiofilters: IAudioFilters;
   currentplid: number;
   equalizer: any[]
-  fullscreen: number;
+  fullscreen: boolean;
   information? : IInformation;
   length: number;
   loop: boolean;
@@ -70,17 +117,38 @@ export interface IStatus {
 }
 
 
+
 export class Status {
+
   value: IStatus;
+
+  public stateIsPlaying: boolean = false;
+  public stateIsPaused: boolean = false;
+  public volumePercentage: number;
 
   constructor( value: IStatus ) {
     this.value = value;
+    this.init();
+  }
+
+  private init() {
+
+    if( this.value.state == "playing") {
+
+      this.stateIsPlaying = true;
+    } else if( this.value.state == "paused") {
+
+      this.stateIsPaused = true;
+    }
+
+    this.volumePercentage = Math.round( 100 * (this.value.volume / 320));
+
   }
 }
 
 
 
-export interface INode {
+export interface IPlaylistNode {
 
   id: string;
   name: string;
@@ -88,36 +156,36 @@ export interface INode {
   type: string;
 }
 
-export class Node {
+export class PlaylistNode {
 
-  public type: ENodeType = ENodeType.node;
+  public type: EPlaylistNodeType = EPlaylistNodeType.node;
 
-  constructor( public value: INode ) {
+  constructor( public value: IPlaylistNode ) {
   }
 
 }
 
-export interface ICompositeNode extends INode {
+export interface ICompositePlaylistNode extends IPlaylistNode {
 
-  children: INode[];
+  children: IPlaylistNode[];
 }
 
 
-export class CompositeNode extends Node {
+export class CompositePlaylistNode extends PlaylistNode {
 
-  children: Node[];
+  children: PlaylistNode[];
 
-  constructor( public typedValue: ICompositeNode, currentNodeReference: ICurrentNodeReference ) {
+  constructor(public typedValue: ICompositePlaylistNode, currentNodeReference: ICurrentPlaylistNode ) {
 
     super(typedValue);
 
     this.children = typedValue.children.map( (e) => {
 
-      if( CompositeNode.isComposite( e ) ) {
-        return new CompositeNode( e as ICompositeNode, currentNodeReference );
+      if( CompositePlaylistNode.isComposite( e ) ) {
+        return new CompositePlaylistNode( e as ICompositePlaylistNode, currentNodeReference );
       }
 
-      let answer = new LeafNode( e as ILeafNode );
+      let answer = new LeafPlaylistNode( e as ILeafPlaylistNode );
 
       if( answer.isCurrent() ) {
 
@@ -127,7 +195,7 @@ export class CompositeNode extends Node {
     });
   }
 
-  static isComposite( candidate: INode ) {
+  static isComposite( candidate: IPlaylistNode ) {
 
     if( "node" === candidate.type ) {
 
@@ -138,23 +206,23 @@ export class CompositeNode extends Node {
 
 }
 
-export interface ILeafNode extends INode {
+export interface ILeafPlaylistNode extends IPlaylistNode {
 
   duration: number;
   uri: string;
   current?: string;
 }
 
-export class LeafNode extends Node {
+export class LeafPlaylistNode extends PlaylistNode {
 
 
   _isCurrent: boolean|null = null;
 
-  constructor( public typedValue: ILeafNode )
+  constructor( public typedValue: ILeafPlaylistNode )
   {
     super(typedValue);
 
-    this.type = ENodeType.leaf;
+    this.type = EPlaylistNodeType.leaf;
   }
 
   isCurrent() {
@@ -177,23 +245,23 @@ export class LeafNode extends Node {
 }
 
 
-export interface IPlaylist extends ICompositeNode {
+export interface IPlaylist extends ICompositePlaylistNode {
 
 }
 
-export interface ICurrentNodeReference {
+export interface ICurrentPlaylistNode {
 
-  current: LeafNode;
+  current: LeafPlaylistNode;
 }
 
-export class Playlist implements ICurrentNodeReference {
+export class Playlist implements ICurrentPlaylistNode {
 
-  root: CompositeNode;
-  current: LeafNode;
+  root: CompositePlaylistNode;
+  current: LeafPlaylistNode;
 
   constructor( public value: IPlaylist ) {
     this.current = null;
-    this.root = new CompositeNode( this.value.children[0] as ICompositeNode, this );
+    this.root = new CompositePlaylistNode( this.value.children[0] as ICompositePlaylistNode, this );
   }
 
 }
@@ -228,11 +296,29 @@ export class VlcProxy {
     }
   }
 
+
+  async browse(dir: string): Promise<FileNode[]> {
+
+    const encodedDir = encodeURIComponent( dir );
+    let url = `${this.baseUrl}/requests/browse.json?dir=${encodedDir}`;
+    let response = await this.http.get( url, this.requestOptionsArgs ).first().toPromise();
+    const fileNodes: IBrowseResponse = response.json();
+
+    return fileNodes.element.map( (e) => { return new FileNode( e )})
+  }
+
+  async in_play(input: string ): Promise<Status> {
+
+    const encodedInput = encodeURI( input); // encodeURIComponent( input );
+
+    let url = `${this.baseUrl}/requests/status.json?command=in_play&input=${encodedInput}`;
+    return this.dispatchStatusRequest( url );
+  }
+
   async status(): Promise<Status> {
 
     let url = this.baseUrl + "/requests/status.json";
-    let response = await this.http.get( url, this.requestOptionsArgs ).first().toPromise() ;
-    return new Status( response.json() );
+    return this.dispatchStatusRequest( url );
   }
 
   async playlist(): Promise<Playlist> {
@@ -242,32 +328,61 @@ export class VlcProxy {
     return new Playlist( response.json() );
   }
 
-  async playPause(): Promise<Status> {
+  async pl_pause(): Promise<Status> {
 
     let url = this.baseUrl + "/requests/status.json?command=pl_pause";
     return this.dispatchStatusRequest( url );
   }
 
-
-  async playlistNext() {
+  async pl_next() {
 
     let url = `${this.baseUrl}/requests/status.json?command=pl_next`;
     return this.dispatchStatusRequest( url );
   }
 
 
-  async playlistPlay(node: Node): Promise<Status> {
+  async pl_play(node: PlaylistNode): Promise<Status> {
 
     let url = `${this.baseUrl}/requests/status.json?command=pl_play&id=${node.value.id}`;
     return this.dispatchStatusRequest( url );
   }
 
-  async playlistPrevious(): Promise<Status> {
+  async pl_previous(): Promise<Status> {
 
     let url = `${this.baseUrl}/requests/status.json?command=pl_previous`;
     return this.dispatchStatusRequest( url );
   }
 
+
+  async seek( val: number ): Promise<Status> {
+
+    if( 0 > val  ) {
+
+      console.warn( [this], 'seek', '0 > val', val );
+      val = 0;
+    }
+
+
+    const url = `${this.baseUrl}/requests/status.json?command=seek&val=${val}`;
+    return this.dispatchStatusRequest( url );
+  }
+
+
+  async setVolume(val: number): Promise<Status> {
+
+    if( 0 > val  ) {
+
+      console.warn( [this], 'setVolume', '0 > val', val );
+      val = 0;
+    } else if ( 320 < val ) {
+
+      console.warn( [this], 'setVolume', '320 < val', val );
+      val = 320;
+    }
+
+    const url = `${this.baseUrl}/requests/status.json?command=volume&val=${val}`;
+    return this.dispatchStatusRequest( url );
+  }
 
   async toggleFullScreen(): Promise<Status> {
 

@@ -15,6 +15,13 @@ export BASE_URL=http://127.0.0.1:8100
 ```
 
 
+browse
+======
+
+```
+curl -is -u :vlcremote $BASE_URL/requests/browse.json?dir=~/
+```
+
 playlist
 ========
 

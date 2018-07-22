@@ -11,17 +11,32 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import {MatButtonModule, MatIconModule} from '@angular/material';
+import {MatButtonModule,
+  MatCardModule,
+  MatGridListModule,
+  MatIconModule,
+  MatListModule} from '@angular/material';
+import {MatSliderModule} from '@angular/material/slider';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { VlcProvider } from '../providers/vlc/vlc';
 import { HttpModule } from '@angular/http';
+import {ControlPage} from "../pages/control/control";
+import {ConnectPage} from "../pages/connect/connect";
+import {BrowseFolderPage} from "../pages/browse-folder/browse-folder";
+import {BrowseRootPage} from "../pages/browse-root/browse-root";
+import {PlaylistPage} from "../pages/playlist/playlist";
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
+    BrowseFolderPage,
+    BrowseRootPage,
+    ConnectPage,
     ContactPage,
+    ControlPage,
     HomePage,
+    PlaylistPage,
     TabsPage
   ],
   imports: [
@@ -31,15 +46,24 @@ import { HttpModule } from '@angular/http';
     IonicModule.forRoot(MyApp),
 
     MatButtonModule,
-    MatIconModule
+    MatCardModule,
+    MatGridListModule,
+    MatIconModule,
+    MatListModule,
+    MatSliderModule
 
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     AboutPage,
+    BrowseFolderPage,
+    BrowseRootPage,
+    ConnectPage,
     ContactPage,
+    ControlPage,
     HomePage,
+    PlaylistPage,
     TabsPage
   ],
   providers: [

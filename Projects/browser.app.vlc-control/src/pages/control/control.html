@@ -1,9 +1,3 @@
-<!--
-  Generated template for the ControlPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -15,35 +9,124 @@
 
 <ion-content padding>
 
+  <div *ngIf="status.value">
 
-  <ion-grid>
+    <mat-card>
+      <!--<mat-card-title>Progress 01:11</mat-card-title>-->
+      <mat-card-content>
+        <button mat-raised-button style="width: 100%;">
+          Progress 01:11
+        </button>
 
-    <ion-row>
-      <ion-col col-4>
-        <button ion-button (click)="playlistPrevious()" style="width: 100%">
-          Previous
-        </button>
-      </ion-col>
-      <ion-col col-4>
-        <button ion-button (click)="toggleFullScreen()" style="width: 100%">
-          Toggle fullscreen
-        </button>
-      </ion-col>
-      <ion-col col-4>
-        <button ion-button (click)="playlistNext()" style="width: 100%">
-          Next
-        </button>
-      </ion-col>
-    </ion-row>
+        <mat-slider min="0"
+                    step="1"
+                    [max]="status.value.value.length"
+                    [value]="status.value.value.time"
+                    value="160"
+                    style="width: 100%"
+        ></mat-slider>
 
-    <ion-row>
-      <ion-col col-12>
-        <button ion-button (click)="playPause()" style="width: 100%">
-          Play / Pause
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-content>
+
+        <button mat-raised-button style="width: 100%;">
+
+          <mat-icon *ngIf="0==status.value.volumePercentage">volume_off</mat-icon>
+          <mat-icon *ngIf="0!=status.value.volumePercentage">volume_up</mat-icon>
+          {{status.value.volumePercentage}}%
         </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+        <mat-slider min="0" max="320"
+                    step="1"
+                    [value]="status.value.value.volume"
+                    style="width: 100%"
+        ></mat-slider>
+
+
+      </mat-card-content>
+    </mat-card>
+
+    <!--<mat-grid-list cols="1" rowHeight="2:1">-->
+    <mat-grid-list cols="12">
+
+
+      <mat-grid-tile colspan="4">
+        <button
+
+          mat-raised-button
+          color="primary"
+          (click)="playlistPrevious()"
+          style="height: inherit; width: 100%"
+        >
+          <mat-icon>skip_previous</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="4">
+        <button
+
+          mat-raised-button
+          color="primary"
+          (click)="toggleFullScreen()"
+          style="height: inherit; width: 100%"
+        >
+          <mat-icon *ngIf="status.value.value.fullscreen">fullscreen_exit</mat-icon>
+          <mat-icon *ngIf="!status.value.value.fullscreen">fullscreen</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="4">
+        <button
+
+          mat-raised-button
+          color="primary"
+          (click)="playlistNext()"
+          style="height: inherit; width: 100%"
+        >
+          <mat-icon>skip_next</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile colspan="3">
+        <button mat-raised-button
+                color="primary"
+                (click)="vlc.skipBackward(10)"
+                style="height: inherit; width: 100%"
+        >
+
+          <mat-icon>replay_10</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="6">
+
+        <button mat-raised-button
+                color="primary"
+                (click)="playPause()"
+                style="height: inherit; width: 100%"
+        >
+          <mat-icon *ngIf="status.value.stateIsPaused">play_arrow</mat-icon>
+          <mat-icon *ngIf="status.value.stateIsPlaying">pause</mat-icon>
+        </button>
+
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="3">
+        <button mat-raised-button
+                color="primary"
+                (click)="vlc.skipForward(30)"
+                style="height: inherit; width: 100%"
+        >
+          <mat-icon>forward_30</mat-icon>
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+  </div>
+
 
 
 </ion-content>
