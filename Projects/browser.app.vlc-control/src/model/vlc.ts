@@ -33,13 +33,59 @@ export interface ICategory {
 
 export interface ICategoryMeta {
 
-  artist: string;
-  filename: string;
-  "Download URL": string;
-  "Album URL": string;
-  title: string;
-  url: string;
-  artwork_url: string;
+  album?: string;
+  artist?: string;
+  artwork_url?: string;
+  date?: string;
+  description?: string;
+  encoded_by?: string;
+  filename?: string;
+  genre?: string;
+  title?: string;
+  track_number?: string;
+  track_total?: string;
+}
+
+export class CategoryMeta {
+
+  date: number;
+  track_number: number;
+  track_total: number;
+
+  constructor( public value: ICategoryMeta ) {
+
+    this.date =  CategoryMeta.getNumber( value.date );
+    this.track_number =  CategoryMeta.getNumber( value.track_number );
+    this.track_total = CategoryMeta.getNumber( value.track_total );
+  }
+
+  private static getNumber( value: any ): number | null {
+
+    if( 'number' == typeof value ) {
+      return value;
+    }
+
+    if( 'string' == typeof value ) {
+
+      if( 0 == value.length ) {
+        return null;
+      }
+
+      const answer = parseInt( value );
+      if( isNaN( answer )) {
+
+        console.error( "CategoryMeta", "getNumber", "isNaN( answer )", value );
+        return null;
+      }
+
+      return answer;
+    }
+
+    // unhanlded type ...
+    return null;
+  }
+
+
 }
 
 
@@ -275,13 +321,18 @@ export class VlcProxy {
   private baseUrl = "";
   private requestOptionsArgs: RequestOptionsArgs;
 
-  constructor(private http:Http) {
+  constructor(private http:Http, host = "") {
 
-    // VLC is hosting this site
-    if( "8080" == window.location.port ) {
 
-      this.baseUrl = "/assets"
+    if( 0 !== host.length ) {
+
+      this.baseUrl = `http://${host}`
+    } else if( "8080" == window.location.port ) { // VLC is hosting this site
+
+      this.baseUrl += "/assets"
     }
+
+
     console.log( [this], "constructor", this.baseUrl);
 
     let headers =  new Headers();

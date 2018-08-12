@@ -4,6 +4,8 @@ import {PlaylistReference, StatusReference, VlcProvider} from "../../providers/v
 import {ControlPage} from "../control/control";
 import {PlaylistPage} from "../playlist/playlist";
 import {BrowseRootPage} from "../browse-root/browse-root";
+import {ConfigurationProvider} from "../../providers/configuration/configuration";
+import {MusicLibraryProvider} from "../../providers/music-library/music-library";
 
 /**
  * Generated class for the ConnectPage page.
@@ -17,21 +19,37 @@ import {BrowseRootPage} from "../browse-root/browse-root";
 })
 export class ConnectPage implements OnInit {
 
-  public status: StatusReference;
-  public playlist: PlaylistReference;
+
+
+  private _host = null;
+  private connected: boolean = false;
+
+
+
+  set host(value: string) {
+
+    this._host = value;
+    this.config.setHost( value );
+  }
+
+  get host() {
+
+    return this._host;
+  }
 
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public vlc: VlcProvider) {
-
-    this.status = vlc.status;
-    this.playlist = vlc.playlist;
+              public vlc: VlcProvider,
+              private config: ConfigurationProvider,
+              private musicLibrary: MusicLibraryProvider) {
   }
 
   ngOnInit(): void {
 
-    this.vlc.getStatus();
+    this._host = this.config.getHost( "");
+    this.vlc.init( this.config );
+    this.tryConnect();
   }
 
   browseOpen() {
@@ -58,4 +76,22 @@ export class ConnectPage implements OnInit {
     this.navCtrl.push( "HelpPage" );
   }
 
+  async tryConnect() {
+
+    try {
+
+      this.connected = false;
+
+      this.vlc.init( this.config );
+      const status = await this.vlc.getStatus();
+      console.log( [this], "tryConnect", status );
+
+      this.connected = true;
+
+    } catch (e) {
+
+      console.error( [this], "tryConnect", e  );
+    }
+
+  }
 }

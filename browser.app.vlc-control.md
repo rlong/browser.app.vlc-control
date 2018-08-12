@@ -27,6 +27,11 @@ ionic serve -p 10000 -all --nobrowser --env=test
 Files/Folders
 =============
 
+
+```
+~/Projects/_archive/2015/2015.android.app.music_pal/phone_pal.music.library/src/phone_pal/music/library
+```
+
 * config (macOS):
 ```
 ~/Library/Preferences/org.videolan.vlc/vlcrc

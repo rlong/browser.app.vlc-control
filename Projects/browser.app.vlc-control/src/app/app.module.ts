@@ -13,6 +13,7 @@ import {MatButtonModule,
   MatCardModule,
   MatGridListModule,
   MatIconModule,
+  MatInputModule,
   MatListModule} from '@angular/material';
 import {MatSliderModule} from '@angular/material/slider';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -23,6 +24,8 @@ import {ConnectPage} from "../pages/connect/connect";
 import {BrowseFolderPage} from "../pages/browse-folder/browse-folder";
 import {BrowseRootPage} from "../pages/browse-root/browse-root";
 import {PlaylistPage} from "../pages/playlist/playlist";
+import { ConfigurationProvider } from '../providers/configuration/configuration';
+import { MusicLibraryProvider } from '../providers/music-library/music-library';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import {PlaylistPage} from "../pages/playlist/playlist";
     MatCardModule,
     MatGridListModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
     MatSliderModule
 
@@ -64,7 +68,9 @@ import {PlaylistPage} from "../pages/playlist/playlist";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    VlcProvider
+    VlcProvider,
+    ConfigurationProvider,
+    MusicLibraryProvider
   ]
 })
 export class AppModule {}

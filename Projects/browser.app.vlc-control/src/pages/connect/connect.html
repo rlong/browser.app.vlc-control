@@ -16,6 +16,19 @@
 <ion-content padding>
 
 
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Host" name="host" [(ngModel)]="host">
+    </mat-form-field>
+  </form>
+
+
+  <button mat-raised-button
+          color="primary"
+          (click)="tryConnect()">
+    Connect
+  </button>
+
   <button mat-raised-button
           color="primary"
           (click)="playlistOpen()">

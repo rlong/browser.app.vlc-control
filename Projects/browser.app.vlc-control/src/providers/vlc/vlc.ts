@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {PlaylistNode, Playlist, Status, VlcProxy, FileNode} from "../../model/vlc";
 import {Http} from "@angular/http";
+import {ConfigurationProvider} from "../configuration/configuration";
 
 
 export class StatusReference {
@@ -124,16 +125,31 @@ class StatusPoller {
 export class VlcProvider {
 
 
-  public status: StatusReference = new StatusReference();
-  public playlist: PlaylistReference = new PlaylistReference();
+  public status: StatusReference;
+  public playlist: PlaylistReference;
   private statusPoller: StatusPoller;
 
   proxy: VlcProxy;
 
 
-  constructor(private http:Http ) {
+  constructor(private http:Http, config: ConfigurationProvider) {
 
-    this.proxy = new VlcProxy( http );
+    this.init( config );
+  }
+
+  init( config: ConfigurationProvider ) {
+
+    // clean-up
+    if( this.statusPoller ) {
+
+      this.statusPoller.stop();
+    }
+
+    const host: string = config.getHost( "" );
+    this.proxy = new VlcProxy( this.http, host );
+
+    this.playlist= new PlaylistReference()
+    this.status = new StatusReference();
     this.statusPoller = new StatusPoller( this );
   }
 
