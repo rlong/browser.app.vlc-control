@@ -22,7 +22,7 @@ class AudioTrack {
 /*
 */
 @Injectable()
-export class MusicLibraryProvider {
+export class AudioLibraryProvider {
 
 
   db;
