@@ -20,6 +20,7 @@ export class BrowseRootPage {
               public navParams: NavParams,
               public vlc: VlcProvider,
               ) {
+
   }
 
   ionViewDidLoad() {

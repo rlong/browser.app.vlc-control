@@ -25,7 +25,7 @@ import {BrowseFolderPage} from "../pages/browse-folder/browse-folder";
 import {BrowseRootPage} from "../pages/browse-root/browse-root";
 import {PlaylistPage} from "../pages/playlist/playlist";
 import { ConfigurationProvider } from '../providers/configuration/configuration';
-import { MusicLibraryProvider } from '../providers/music-library/music-library';
+import { AudioLibraryProvider } from '../providers/audio-library/audio-library';
 
 @NgModule({
   declarations: [
@@ -70,7 +70,7 @@ import { MusicLibraryProvider } from '../providers/music-library/music-library';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     VlcProvider,
     ConfigurationProvider,
-    MusicLibraryProvider
+    AudioLibraryProvider
   ]
 })
 export class AppModule {}

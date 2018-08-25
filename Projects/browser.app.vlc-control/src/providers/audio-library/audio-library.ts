@@ -1,10 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {VlcProvider} from "../vlc/vlc";
+import {AngularIndexedDB} from "angular2-indexeddb/angular2-indexeddb";
+import {FileNode} from "../../model/vlc";
 
 
 
-class AudioTrack {
+interface IAudioTrack {
 
+
+  name: string;
+  path: string;
+  size: number;
 
   album?: string;
   artist?: string;
@@ -26,7 +33,11 @@ export class AudioLibraryProvider {
 
 
   db;
-  constructor() {
+
+  // private static readonly ALBUM = "album";
+  private static readonly TRACK = "track";
+
+  constructor( private vlc: VlcProvider ) {
 
     this.asyncInit();
   }
@@ -34,31 +45,66 @@ export class AudioLibraryProvider {
   async asyncInit() {
 
 
-    var request: IDBOpenDBRequest = window.indexedDB.open('music-library', 6 );
+    this.db = new AngularIndexedDB('audio-library', 7);
 
-    request.onupgradeneeded = ( ev: IDBVersionChangeEvent) => {
+    this.db.openDatabase(7, (ev: IDBVersionChangeEvent) => {
+
+      // let objectStore = evt.currentTarget.result.createObjectStore(
+      //   'people', { keyPath: "id", autoIncrement: true });
+      //
+      // objectStore.createIndex("name", "name", { unique: false });
+      // objectStore.createIndex("email", "email", { unique: true });
 
       console.log([this], "asyncInit", "onupgradeneeded");
 
-      const db = request.result;
+      // evt.currentTarget.result
 
-      var albums = db.createObjectStore("album", {autoIncrement: true});
+      var albums = this.db.createObjectStore("album", {autoIncrement: true});
       albums.createIndex("by_name", "name");
       albums.createIndex("by_nameLowerCase", "nameLowerCase");
 
-      var artist = db.createObjectStore("artist", {autoIncrement: true});
+      var artist = this.db.createObjectStore("artist", {autoIncrement: true});
       artist.createIndex("by_name", "name");
       artist.createIndex("by_nameLowerCase", "nameLowerCase");
 
-      var genre = db.createObjectStore("genre", {autoIncrement: true});
+      var genre = this.db.createObjectStore("genre", {autoIncrement: true});
       genre.createIndex("by_name", "name");
       genre.createIndex("by_nameLowerCase", "nameLowerCase");
 
-      var track = db.createObjectStore("track", {autoIncrement: true});
+      var track = this.db.createObjectStore( AudioLibraryProvider.TRACK, {autoIncrement: true});
 
-      albums.add( {name:"Akira"});
+    });
 
+    // var request: IDBOpenDBRequest = window.indexedDB.open('audio-library', 6 );
+    //
+    // request.onupgradeneeded = ( ev: IDBVersionChangeEvent) => {
+    //
+    //
+    // }
+
+  }
+
+  async loadFolder() {
+
+
+
+    const files: FileNode[] = await this.vlc.browse( "/Users/lrlong/Music/iTunes/iTunes Music/Akira/Akira" );
+
+    for( let file of files ) {
+
+
+      const track: IAudioTrack = {
+
+        name: file.value.name,
+        path: file.value.path,
+        size: file.value.size,
+
+      };
+
+      this.db.add( AudioLibraryProvider.TRACK, track);
     }
+
+
 
   }
 

@@ -5,7 +5,7 @@ import {ControlPage} from "../control/control";
 import {PlaylistPage} from "../playlist/playlist";
 import {BrowseRootPage} from "../browse-root/browse-root";
 import {ConfigurationProvider} from "../../providers/configuration/configuration";
-import {MusicLibraryProvider} from "../../providers/music-library/music-library";
+import {AudioLibraryProvider} from "../../providers/audio-library/audio-library";
 
 /**
  * Generated class for the ConnectPage page.
@@ -42,7 +42,7 @@ export class ConnectPage implements OnInit {
               public navParams: NavParams,
               public vlc: VlcProvider,
               private config: ConfigurationProvider,
-              private musicLibrary: MusicLibraryProvider) {
+              private audioLibrary: AudioLibraryProvider) {
   }
 
   ngOnInit(): void {
@@ -74,6 +74,11 @@ export class ConnectPage implements OnInit {
 
     console.log( [this], "helpOpen" );
     this.navCtrl.push( "HelpPage" );
+  }
+
+  loadMusicLibrary() {
+
+    this.audioLibrary.loadFolder();
   }
 
   async tryConnect() {

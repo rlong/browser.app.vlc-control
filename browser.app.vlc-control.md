@@ -7,10 +7,12 @@ Session setup
 =============
 
 
+
 ```
 cd ~/Projects/browser.app.vlc-control/Projects/browser.app.vlc-control
 export PATH=/usr/local/opt/node@6/bin:$PATH
 ```
+
 
 
 Debug/Development
@@ -19,6 +21,14 @@ Debug/Development
 
 ```
 ionic serve -p 10000 -all --nobrowser --env=test
+```
+
+nginx server
+------------
+
+```
+cd ~/Projects/browser.app.vlc-control/Projects/nginx
+nginx -c `pwd`/nginx.10001.conf
 ```
 
 
@@ -47,4 +57,13 @@ VLC
 
 ```
 /Applications/VLC.app/Contents/MacOS/VLC --http-src ~/Projects/browser.app.vlc-control/Projects/browser.app.vlc-control/www
+```
+
+
+Project setup
+=============
+
+
+
+```
 ```

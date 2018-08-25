@@ -1,13 +1,11 @@
 {
   "name": "vlc-pal",
-  "app_id": "",
-  "type": "ionic-angular",
   "integrations": {},
+  "type": "ionic-angular",
   "proxies": [
     {
       "path": "/requests",
       "proxyUrl": "http://127.0.0.1:8080/requests"
     }
   ]
-
 }
