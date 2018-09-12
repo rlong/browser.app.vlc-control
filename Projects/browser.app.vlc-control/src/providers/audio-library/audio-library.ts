@@ -2,109 +2,304 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {VlcProvider} from "../vlc/vlc";
 import {AngularIndexedDB} from "angular2-indexeddb/angular2-indexeddb";
-import {FileNode} from "../../model/vlc";
+import {FileNode, ICategoryMeta, IFileNode} from "../../model/vlc";
+
+
+// Add reference value ... need to be able to re-order/filter (e.g. albums) without losing index
+
+class ReferenceData {
+
+
+  values: string[] = [];
+  indexesByValue: {} = {};
+
+  constructor() {}
+
+
+  indexOf( value: string|null ): number {
+
+    if( !value ) {
+      return -1;
+    }
+
+    let answer = this.indexesByValue[value];
+
+    if( answer || 0 === answer ) {
+
+      return answer;
+    }
+
+    this.values.push( value );
+    answer = this.values.length-1;
+    this.indexesByValue[value] = answer;
+
+    return answer;
+  }
+
+  contains( value: string ): boolean {
+
+    let answer = this.indexesByValue[value];
+
+    if( answer || 0 === answer ) {
+
+      return true;
+    }
+
+    return false;
+
+  }
+
+}
 
 
 
 interface IAudioTrack {
 
 
-  name: string;
-  path: string;
-  size: number;
+  file: IFileNode;
+  meta: ICategoryMeta;
 
-  album?: string;
-  artist?: string;
-  artwork_url?: string;
-  date?: string;
-  description?: string;
-  encoded_by?: string;
-  filename?: string;
-  genre?: string;
-  title?: string;
-  track_number?: string;
-  track_total?: string;
 }
+
+
+class AudioTrack {
+
+  file_name: string;
+  title: string;
+
+  album: number;
+  folder: number;
+
+  constructor( audioLibrary: AudioLibrary, audioTrack: IAudioTrack ) {
+
+    this.file_name = audioTrack.file.name;
+
+    // this.path = audioTrack.path;
+    // this.size = audioTrack.file.size;
+
+    this.album = audioLibrary.albums.indexOf( audioTrack.meta.album );
+    this.folder = audioLibrary.folders.indexOf( AudioTrack.getFolder( audioTrack.file.path ));
+  }
+
+  public static getFolder( path: string ) {
+
+    const lastForwardSlash = path.lastIndexOf( '/');
+    const lastBackSlash = path.lastIndexOf( '\\');
+
+    let lastSlash =  lastForwardSlash;
+
+    if( lastSlash < lastBackSlash ) {
+      lastSlash = lastBackSlash;
+    }
+
+    return path.substr( 0, lastSlash );
+  }
+
+}
+
+
+export class AudioLibrary {
+
+  albums: ReferenceData = new ReferenceData();
+  folders: ReferenceData = new ReferenceData();
+
+  tracks: AudioTrack[] = [];
+
+
+  public add( track: IAudioTrack ) {
+
+    this.tracks.push( new AudioTrack( this, track ));
+  }
+
+
+
+  getTracksInFolder( folder: string ): AudioTrack[] {
+
+    if( !this.folders.contains( folder) ) {
+
+      return [];
+    }
+
+  }
+
+  containsFile( file: IFileNode ): boolean {
+
+
+    const folder = AudioTrack.getFolder( file.path );
+
+    if( !this.folders.contains( folder) ) {
+
+      return false;
+    }
+
+
+    const folderIndex = this.folders.indexOf( folder );
+    const filesInFolder = this.tracks.filter( (candidate) => candidate.folder == folderIndex);
+
+
+    for( let candidate of filesInFolder ) {
+      if( file.name == candidate.file_name ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+}
+
 
 /*
 */
 @Injectable()
 export class AudioLibraryProvider {
 
-
-  db;
-
-  // private static readonly ALBUM = "album";
   private static readonly TRACK = "track";
+
+  db: AngularIndexedDB = null;
+  private aidb: AngularIndexedDB = null;
+  audioLibrary: AudioLibrary = new AudioLibrary();
 
   constructor( private vlc: VlcProvider ) {
 
     this.asyncInit();
   }
 
+
+
+  async loadLibrary() {
+
+    const answer = new Promise( (resolve, reject) => {
+
+      this.aidb.openCursor(AudioLibraryProvider.TRACK, (evt) => {
+        var cursor = (<any>evt.target).result;
+        if(cursor) {
+
+          const track: IAudioTrack = cursor.value;
+          this.audioLibrary.add( track );
+
+          cursor.continue();
+        } else {
+
+          console.log( [this], 'loadLibrary', this.audioLibrary );
+          resolve();
+        }
+      });
+    });
+
+    return answer;
+  }
+
+
   async asyncInit() {
 
+    const version = 11;
+    this.aidb = new AngularIndexedDB('audio-library', version);
 
-    this.db = new AngularIndexedDB('audio-library', 7);
+    await this.aidb.openDatabase(version, (changeEvent: any) => {
 
-    this.db.openDatabase(7, (ev: IDBVersionChangeEvent) => {
 
-      // let objectStore = evt.currentTarget.result.createObjectStore(
-      //   'people', { keyPath: "id", autoIncrement: true });
-      //
-      // objectStore.createIndex("name", "name", { unique: false });
-      // objectStore.createIndex("email", "email", { unique: true });
+      console.log([this], "asyncInit", "onupgradeneeded", changeEvent);
 
-      console.log([this], "asyncInit", "onupgradeneeded");
+      const idb: IDBDatabase = changeEvent.currentTarget.result;
 
-      // evt.currentTarget.result
-
-      var albums = this.db.createObjectStore("album", {autoIncrement: true});
-      albums.createIndex("by_name", "name");
-      albums.createIndex("by_nameLowerCase", "nameLowerCase");
-
-      var artist = this.db.createObjectStore("artist", {autoIncrement: true});
-      artist.createIndex("by_name", "name");
-      artist.createIndex("by_nameLowerCase", "nameLowerCase");
-
-      var genre = this.db.createObjectStore("genre", {autoIncrement: true});
-      genre.createIndex("by_name", "name");
-      genre.createIndex("by_nameLowerCase", "nameLowerCase");
-
-      var track = this.db.createObjectStore( AudioLibraryProvider.TRACK, {autoIncrement: true});
+      idb.createObjectStore( AudioLibraryProvider.TRACK, {autoIncrement: true});
 
     });
 
-    // var request: IDBOpenDBRequest = window.indexedDB.open('audio-library', 6 );
-    //
-    // request.onupgradeneeded = ( ev: IDBVersionChangeEvent) => {
-    //
-    //
-    // }
+    this.loadLibrary();
 
   }
 
-  async loadFolder() {
+  async loadFolder( pendingFolders: string[] = ["/Users/lrlong/Music/iTunes/iTunes Music/Akira"] ) {
 
 
+    while(  0 != pendingFolders.length ) {
 
-    const files: FileNode[] = await this.vlc.browse( "/Users/lrlong/Music/iTunes/iTunes Music/Akira/Akira" );
+      const pendingFolder = pendingFolders.pop();
+      console.log( [this], 'loadFolder', pendingFolder );
 
-    for( let file of files ) {
+      const files: FileNode[] = await this.vlc.browse( pendingFolder );
 
 
-      const track: IAudioTrack = {
+      for( let file of files ) {
 
-        name: file.value.name,
-        path: file.value.path,
-        size: file.value.size,
+        if( file.isFile ) {
 
-      };
+          // has it been already added ?
+          if( this.audioLibrary.containsFile( file.value )) {
 
-      this.db.add( AudioLibraryProvider.TRACK, track);
+            console.debug( [this], 'loadFolder', 'already added', file );
+            continue;
+          }
+
+          if( file.value.name.endsWith( ".mp3" )) {
+
+
+            const categoryMeta: ICategoryMeta = await this.getMeta( file.value.path, file.value.name );
+
+            const track: IAudioTrack = {
+
+              file: file.value,
+              meta: categoryMeta,
+            };
+
+
+            this.aidb.add( AudioLibraryProvider.TRACK, track );
+            this.audioLibrary.add( track );
+
+            // return;
+
+          } else {
+
+            console.debug( [this], 'loadFolder', `skipping '${file.value.name}'` );
+          }
+
+        } else if( file.isDirectory ) {
+
+          pendingFolders.push( file.value.path );
+        }
+      }
+    }
+  }
+
+  // vvv https://stackoverflow.com/questions/37764665/typescript-sleep
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  // ^^^ https://stackoverflow.com/questions/37764665/typescript-sleep
+
+
+  async getMeta( trackPath: string, trackName: string ): Promise<ICategoryMeta|null> {
+
+    await this.vlc.in_play( trackPath );
+
+    let dataLoaded = false;
+    let retryCount = 5; //
+    while( !dataLoaded && 0 != retryCount ) {
+
+      await this.delay( 250 );
+      let status = await this.vlc.getStatus( true );
+
+      if( status.stateIsPlaying ) {
+
+        if( status.value.information && status.value.information.category && status.value.information.category.meta ) {
+
+          const meta: ICategoryMeta = status.value.information.category.meta;
+          if( meta.filename == trackName ) {
+
+            return meta;
+          }
+        }
+      }
+
+      retryCount--;
     }
 
-
+    console.warn( [this], 'loadMeta', retryCount, trackPath, trackName );
+    return null;
 
   }
 

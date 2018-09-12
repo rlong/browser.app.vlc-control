@@ -79,6 +79,7 @@ export class ConnectPage implements OnInit {
   loadMusicLibrary() {
 
     this.audioLibrary.loadFolder();
+
   }
 
   async tryConnect() {

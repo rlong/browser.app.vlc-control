@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {PlaylistNode, Playlist, Status, VlcProxy, FileNode} from "../../model/vlc";
 import {Http} from "@angular/http";
 import {ConfigurationProvider} from "../configuration/configuration";
+import Timer = NodeJS.Timer;
 
 
 export class StatusReference {
@@ -83,20 +84,19 @@ export class PlaylistReference {
 class StatusPoller {
 
 
-  timerId: number = -1;
+  timer: Timer = null;
 
   constructor( public vlc: VlcProvider ) {
   }
 
   start() {
 
-
-    if( -1 != this.timerId ) {
-      console.warn( [this],"start", this.timerId );
+    if( null != this.timer ) {
+      console.warn( [this],"start", this.timer );
       return;
     }
 
-    this.timerId = setInterval( () => {
+    this.timer = setInterval( () => {
 
       if( !this.vlc.status.isPending ) {
 
@@ -108,13 +108,13 @@ class StatusPoller {
 
   stop() {
 
-    if( -1 == this.timerId ) {
-      console.warn( [this],"stop", this.timerId );
+    if( null == this.timer ) {
+      console.warn( [this],"stop", this.timer );
       return;
     }
 
-    clearInterval( this.timerId );
-    this.timerId = -1;
+    clearInterval( this.timer );
+    this.timer = null;
   }
 
 }
