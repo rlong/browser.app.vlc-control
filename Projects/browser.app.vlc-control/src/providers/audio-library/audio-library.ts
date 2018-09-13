@@ -5,33 +5,37 @@ import {AngularIndexedDB} from "angular2-indexeddb/angular2-indexeddb";
 import {FileNode, ICategoryMeta, IFileNode} from "../../model/vlc";
 
 
-// Add reference value ... need to be able to re-order/filter (e.g. albums) without losing index
+
+
+class ReferenceValue {
+
+  constructor( public index: number, public value: string ) {}
+}
 
 class ReferenceData {
 
 
-  values: string[] = [];
+  values: ReferenceValue[] = [];
   indexesByValue: {} = {};
 
   constructor() {}
 
 
-  indexOf( value: string|null ): number {
+  get( value: string|null ): ReferenceValue|null {
 
     if( !value ) {
-      return -1;
+      return null;
     }
 
     let answer = this.indexesByValue[value];
 
-    if( answer || 0 === answer ) {
+    if( answer ) {
 
       return answer;
     }
 
-    this.values.push( value );
-    answer = this.values.length-1;
-    this.indexesByValue[value] = answer;
+    answer = new ReferenceValue( this.values.length, value );
+    this.values.push( answer );
 
     return answer;
   }
@@ -40,13 +44,12 @@ class ReferenceData {
 
     let answer = this.indexesByValue[value];
 
-    if( answer || 0 === answer ) {
+    if( answer ) {
 
       return true;
     }
 
     return false;
-
   }
 
 }
@@ -67,8 +70,8 @@ class AudioTrack {
   file_name: string;
   title: string;
 
-  album: number;
-  folder: number;
+  album: ReferenceValue;
+  folder: ReferenceValue;
 
   constructor( audioLibrary: AudioLibrary, audioTrack: IAudioTrack ) {
 
@@ -77,8 +80,8 @@ class AudioTrack {
     // this.path = audioTrack.path;
     // this.size = audioTrack.file.size;
 
-    this.album = audioLibrary.albums.indexOf( audioTrack.meta.album );
-    this.folder = audioLibrary.folders.indexOf( AudioTrack.getFolder( audioTrack.file.path ));
+    this.album = audioLibrary.albums.get( audioTrack.meta.album );
+    this.folder = audioLibrary.folders.get( AudioTrack.getFolder( audioTrack.file.path ));
   }
 
   public static getFolder( path: string ) {
@@ -125,16 +128,16 @@ export class AudioLibrary {
   containsFile( file: IFileNode ): boolean {
 
 
-    const folder = AudioTrack.getFolder( file.path );
+    const folderPath = AudioTrack.getFolder( file.path );
 
-    if( !this.folders.contains( folder) ) {
+    if( !this.folders.contains( folderPath) ) {
 
       return false;
     }
 
 
-    const folderIndex = this.folders.indexOf( folder );
-    const filesInFolder = this.tracks.filter( (candidate) => candidate.folder == folderIndex);
+    const targetFolder = this.folders.get( folderPath );
+    const filesInFolder = this.tracks.filter( (candidate) => candidate.folder == targetFolder);
 
 
     for( let candidate of filesInFolder ) {
@@ -213,7 +216,6 @@ export class AudioLibraryProvider {
 
   async loadFolder( pendingFolders: string[] = ["/Users/lrlong/Music/iTunes/iTunes Music/Akira"] ) {
 
-
     while(  0 != pendingFolders.length ) {
 
       const pendingFolder = pendingFolders.pop();
@@ -229,6 +231,8 @@ export class AudioLibraryProvider {
           // has it been already added ?
           if( this.audioLibrary.containsFile( file.value )) {
 
+            // TODO: fix finding duplicates
+            // TODO: clear playlist after loading folder
             console.debug( [this], 'loadFolder', 'already added', file );
             continue;
           }
@@ -260,6 +264,9 @@ export class AudioLibraryProvider {
           pendingFolders.push( file.value.path );
         }
       }
+
+
+
     }
   }
 

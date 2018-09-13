@@ -9,8 +9,8 @@ Session setup
 
 
 ```
-cd ~/Projects/browser.app.vlc-control/Projects/browser.app.vlc-control
-export PATH=/usr/local/opt/node@6/bin:$PATH
+export VLC_CONTROL_HOME=~/Projects/browser.app.vlc-control/Projects/browser.app.vlc-control
+cd $VLC_CONTROL_HOME
 ```
 
 
@@ -20,7 +20,7 @@ Debug/Development
 
 
 ```
-ionic serve -p 10000 -all --nobrowser --env=test
+ionic serve -p 10000 -all --no-open --env=test
 ```
 
 nginx server
@@ -37,6 +37,10 @@ nginx -c `pwd`/nginx.10001.conf
 Files/Folders
 =============
 
+
+```
+Documents/curl.md
+```
 
 ```
 ~/Projects/_archive/2015/2015.android.app.music_pal/phone_pal.music.library/src/phone_pal/music/library
