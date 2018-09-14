@@ -36,6 +36,7 @@ class ReferenceData {
 
     answer = new ReferenceValue( this.values.length, value );
     this.values.push( answer );
+    this.indexesByValue[value] = answer;
 
     return answer;
   }
