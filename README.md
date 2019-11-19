@@ -1,2 +1,2 @@
 # browser.app.vlc-control
-Ionic PWA app to control VLC
+Angular Material app to control VLC
