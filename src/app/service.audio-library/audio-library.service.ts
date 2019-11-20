@@ -73,16 +73,6 @@ class AudioTrack {
   album: ReferenceValue;
   folder: ReferenceValue;
 
-  constructor( audioLibrary: AudioLibrary, audioTrack: IAudioTrack ) {
-
-    this.file_name = audioTrack.file.name;
-
-    // this.path = audioTrack.path;
-    // this.size = audioTrack.file.size;
-
-    this.album = audioLibrary.albums.get( audioTrack.meta.album );
-    this.folder = audioLibrary.folders.get( AudioTrack.getFolder( audioTrack.file.path ));
-  }
 
   public static getFolder( path: string ) {
 
@@ -96,6 +86,17 @@ class AudioTrack {
     }
 
     return path.substr( 0, lastSlash );
+  }
+
+  constructor( audioLibrary: AudioLibrary, audioTrack: IAudioTrack ) {
+
+    this.file_name = audioTrack.file.name;
+
+    // this.path = audioTrack.path;
+    // this.size = audioTrack.file.size;
+
+    this.album = audioLibrary.albums.get( audioTrack.meta.album );
+    this.folder = audioLibrary.folders.get( AudioTrack.getFolder( audioTrack.file.path ));
   }
 
 }
@@ -215,7 +216,7 @@ export class AudioLibraryService {
 
   async loadFolder( pendingFolders: string[] = ['/Users/lrlong/Music/iTunes/iTunes Music/Akira'] ) {
 
-    while (  0 != pendingFolders.length ) {
+    while (  0 !== pendingFolders.length ) {
 
       const pendingFolder = pendingFolders.pop();
       console.log( [this], 'loadFolder', pendingFolder );

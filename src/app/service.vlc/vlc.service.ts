@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FileNode, Playlist, PlaylistNode, Status, VlcProxy} from '../model/vlc';
-import Timer = NodeJS.Timer;
-import * as Http from 'http';
+import {HttpClient} from '@angular/common/http';
 import {ConfigurationService} from '../service.configuration/configuration.service';
 
 
@@ -86,7 +85,7 @@ export class PlaylistReference {
 class StatusPoller {
 
 
-  timer: Timer = null;
+  timer = null;
 
   constructor( public vlc: VlcService ) {
   }
@@ -265,7 +264,7 @@ export class VlcService {
     this.statusPoller.stop();
   }
 
-  constructor(private http: Http, config: ConfigurationService ) {
+  constructor(private http: HttpClient, config: ConfigurationService ) {
 
     this.init( config );
   }

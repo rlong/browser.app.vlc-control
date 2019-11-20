@@ -1,8 +1,9 @@
 
 
-import {Http, Headers, RequestOptionsArgs} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/first';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+// import {Http, Headers, RequestOptionsArgs} from '@angular/http';
+// import {Observable} from 'rxjs/Observable';
+// import 'rxjs/add/operator/first';
 
 
 
@@ -249,7 +250,7 @@ export class CompositePlaylistNode extends PlaylistNode {
 
   static isComposite( candidate: IPlaylistNode ) {
 
-    if ( 'node' === candidate.type ) {
+    if( 'node' === candidate.type ) {
 
       return true;
     }
@@ -326,15 +327,15 @@ export class VlcProxy {
 
   // private baseUrl = "http://127.0.0.1:8080";
   private baseUrl = '';
-  private requestOptionsArgs: RequestOptionsArgs;
+  private requestOptionsArgs;
 
-  constructor(private http: Http, host = '') {
+  constructor(private http: HttpClient, host = '') {
 
 
     if ( 0 !== host.length ) {
 
       this.baseUrl = `http://${host}`;
-    } else if ( '8080' == window.location.port ) { // VLC is hosting this site
+    } else if ( '8080' === window.location.port ) { // VLC is hosting this site
 
       this.baseUrl += '/assets';
     }
@@ -342,7 +343,7 @@ export class VlcProxy {
 
     console.log( [this], 'constructor', this.baseUrl);
 
-    const headers =  new Headers();
+    const headers =  new HttpHeaders();
 
 
     const username = '';
@@ -359,8 +360,8 @@ export class VlcProxy {
 
     const encodedDir = encodeURIComponent( dir );
     const url = `${this.baseUrl}/requests/browse.json?dir=${encodedDir}`;
-    const response = await this.http.get( url, this.requestOptionsArgs ).first().toPromise();
-    const fileNodes: IBrowseResponse = response.json();
+    const response = await this.http.get( url, this.requestOptionsArgs ).toPromise() as any;
+    const fileNodes: IBrowseResponse = response;
 
     return fileNodes.element.map( (e) => new FileNode( e ));
   }
@@ -382,8 +383,8 @@ export class VlcProxy {
   async playlist(): Promise<Playlist> {
 
     const url = this.baseUrl + '/requests/playlist.json';
-    const response = await this.http.get( url, this.requestOptionsArgs ).first().toPromise() ;
-    return new Playlist( response.json() );
+    const response = await this.http.get( url, this.requestOptionsArgs ).toPromise() as any;
+    return new Playlist( response );
   }
 
 
@@ -457,8 +458,8 @@ export class VlcProxy {
 
   private async dispatchStatusRequest( url: string ): Promise<Status> {
 
-    const response = await this.http.get( url, this.requestOptionsArgs ).first().toPromise() ;
-    return new Status( response.json() );
+    const response = await this.http.get( url, this.requestOptionsArgs ).toPromise() as any;
+    return new Status( response );
   }
 
 
