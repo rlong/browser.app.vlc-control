@@ -135,7 +135,7 @@ export class VlcService {
 
 
 
-  init( config: ConfigurationService ) {
+  init( host: string ) {
 
     // clean-up
     if ( this.statusPoller ) {
@@ -143,7 +143,6 @@ export class VlcService {
       this.statusPoller.stop();
     }
 
-    const host: string = config.getHost( '' );
     this.proxy = new VlcProxy( this.http, host );
 
     this.playlist = new PlaylistReference();
@@ -253,7 +252,6 @@ export class VlcService {
     return this.status.promise;
   }
 
-
   startPollingStatus() {
 
     this.statusPoller.start();
@@ -264,8 +262,6 @@ export class VlcService {
     this.statusPoller.stop();
   }
 
-  constructor(private http: HttpClient, config: ConfigurationService ) {
+  constructor(private http: HttpClient ) {}
 
-    this.init( config );
-  }
 }

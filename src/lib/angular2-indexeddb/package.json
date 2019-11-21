@@ -1,0 +1,88 @@
+{
+  "_from": "angular2-indexeddb",
+  "_id": "angular2-indexeddb@1.2.3",
+  "_inBundle": false,
+  "_integrity": "sha512-ND9DZpqMnG7nBOgUsSnRn/t1PgcvrjPBv7C8ur9IuMcxPiQHRC7rIib7YhsWIXRyvQixiwga40JiKMuHJXAQPg==",
+  "_location": "/angular2-indexeddb",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "angular2-indexeddb",
+    "name": "angular2-indexeddb",
+    "escapedName": "angular2-indexeddb",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://npm.travaplan.com/angular2-indexeddb/-/angular2-indexeddb-1.2.3.tgz",
+  "_shasum": "14a57c8e65a1333af18f7925fe3e798638bb862d",
+  "_spec": "angular2-indexeddb",
+  "_where": "/Users/lrlong/Projects/browser.app.vlc-control/Projects/browser.app.vlc-control",
+  "bugs": {
+    "url": "https://github.com/gilf/angular2-indexeddb/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@angular/core": ">=4.3.1"
+  },
+  "deprecated": false,
+  "description": "angular2-indexeddb is a library that wraps indexeddb database in an Angular 2 service",
+  "devDependencies": {
+    "@angular/compiler": "^4.3.1",
+    "@angular/compiler-cli": "^2.4.0",
+    "concurrently": "^3.5.0",
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
+    "grunt-contrib-cssmin": "0.14.0",
+    "grunt-contrib-jshint": "0.11.3",
+    "grunt-contrib-uglify": "0.9.2",
+    "grunt-ngdocs": "0.2.9",
+    "lite-server": "^1.3.4",
+    "load-grunt-tasks": "3.3.0",
+    "typescript": "^2.4.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "files": [
+    "angular2-indexeddb.ts",
+    "angular2-indexeddb.d.ts",
+    "angular2-indexeddb.js",
+    "angular2-indexeddb.js.map",
+    "angular2-indexeddb.min.js",
+    "angular2-indexeddb.min.js.map",
+    "angular2-indexeddb.metadata.json",
+    "index.ts",
+    "index.d.ts",
+    "index.js",
+    "index.js.map",
+    "LICENSE",
+    "README.md"
+  ],
+  "homepage": "https://github.com/gilf/angular2-indexeddb#readme",
+  "keywords": [
+    "Angular",
+    "indexedDB",
+    "ng",
+    "service"
+  ],
+  "license": "MIT",
+  "name": "angular2-indexeddb",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/gilf/angular2-indexeddb.git"
+  },
+  "scripts": {
+    "build": "grunt build",
+    "lite": "lite-server",
+    "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
+    "tsc": "ngc",
+    "tsc:w": "tsc -w"
+  },
+  "version": "1.2.3"
+}

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {FileNode, ICategoryMeta, IFileNode} from '../model/vlc';
-import {AngularIndexedDB} from 'angular2-indexeddb/angular2-indexeddb';
 import {VlcService} from '../service.vlc/vlc.service';
-
-
+import {AngularIndexedDB} from '../../lib/angular2-indexeddb/angular2-indexeddb';
 
 
 class ReferenceValue {
