@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FileNode, Playlist, PlaylistNode, Status, VlcProxy} from '../model/vlc';
 import {HttpClient} from '@angular/common/http';
-import {ConfigurationService} from '../service.configuration/configuration.service';
 
 
 
@@ -127,8 +126,8 @@ class StatusPoller {
 export class VlcService {
 
 
-  public status: StatusReference;
-  public playlist: PlaylistReference;
+  public status: StatusReference|null;
+  public playlist: PlaylistReference|null;
   private statusPoller: StatusPoller;
 
   proxy: VlcProxy;

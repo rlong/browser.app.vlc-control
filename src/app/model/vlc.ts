@@ -321,9 +321,12 @@ export class Playlist implements ICurrentPlaylistNode {
 
 }
 
+interface IPlaybackControl {
 
+  status(): Promise<Status>;
+}
 
-export class VlcProxy {
+export class VlcProxy implements IPlaybackControl {
 
   // private baseUrl = "http://127.0.0.1:8080";
   private baseUrl = '';

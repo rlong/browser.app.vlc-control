@@ -15,11 +15,14 @@ import { PageStylingsComponent } from './page-stylings/page-stylings.component';
 import {PageStylingsRoute} from './page-stylings/PageStylingsRoute';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-
+import { PagePlaybackControlComponent } from './page-playback-control/page-playback-control.component';
+import {PagePlaybackControlRoute} from './page-playback-control/PagePlaybackControlRoute';
+import {PlaybackControlComponent} from './page-playback-control/component.playback-control/playback-control.component';
 
 const routes: Routes = [
 
   { path: PageConnectRoute.PATH, component: PageConnectComponent }, // /#/
+  { path: PagePlaybackControlRoute.PATH, component: PagePlaybackControlComponent }, // /#/playback-control
   { path: PageStylingsRoute.PATH, component: PageStylingsComponent }, // /#/stylings
   { path: PageTestRoute.PATH, component: PageTestComponent }, // /#/test
   { path: '**', component: PageNotFoundComponent },
@@ -32,7 +35,9 @@ const routes: Routes = [
     PageConnectComponent,
     PageNotFoundComponent,
     PageTestComponent,
-    PageStylingsComponent
+    PageStylingsComponent,
+    PagePlaybackControlComponent,
+    PlaybackControlComponent
   ],
   imports: [
 
