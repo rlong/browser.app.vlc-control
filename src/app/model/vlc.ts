@@ -341,14 +341,16 @@ export class VlcProxy {
     }
 
 
-    console.log( [this], 'constructor', this.baseUrl);
-
-    const headers =  new HttpHeaders();
-
+    console.log( [this], 'constructor', `this.baseUrl: ${this.baseUrl}`);
 
     const username = '';
     const password = 'vlccontrol';
-    headers.append('Authorization', 'Basic ' + btoa(username + ':' + password));
+
+    const headers =  new HttpHeaders( {
+
+      Authorization: 'Basic ' + btoa(username + ':' + password)
+    });
+
 
     this.requestOptionsArgs = {
       headers
@@ -457,6 +459,9 @@ export class VlcProxy {
   }
 
   private async dispatchStatusRequest( url: string ): Promise<Status> {
+
+
+    console.log( [this], 'constructor', `this.requestOptionsArgs`, this.requestOptionsArgs);
 
     const response = await this.http.get( url, this.requestOptionsArgs ).toPromise() as any;
     return new Status( response );
