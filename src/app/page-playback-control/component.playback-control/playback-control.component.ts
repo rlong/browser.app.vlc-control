@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {VlcService} from '../../service.vlc/vlc.service';
 
 @Component({
   selector: 'app-playback-control',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlaybackControlComponent implements OnInit {
 
-  constructor() { }
+
+  onPlayPause() {
+
+    console.log( 'onPlayPause' );
+    this.vlc.playPause();
+
+  }
 
   ngOnInit() {
   }
+
+  constructor( private vlc: VlcService ) { }
 
 }

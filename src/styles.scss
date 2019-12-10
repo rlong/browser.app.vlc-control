@@ -1,8 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+// vvv taken from `app.component.html` from the initial generated sample site
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+// ^^^ taken from `app.component.html` from the initial generated sample site
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
 
 
 
@@ -11,7 +22,7 @@ button.button__ {
 }
 
 
-div.div__page_container {
+div.div__page_content {
 
 }
 

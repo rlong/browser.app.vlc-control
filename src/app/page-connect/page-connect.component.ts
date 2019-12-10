@@ -3,6 +3,8 @@ import {VlcService} from '../service.vlc/vlc.service';
 import {ConfigurationService} from '../service.configuration/configuration.service';
 import {AudioLibraryService} from '../service.audio-library/audio-library.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {PageHomeRoute} from '../page-home/PageHomeRoute';
 
 @Component({
   selector: 'app-page-connect',
@@ -57,17 +59,18 @@ export class PageConnectComponent implements OnInit {
 
       this.connected = true;
       this.config.setHost( this.host.formControl.value );
+      PageHomeRoute.navigate( this.router );
 
     } catch (e) {
 
       console.error( [this], 'tryConnect', e  );
     }
-
   }
 
 
   constructor( private vlc: VlcService,
                private config: ConfigurationService,
-               private audioLibrary: AudioLibraryService) { }
+               private audioLibrary: AudioLibraryService,
+               private router: Router ) { }
 
 }
