@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MockPlayback} from './MockPlayback';
 
 @Component({
   selector: 'app-page-test',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageTestComponent implements OnInit {
 
-  constructor() { }
+  private mockPlayback = new MockPlayback();
+
 
   ngOnInit() {
+
   }
+
+  constructor() { }
 
 }

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import {FileNode, ICategoryMeta, IFileNode} from '../model/vlc';
+import {FileNode, IFileNode} from '../model/vlc';
 import {VlcService} from '../service.vlc/vlc.service';
 import {AngularIndexedDB} from '../../lib/angular2-indexeddb/angular2-indexeddb';
+import {ICategoryMeta} from '../model/VlcPlayback';
 
 
-class ReferenceValue {
+
+class ReferenceDatum {
 
   constructor( public index: number, public value: string ) {}
 }
@@ -12,13 +14,13 @@ class ReferenceValue {
 class ReferenceData {
 
 
-  values: ReferenceValue[] = [];
+  values: ReferenceDatum[] = [];
   indexesByValue: {} = {};
 
   constructor() {}
 
 
-  get( value: string|null ): ReferenceValue|null {
+  get( value: string|null ): ReferenceDatum|null {
 
     if ( !value ) {
       return null;
@@ -31,7 +33,7 @@ class ReferenceData {
       return answer;
     }
 
-    answer = new ReferenceValue( this.values.length, value );
+    answer = new ReferenceDatum( this.values.length, value );
     this.values.push( answer );
     this.indexesByValue[value] = answer;
 
@@ -68,8 +70,8 @@ class AudioTrack {
   file_name: string;
   title: string;
 
-  album: ReferenceValue;
-  folder: ReferenceValue;
+  album: ReferenceDatum;
+  folder: ReferenceDatum;
 
 
   public static getFolder( path: string ) {
@@ -286,7 +288,7 @@ export class AudioLibraryService {
       await this.delay( 250 );
       const status = await this.vlc.getStatus( true );
 
-      if ( status.stateIsPlaying ) {
+      if ( status.isPaused ) {
 
         if ( status.value.information && status.value.information.category && status.value.information.category.meta ) {
 

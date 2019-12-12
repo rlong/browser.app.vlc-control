@@ -1,47 +1,47 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {FileNode, Playlist, PlaylistNode, Status, VlcProxy} from '../model/vlc';
 import {HttpClient} from '@angular/common/http';
+import {IPlaybackControl, StatusReference} from '../model/VlcPlayback';
 
 
-
-export class StatusReference {
-
-  isPending = false;
-
-  private _promise: Promise<Status>;
-
-
-  constructor( public value: Status = null ) {
-
-    if ( value ) {
-
-      this._promise = Promise.resolve( value );
-    }
-  }
-
-  public get promise() {
-    return this._promise;
-  }
-
-
-  public set promise(promise: Promise<Status>) {
-
-    this._promise = promise;
-
-    this.isPending = true;
-
-    this._promise.then( (value: Status) => {
-
-      this.value = value;
-      this.isPending = false;
-    }).catch( () => {
-
-      this.isPending = false;
-    });
-  }
-
-
-}
+// export class StatusReference {
+//
+//   isPending = false;
+//
+//   private _promise: Promise<Status>;
+//
+//
+//   constructor( public value: Status = null ) {
+//
+//     if ( value ) {
+//
+//       this._promise = Promise.resolve( value );
+//     }
+//   }
+//
+//   public get promise() {
+//     return this._promise;
+//   }
+//
+//
+//   public set promise(promise: Promise<Status>) {
+//
+//     this._promise = promise;
+//
+//     this.isPending = true;
+//
+//     this._promise.then( (value: Status) => {
+//
+//       this.value = value;
+//       this.isPending = false;
+//     }).catch( () => {
+//
+//       this.isPending = false;
+//     });
+//   }
+//
+//
+// }
 
 
 export class PlaylistReference {
@@ -98,10 +98,10 @@ class StatusPoller {
 
     this.timer = setInterval( () => {
 
-      if ( !this.vlc.status.isPending ) {
-
-        this.vlc.getStatus(true);
-      }
+      this.vlc.getStatus(true);
+      // if ( !this.vlc.status.isPending ) {
+      //
+      // }
     }, 1000);
 
   }
@@ -123,15 +123,14 @@ class StatusPoller {
 @Injectable({
   providedIn: 'root'
 })
-export class VlcService {
+export class VlcService implements IPlaybackControl {
 
 
   public status: StatusReference|null;
   public playlist: PlaylistReference|null;
   private statusPoller: StatusPoller;
 
-  proxy: VlcProxy;
-
+  public proxy: VlcProxy|null;
 
 
   init( host: string ) {
@@ -145,7 +144,7 @@ export class VlcService {
     this.proxy = new VlcProxy( this.http, host );
 
     this.playlist = new PlaylistReference();
-    this.status = new StatusReference();
+    // this.status = new StatusReference();
     this.statusPoller = new StatusPoller( this );
   }
 
@@ -173,59 +172,66 @@ export class VlcService {
   }
 
 
-  async getStatus( forceRefresh: boolean = false ): Promise<Status> {
-
-    if ( !forceRefresh && this.status.promise ) {
-
-      return this.status.promise;
-    }
-
-    this.status.promise = this.proxy.status();
-    return this.status.promise;
+  private async handleStatusPromise( promise: Promise<StatusReference> ) {
+    this.status = await promise;
   }
 
 
-  async in_play(input: string ): Promise<Status>  {
-    this.status.promise = this.proxy.in_play( input );
-    return this.status.promise;
+  async getStatus( forceRefresh: boolean = false ): Promise<StatusReference> {
+
+    const answer = this.proxy.status();
+    this.handleStatusPromise( answer );
+    return answer;
   }
 
 
-  async playPause(): Promise<Status> {
-
-    this.status.promise = this.proxy.pl_pause();
-    return this.status.promise;
+  async in_play(input: string ): Promise<StatusReference>  {
+    const answer = this.proxy.in_play( input );
+    this.handleStatusPromise( answer );
+    return answer;
   }
 
 
-  async pl_empty(): Promise<Status> {
+  async playPause(): Promise<StatusReference> {
 
-    this.status.promise = this.proxy.pl_empty();
-    return this.status.promise;
-  }
-
-  async pl_next(): Promise<Status> {
-
-    this.status.promise = this.proxy.pl_next();
-    return this.status.promise;
-  }
-
-  async pl_play(node: PlaylistNode): Promise<Status> {
-
-    this.status.promise = this.proxy.pl_play( node );
-    return this.status.promise;
-  }
-
-  async pl_previous(): Promise<Status> {
-
-    this.status.promise = this.proxy.pl_previous();
-    return this.status.promise;
+    const answer = this.proxy.pl_pause();
+    this.handleStatusPromise( answer );
+    return answer;
   }
 
 
-  async skipBackward(delta: number) {
+  async pl_empty(): Promise<StatusReference> {
 
-    let val = this.status.value.value.time - delta;
+    const answer = this.proxy.pl_empty();
+    this.handleStatusPromise( answer );
+    return answer;
+  }
+
+  async playlistNext(): Promise<StatusReference> {
+
+    const answer = this.proxy.pl_next();
+    this.handleStatusPromise( answer );
+    return answer;
+  }
+
+  async pl_play(node: PlaylistNode): Promise<StatusReference> {
+
+    const answer = this.proxy.pl_play( node );
+    this.handleStatusPromise( answer );
+    return answer;
+  }
+
+  async playlistPrevious(): Promise<StatusReference> {
+
+    const answer = this.proxy.pl_previous();
+    this.handleStatusPromise( answer );
+    return answer;
+  }
+
+
+  async skipBackward(delta: number): Promise<StatusReference> {
+
+    let val = this.status.value.time - delta;
 
     if ( 0 > val )  {
       val = 0;
@@ -234,21 +240,22 @@ export class VlcService {
     return this.proxy.seek( val );
   }
 
-  async skipForward(delta: number) {
+  async skipForward(delta: number): Promise<StatusReference> {
 
-    let val = this.status.value.value.time + delta;
+    let val = this.status.value.time + delta;
 
-    if ( this.status.value.value.length <= val )  {
-      val = this.status.value.value.length - 1;
+    if ( this.status.value.length <= val )  {
+      val = this.status.value.length - 1;
     }
 
     return this.proxy.seek( val );
   }
 
-  async toggleFullScreen(): Promise<Status> {
+  async toggleFullScreen(): Promise<StatusReference> {
 
-    this.status.promise = this.proxy.toggleFullScreen();
-    return this.status.promise;
+    const answer = this.proxy.toggleFullScreen();
+    this.handleStatusPromise( answer );
+    return answer;
   }
 
   startPollingStatus() {

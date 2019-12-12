@@ -1,9 +1,5 @@
-
-
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-// import {Http, Headers, RequestOptionsArgs} from '@angular/http';
-// import {Observable} from 'rxjs/Observable';
-// import 'rxjs/add/operator/first';
+import {ICategory, IStatus, StatusReference} from './VlcPlayback';
 
 
 
@@ -28,69 +24,6 @@ export interface IAudioFilters {
 export interface IBrowseResponse {
 
   element: IFileNode[];
-}
-
-export interface ICategory {
-
-  meta: ICategoryMeta;
-}
-
-export interface ICategoryMeta {
-
-  album?: string;
-  artist?: string;
-  artwork_url?: string;
-  date?: string;
-  description?: string;
-  encoded_by?: string;
-  filename?: string;
-  genre?: string;
-  title?: string;
-  track_number?: string;
-  track_total?: string;
-}
-
-
-export class CategoryMeta {
-
-  date: number;
-  track_number: number;
-  track_total: number;
-
-  constructor( public value: ICategoryMeta ) {
-
-    this.date =  CategoryMeta.getNumber( value.date );
-    this.track_number =  CategoryMeta.getNumber( value.track_number );
-    this.track_total = CategoryMeta.getNumber( value.track_total );
-  }
-
-  private static getNumber( value: any ): number | null {
-
-    if ( 'number' === typeof value ) {
-      return value;
-    }
-
-    if ( 'string' === typeof value ) {
-
-      if ( 0 === value.length ) {
-        return null;
-      }
-
-      const answer = parseInt( value, 10 );
-      if ( isNaN( answer )) {
-
-        console.error( 'CategoryMeta', 'getNumber', 'isNaN( answer )', value );
-        return null;
-      }
-
-      return answer;
-    }
-
-    // unhanlded type ...
-    return null;
-  }
-
-
 }
 
 
@@ -140,32 +73,10 @@ export interface IInformation {
 
 }
 
-export interface IStatus {
 
-  apiversion: number;
-  audiodelay: number;
-  audiofilters: IAudioFilters;
-  currentplid: number;
-  equalizer: any[];
-  fullscreen: boolean;
-  information?: IInformation;
-  length: number;
-  loop: boolean;
-  position: number;
-  random: number;
-  rate: number;
-  repeat: boolean;
-  state: string;
-  subtitledelay: number;
-  time: number;
-  videoeffects: IVideoEffects;
-  version: string;
-  volume: number;
-
-}
-
-
-
+/**
+ * @deprecated use StatusReference
+ */
 export class Status {
 
   value: IStatus;
@@ -321,12 +232,8 @@ export class Playlist implements ICurrentPlaylistNode {
 
 }
 
-interface IPlaybackControl {
 
-  status(): Promise<Status>;
-}
-
-export class VlcProxy implements IPlaybackControl {
+export class VlcProxy {
 
   // private baseUrl = "http://127.0.0.1:8080";
   private baseUrl = '';
@@ -371,7 +278,7 @@ export class VlcProxy implements IPlaybackControl {
     return fileNodes.element.map( (e) => new FileNode( e ));
   }
 
-  async in_play(input: string ): Promise<Status> {
+  async in_play(input: string ): Promise<StatusReference> {
 
     const encodedInput = encodeURI( input); // encodeURIComponent( input );
 
@@ -379,7 +286,7 @@ export class VlcProxy implements IPlaybackControl {
     return this.dispatchStatusRequest( url );
   }
 
-  async status(): Promise<Status> {
+  async status(): Promise<StatusReference> {
 
     const url = this.baseUrl + '/requests/status.json';
     return this.dispatchStatusRequest( url );
@@ -393,13 +300,13 @@ export class VlcProxy implements IPlaybackControl {
   }
 
 
-  async pl_empty(): Promise<Status> {
+  async pl_empty(): Promise<StatusReference> {
 
     const url = this.baseUrl + '/requests/status.json?command=pl_empty';
     return this.dispatchStatusRequest( url );
   }
 
-  async pl_pause(): Promise<Status> {
+  async pl_pause(): Promise<StatusReference> {
 
     const url = this.baseUrl + '/requests/status.json?command=pl_pause';
     return this.dispatchStatusRequest( url );
@@ -412,20 +319,20 @@ export class VlcProxy implements IPlaybackControl {
   }
 
 
-  async pl_play(node: PlaylistNode): Promise<Status> {
+  async pl_play(node: PlaylistNode): Promise<StatusReference> {
 
     const url = `${this.baseUrl}/requests/status.json?command=pl_play&id=${node.value.id}`;
     return this.dispatchStatusRequest( url );
   }
 
-  async pl_previous(): Promise<Status> {
+  async pl_previous(): Promise<StatusReference> {
 
     const url = `${this.baseUrl}/requests/status.json?command=pl_previous`;
     return this.dispatchStatusRequest( url );
   }
 
 
-  async seek( val: number ): Promise<Status> {
+  async seek( val: number ): Promise<StatusReference> {
 
     if ( 0 > val  ) {
 
@@ -439,7 +346,7 @@ export class VlcProxy implements IPlaybackControl {
   }
 
 
-  async setVolume(val: number): Promise<Status> {
+  async setVolume(val: number): Promise<StatusReference> {
 
     if ( 0 > val  ) {
 
@@ -455,19 +362,19 @@ export class VlcProxy implements IPlaybackControl {
     return this.dispatchStatusRequest( url );
   }
 
-  async toggleFullScreen(): Promise<Status> {
+  async toggleFullScreen(): Promise<StatusReference> {
 
     const url = `${this.baseUrl}/requests/status.json?command=fullscreen`;
     return this.dispatchStatusRequest( url );
   }
 
-  private async dispatchStatusRequest( url: string ): Promise<Status> {
+  private async dispatchStatusRequest( url: string ): Promise<StatusReference> {
 
 
     console.log( [this], 'constructor', `this.requestOptionsArgs`, this.requestOptionsArgs);
 
     const response = await this.http.get( url, this.requestOptionsArgs ).toPromise() as any;
-    return new Status( response );
+    return new StatusReference( response );
   }
 
 

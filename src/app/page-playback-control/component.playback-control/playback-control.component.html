@@ -4,6 +4,7 @@
 
 <button mat-raised-button class="button__"
         (click)="onPlayPause()"
+        [disabled]="!status"
 >
   Play/Pause
 </button>
