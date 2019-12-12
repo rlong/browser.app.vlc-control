@@ -18,6 +18,22 @@ export class PlaybackControlComponent implements OnInit {
     this.playbackControl.playPause();
   }
 
+  get isPaused() {
+
+    if( !this.status ) {
+      return false;
+    }
+    return this.status.isPaused;
+  }
+  get isPlaying() {
+
+    if( !this.status ) {
+      return false;
+    }
+    return this.status.isPlaying;
+  }
+
+
   ngOnInit() {
   }
 

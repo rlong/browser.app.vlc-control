@@ -2,10 +2,25 @@
 
 
 
-<button mat-raised-button class="button__"
-        (click)="onPlayPause()"
-        [disabled]="!status"
->
-  Play/Pause
-</button>
+<div class="div__control_container">
 
+  <div class="div__play_pause">
+    <button mat-raised-button
+            class="button__"
+            (click)="playbackControl.playPause()"
+            [disabled]="!status"
+    >
+      <mat-icon *ngIf="isPaused">play_arrow</mat-icon>
+      <mat-icon *ngIf="isPlaying">pause</mat-icon>
+      Play/Pause
+    </button>
+
+  </div>
+</div>
+
+
+isPaused: {{isPaused}}
+<br>
+isPlaying: {{isPlaying}}
+
+<mat-icon>forward_30</mat-icon>

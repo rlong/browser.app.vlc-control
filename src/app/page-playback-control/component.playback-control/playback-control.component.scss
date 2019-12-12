@@ -1,0 +1,37 @@
+
+
+
+div.div__control_container {
+
+
+  display: grid;
+  grid-template-columns: [cgl0] 1fr [cgl1] 1fr [cgl2] 1fr [cgl3];
+  grid-template-rows: [rgl0] 3fr [rgl1] 3px [rgl2] 3fr [rgl3] 28px [rgl4] 20px [rgl5] 25px [rgl6];
+  grid-template-areas:
+    "flight-overview-leg-out-bound flight-overview-leg-out-bound"
+    "horizontal-rule horizontal-rule"
+    "flight-overview-leg-in-bound flight-overview-leg-in-bound"
+    "flight-overview-added-by flight-overview-price"
+    "flight-overview-added-by flight-overview-pax"
+    "div__skip_backward div__play_pause div__skip_forward";
+
+
+  background-color: red;
+
+  div.div__skip_backward {
+
+    grid-area: div__skip_backward;
+  }
+
+
+  div.div__skip_forward {
+
+    grid-area: div__skip_forward;
+  }
+
+  div.div__play_pause {
+
+    grid-area: div__play_pause;
+  }
+
+}
