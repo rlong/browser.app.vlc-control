@@ -2,25 +2,44 @@
 
 
 
-<div class="div__control_container">
 
-  <div class="div__play_pause">
+<mat-grid-list cols="12">
+
+
+  <mat-grid-tile colspan="2">
+    <button mat-raised-button
+            class="button__"
+            [disabled]="!status||!isPlaying"
+    >
+      <mat-icon>replay_10</mat-icon>
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="8">
     <button mat-raised-button
             class="button__"
             (click)="playbackControl.playPause()"
             [disabled]="!status"
     >
-      <mat-icon *ngIf="isPaused">play_arrow</mat-icon>
+      <mat-icon *ngIf="isPaused||!isPlaying">play_arrow</mat-icon>
       <mat-icon *ngIf="isPlaying">pause</mat-icon>
       Play/Pause
     </button>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2" class="mat-grid-tile__">
+    <button mat-raised-button
+            class="button__ button__forward_30"
+            [disabled]="!status||!isPlaying"
+    >
+      <mat-icon>forward_30</mat-icon>
+    </button>
+  </mat-grid-tile>
+</mat-grid-list>
 
-  </div>
-</div>
+
 
 
 isPaused: {{isPaused}}
 <br>
 isPlaying: {{isPlaying}}
 
-<mat-icon>forward_30</mat-icon>
+
