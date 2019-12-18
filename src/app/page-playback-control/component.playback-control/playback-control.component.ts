@@ -25,6 +25,17 @@ export class PlaybackControlComponent implements OnInit {
     }
     return this.status.isPaused;
   }
+
+
+  get fullscreen() {
+
+    if( !this.status ) {
+      return false;
+    }
+
+    return this.status.value.fullscreen;
+  }
+
   get isPlaying() {
 
     if( !this.status ) {
@@ -32,6 +43,7 @@ export class PlaybackControlComponent implements OnInit {
     }
     return this.status.isPlaying;
   }
+
 
 
   ngOnInit() {

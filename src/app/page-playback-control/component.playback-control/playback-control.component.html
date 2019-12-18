@@ -3,7 +3,42 @@
 
 
 
-<mat-grid-list cols="12">
+<mat-grid-list cols="12" [gutterSize]="8">
+
+
+  <mat-grid-tile colspan="4">
+    <button
+      mat-raised-button
+      class="button__"
+      (click)="playbackControl.playlistPrevious()"
+    >
+      <mat-icon>skip_previous</mat-icon>
+    </button>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="4">
+    <button
+
+      mat-raised-button
+      class="button__"
+      (click)="playbackControl.toggleFullScreen()"
+    >
+      <mat-icon *ngIf="fullscreen">fullscreen_exit</mat-icon>
+      <mat-icon *ngIf="!fullscreen">fullscreen</mat-icon>
+    </button>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="4">
+    <button
+
+      mat-raised-button
+      class="button__"
+      (click)="playbackControl.playlistNext()"
+    >
+      <mat-icon>skip_next</mat-icon>
+    </button>
+  </mat-grid-tile>
+
 
 
   <mat-grid-tile colspan="2">
