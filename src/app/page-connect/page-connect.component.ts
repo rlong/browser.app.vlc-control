@@ -4,7 +4,7 @@ import {ConfigurationService} from '../service.configuration/configuration.servi
 import {AudioLibraryService} from '../service.audio-library/audio-library.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {PageHomeRoute} from '../page-home/PageHomeRoute';
+import {RouteDescriptors} from '../RouteDescriptors';
 
 @Component({
   selector: 'app-page-connect',
@@ -59,7 +59,7 @@ export class PageConnectComponent implements OnInit {
 
       this.connected = true;
       this.config.setHost( this.host.formControl.value );
-      PageHomeRoute.navigate( this.router );
+      RouteDescriptors.home.navigate( this.router );
 
     } catch (e) {
 

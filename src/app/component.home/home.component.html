@@ -1,0 +1,29 @@
+
+
+<app-initialising *ngIf="initialising; else ready"></app-initialising>
+
+<ng-template #ready>
+
+  <mat-tab-group>
+
+    <mat-tab label="Playlist">
+
+      <app-playlist></app-playlist>
+
+    </mat-tab>
+
+    <mat-tab label="Control">
+
+      <app-page-playback-control></app-page-playback-control>
+
+    </mat-tab>
+    <mat-tab label="Media">
+
+      <app-page-media></app-page-media>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</ng-template>
+

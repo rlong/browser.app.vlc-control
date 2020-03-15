@@ -1,0 +1,33 @@
+
+
+
+<mat-list *ngIf="playlist">
+  <h3 mat-subheader>Folders</h3>
+  <mat-list-item *ngFor="let folder of folders">
+    <mat-icon mat-list-icon>folder</mat-icon>
+    <h4 mat-line>{{folder.name}}</h4>
+    <small mat-line> {{folder.updated | date}} </small>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>Notes</h3>
+  <mat-list-item *ngFor="let note of notes">
+    <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+    <h4 mat-line>{{note.name}}</h4>
+    <!--<p mat-line> {{note.updated | date}} </p>-->
+  </mat-list-item>
+
+
+  <h3 mat-subheader>Playlist</h3>
+  <app-playlist-item *ngFor="let node of playlistNodes"
+                     [playlistNode]="node">
+  </app-playlist-item>
+
+
+  <!--<mat-list-item *ngFor="let note of notes">-->
+    <!--<mat-icon mat-list-icon>insert_drive_file</mat-icon>-->
+    <!--<h4 mat-line>{{note.name}}</h4>-->
+    <!--&lt;!&ndash;<p mat-line> {{note.updated | date}} </p>&ndash;&gt;-->
+
+  <!--</mat-list-item>-->
+
+</mat-list>
