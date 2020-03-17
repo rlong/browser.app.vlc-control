@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {VlcService} from '../service.vlc/vlc.service';
-import {CompositePlaylistNode, ICompositePlaylistNode, Playlist, PlaylistNode} from '../model/vlc';
+import {CompositePlaylistNode, ICompositePlaylistNode, LeafPlaylistNode, Playlist, PlaylistNode} from '../model/vlc';
 
 
 
-interface Section {
-  name: string;
-  updated: Date;
-}
 
 @Component({
   selector: 'app-playlist',
@@ -16,37 +12,15 @@ interface Section {
 })
 export class PlaylistComponent implements OnInit {
 
+  @Output() playlistPlay = new EventEmitter<LeafPlaylistNode>();
 
   playlist: Playlist = null;
   playlistNodes: PlaylistNode[] = null;
 
-  folders: Section[] = [
-    {
-      name: 'Photos',
-      updated: new Date('1/1/16'),
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    }
-  ];
-  notes: Section[] = [
-    {
-      name: 'Vacation Itinerary',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/16'),
-    }
-
-  ];
 
   initialising = true;
+
+
 
   async asyncOnInit() {
 
@@ -57,6 +31,16 @@ export class PlaylistComponent implements OnInit {
     this.initialising = false;
   }
 
+
+  async onClick(playlistNode: LeafPlaylistNode) {
+
+    // console.log( 'onClick', 'playlistNode', playlistNode );
+
+    await this.vlc.pl_play( playlistNode );
+    this.playlist.current = playlistNode;
+
+    this.playlistPlay.emit( playlistNode );
+  }
 
   ngOnInit() {
 

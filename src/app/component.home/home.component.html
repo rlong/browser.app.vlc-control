@@ -4,11 +4,11 @@
 
 <ng-template #ready>
 
-  <mat-tab-group>
+  <mat-tab-group [(selectedIndex)]="selectedIndex">
 
     <mat-tab label="Playlist">
 
-      <app-playlist></app-playlist>
+      <app-playlist (playlistPlay)="onPlaylistPlay($event)"></app-playlist>
 
     </mat-tab>
 

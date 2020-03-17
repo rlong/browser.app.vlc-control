@@ -1,7 +1,12 @@
 
 
-<mat-list-item>
-  <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-  <h4 mat-line>{{playlistNode.value.name}}</h4>
-  <!--<p mat-line> {{note.updated | date}} </p>-->
-</mat-list-item>
+
+<button mat-list-item >
+  <mat-icon mat-list-icon>{{matIcon()}}</mat-icon>
+  Save {{playlistNode.value.name}}
+</button>
+
+<!--<mat-list-item>-->
+  <!--<h4 mat-line></h4>-->
+  <!--&lt;!&ndash;<p mat-line> {{note.updated | date}} </p>&ndash;&gt;-->
+<!--</mat-list-item>-->

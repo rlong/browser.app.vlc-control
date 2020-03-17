@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PlaylistNode} from '../../model/vlc';
 
 
@@ -13,6 +13,14 @@ export class PlaylistItemComponent implements OnInit {
   @Input() playlistNode: PlaylistNode = null;
   @Input() current: PlaylistNode = null;
 
+  matIcon() {
+
+    if( this.current === this.playlistNode ) {
+
+      return 'play_arrow';
+    }
+    return 'movie';
+  }
 
   ngOnInit() {
   }
