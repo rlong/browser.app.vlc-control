@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IPlaybackControl, StatusReference} from '../../model/VlcPlayback';
+import {IPlaybackControl, StatusReference} from '../../../model/VlcPlayback';
 
 @Component({
   selector: 'app-playback-control',

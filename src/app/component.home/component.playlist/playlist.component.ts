@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {VlcService} from '../service.vlc/vlc.service';
-import {CompositePlaylistNode, ICompositePlaylistNode, LeafPlaylistNode, Playlist, PlaylistNode} from '../model/vlc';
+import {VlcService} from '../../service.vlc/vlc.service';
+import {CompositePlaylistNode, ICompositePlaylistNode, LeafPlaylistNode, Playlist, PlaylistNode} from '../../model/vlc';
 
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {VlcService} from '../service.vlc/vlc.service';
+import {VlcService} from '../../service.vlc/vlc.service';
 
 @Component({
   selector: 'app-page-playback-control',

@@ -6,6 +6,12 @@
 
   <mat-tab-group [(selectedIndex)]="selectedIndex">
 
+    <mat-tab label="Media">
+
+      <app-media></app-media>
+
+    </mat-tab>
+
     <mat-tab label="Playlist">
 
       <app-playlist (playlistPlay)="onPlaylistPlay($event)"></app-playlist>
@@ -15,11 +21,6 @@
     <mat-tab label="Control">
 
       <app-page-playback-control></app-page-playback-control>
-
-    </mat-tab>
-    <mat-tab label="Media">
-
-      <app-page-media></app-page-media>
 
     </mat-tab>
 

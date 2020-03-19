@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {PlaylistNode} from '../../model/vlc';
+import {PlaylistNode} from '../../../model/vlc';
 
 
 @Component({

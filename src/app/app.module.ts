@@ -13,25 +13,25 @@ import {
   MatRippleModule,
   MatTabsModule
 } from '@angular/material';
-import { PageConnectComponent } from './page-connect/page-connect.component';
+import { PageConnectComponent } from './component.connect/page-connect.component';
+import {PageConnectRoute} from './component.connect/PageConnectRoute';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {RouterModule, Routes} from '@angular/router';
 import { PageTestComponent } from './page-test/page-test.component';
 import {PageTestRoute} from './page-test/PageTestRoute';
-import {PageConnectRoute} from './page-connect/PageConnectRoute';
 import { PageStylingsComponent } from './page-stylings/page-stylings.component';
 import {PageStylingsRoute} from './page-stylings/PageStylingsRoute';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { PagePlaybackControlComponent } from './page-playback-control/page-playback-control.component';
-import {PagePlaybackControlRoute} from './page-playback-control/PagePlaybackControlRoute';
-import {PlaybackControlComponent} from './page-playback-control/component.playback-control/playback-control.component';
-import { PageMediaComponent } from './page-media/page-media.component';
-import { PlaylistComponent } from './component.playlist/playlist.component';
+import { PagePlaybackControlComponent } from './component.home/component.playback-control/page-playback-control.component';
+import {PagePlaybackControlRoute} from './component.home/component.playback-control/PagePlaybackControlRoute';
+import {PlaybackControlComponent} from './component.home/component.playback-control/component.playback-control/playback-control.component';
+import { MediaComponent } from './component.home/component.media/media.component';
+import { PlaylistComponent } from './component.home/component.playlist/playlist.component';
 import {PageHomeComponent} from './component.home/home.component';
 import {RouteDescriptors} from './RouteDescriptors';
 import { InitialisingComponent } from './component.initialising/initialising.component';
-import { PlaylistItemComponent} from './component.playlist/component.playlist-item/playlist-item.component';
+import { PlaylistItemComponent} from './component.home/component.playlist/component.playlist-item/playlist-item.component';
 
 const routes: Routes = [
 
@@ -54,7 +54,7 @@ const routes: Routes = [
     PagePlaybackControlComponent,
     PlaybackControlComponent,
     PageHomeComponent,
-    PageMediaComponent,
+    MediaComponent,
     PlaylistComponent,
     InitialisingComponent,
     PlaylistItemComponent
