@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {VlcService} from '../service.vlc/vlc.service';
 import {ConfigurationService} from '../service.configuration/configuration.service';
 import {LeafPlaylistNode} from '../model/vlc';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,26 @@ export class PageHomeComponent implements OnInit {
 
   initialising = true;
   selectedIndex = 0;
+
+
+  navLinks = [
+    {
+      label: 'Media',
+      link: './media',
+      index: 0
+    }, {
+      label: 'Playback',
+      link: './playback',
+      index: 1
+    }, {
+      label: 'Playlist',
+      link: './playlist',
+      index: 2
+    },
+  ];
+
+  activeLinkIndex = -1;
+
 
   async asyncOnInit() {
 
@@ -33,10 +54,19 @@ export class PageHomeComponent implements OnInit {
   ngOnInit() {
 
     this.asyncOnInit();
+
+    this.router.events.subscribe((res) => {
+      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
+    });
+
   }
 
+
+
+
   constructor( private config: ConfigurationService,
-               private vlc: VlcService ) {
+               private vlc: VlcService,
+               private router: Router ) {
 
     const host = this.config.getHost( 'localhost:4200');
     this.vlc.init( host );

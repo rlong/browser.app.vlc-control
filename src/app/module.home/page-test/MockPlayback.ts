@@ -1,4 +1,4 @@
-import {IPlaybackControl, StatusReference} from '../model/VlcPlayback';
+import {IPlaybackControl, StatusReference} from '../../model/VlcPlayback';
 
 
 export class MockPlayback implements IPlaybackControl {
