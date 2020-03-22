@@ -86,8 +86,6 @@ class StatusPoller {
 
   timer = null;
 
-  constructor( public vlc: VlcService ) {
-  }
 
   start() {
 
@@ -96,12 +94,20 @@ class StatusPoller {
       return;
     }
 
-    this.timer = setInterval( () => {
+    // immediately ...
+    if( !this.vlc.inflightStatusRequest ) {
 
       this.vlc.getStatus(true);
-      // if ( !this.vlc.status.isPending ) {
-      //
-      // }
+    }
+
+    // every second thereafter ...
+    this.timer = setInterval( () => {
+
+      if( !this.vlc.inflightStatusRequest ) {
+
+        this.vlc.getStatus(true);
+      }
+
     }, 1000);
 
   }
@@ -117,6 +123,9 @@ class StatusPoller {
     this.timer = null;
   }
 
+  constructor( public vlc: VlcService ) {
+  }
+
 }
 
 
@@ -127,6 +136,7 @@ export class VlcService implements IPlaybackControl {
 
 
   public status: StatusReference|null;
+  public inflightStatusRequest: Promise<StatusReference> = null;
   public playlist: PlaylistReference|null;
   private statusPoller: StatusPoller;
 
@@ -173,7 +183,15 @@ export class VlcService implements IPlaybackControl {
 
 
   private async handleStatusPromise( promise: Promise<StatusReference> ) {
-    this.status = await promise;
+
+    this.inflightStatusRequest = promise;
+    try {
+
+      this.status = await promise;
+    } finally {
+
+      this.inflightStatusRequest = null;
+    }
   }
 
 
@@ -258,6 +276,15 @@ export class VlcService implements IPlaybackControl {
     return answer;
   }
 
+
+  isPollingStatus(): boolean {
+    if( this.statusPoller.timer ) {
+
+      return true;
+    }
+    return false;
+  }
+
   startPollingStatus() {
 
     this.statusPoller.start();
@@ -266,6 +293,14 @@ export class VlcService implements IPlaybackControl {
   stopPollingStatus() {
 
     this.statusPoller.stop();
+  }
+
+  setVolumeAsPercentage( volumeAsPercentage: number ): Promise<StatusReference> {
+
+    const val = Math.round(volumeAsPercentage * 3.2 );
+    const answer = this.proxy.setVolume( val );
+    this.handleStatusPromise( answer );
+    return answer;
   }
 
   constructor(private http: HttpClient ) {}

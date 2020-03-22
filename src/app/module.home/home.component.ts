@@ -12,27 +12,59 @@ import {Router} from '@angular/router';
 export class PageHomeComponent implements OnInit {
 
 
+  static MEDIA_NAV_LINK = {
+    label: 'Media',
+    link: './media',
+    index: 0
+  };
+
+  static PLAYBACK_NAV_LINK = {
+    label: 'Playback',
+    link: './playback',
+    index: 1
+  };
+
+  static PLAYLIST_NAV_LINK = {
+    label: 'Playlist',
+    link: './playlist',
+    index: 2
+  };
+
   initialising = true;
   selectedIndex = 0;
 
 
+  activeLinkIndex = -1;
+
+
   navLinks = [
-    {
-      label: 'Media',
-      link: './media',
-      index: 0
-    }, {
-      label: 'Playback',
-      link: './playback',
-      index: 1
-    }, {
-      label: 'Playlist',
-      link: './playlist',
-      index: 2
-    },
+    PageHomeComponent.MEDIA_NAV_LINK,
+    PageHomeComponent.PLAYBACK_NAV_LINK,
+    PageHomeComponent.PLAYLIST_NAV_LINK,
   ];
 
-  activeLinkIndex = -1;
+
+
+  onUrlChange( url: string ) {
+
+    // console.log( 'url', url );
+
+    if( url.endsWith( 'playback')) {
+
+      if( !this.vlc.isPollingStatus() ) {
+
+        this.vlc.startPollingStatus();
+      }
+    } else {
+
+      if( this.vlc.isPollingStatus() ) {
+
+        this.vlc.stopPollingStatus();
+      }
+
+    }
+
+  }
 
 
   async asyncOnInit() {
@@ -51,16 +83,22 @@ export class PageHomeComponent implements OnInit {
     this.selectedIndex = 1;
   }
 
+
   ngOnInit() {
 
     this.asyncOnInit();
+    this.onUrlChange( this.router.url );
 
     this.router.events.subscribe((res) => {
-      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
+
+      this.onUrlChange( this.router.url );
+
+      // this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
+      // console.log( 'this.activeLinkIndex', this.activeLinkIndex );
+      // console.log( 'this.router.url', this.router.url );
     });
 
   }
-
 
 
 

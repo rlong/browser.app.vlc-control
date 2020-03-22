@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import {PageHomeComponent} from './home.component';
 import {
-  MatButtonModule,
+  MatButtonModule, MatCardModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatRippleModule,
+  MatRippleModule, MatSliderModule,
   MatTabsModule
 } from '@angular/material';
 import {MediaComponent} from './component.media/media.component';
@@ -43,11 +43,13 @@ import {PlaylistItemComponent} from './component.playlist/component.playlist-ite
 
     // material ...
     MatButtonModule,
+    MatCardModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
     MatRippleModule,
+    MatSliderModule,
     MatTabsModule,
 
     // in-house ...

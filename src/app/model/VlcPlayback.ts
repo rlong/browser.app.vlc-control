@@ -102,7 +102,7 @@ export class StatusReference extends BaseReference<IStatus> {
 
   onSetValue(value: IStatus | null) {
 
-    console.log( 'StatusReference.onSetValue' );
+    // console.log( 'StatusReference.onSetValue', value );
 
     if (this.value.state === 'playing') {
 
@@ -113,17 +113,16 @@ export class StatusReference extends BaseReference<IStatus> {
     }
 
     this.volumePercentage = Math.round(100 * (this.value.volume / 320));
-
   }
 
 
   constructor(value: IStatus) {
 
     super(value);
-    if (value) {
-
-      this.value = value;
-    }
+    // if (value) {
+    //
+    //   this.value = value;
+    // }
   }
 
 }
@@ -136,4 +135,5 @@ export interface IPlaybackControl {
   playlistNext(): Promise<StatusReference>;
   skipBackward(delta: number): Promise<StatusReference>;
   skipForward(delta: number): Promise<StatusReference>;
+  setVolumeAsPercentage( volumeAsPercentage: number ): Promise<StatusReference>;
 }

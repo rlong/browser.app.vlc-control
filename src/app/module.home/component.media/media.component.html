@@ -1,19 +1,35 @@
 
 
-<mat-list>
-  <mat-list-item *ngFor="let file of files">
+
+<mat-action-list>
+
+
+  <div mat-subheader>Folders</div>
+
+  <mat-list-item *ngIf="folders && 0 === folders.length">
+    <div mat-line>No sub-folders</div>
+  </mat-list-item>
+
+
+  <button mat-list-item (click)="onClick(folder)" *ngFor="let folder of folders">
+    <mat-icon mat-list-icon>folder</mat-icon>
+    <div mat-line>{{folder.value.name}}</div>
+  </button>
+
+  <mat-divider></mat-divider>
+  <div mat-subheader>Files</div>
+
+  <mat-list-item *ngIf="files && 0 === files.length">
+    <div mat-line>No files</div>
+  </mat-list-item>
+
+  <button mat-list-item (click)="onClick(file)" *ngFor="let file of files">
     <mat-icon mat-list-icon>note</mat-icon>
     <div mat-line>{{file.value.name}}</div>
-    <!--<div mat-line> {{note.updated | date}} </div>-->
-  </mat-list-item>
+  </button>
   <mat-divider></mat-divider>
-  <div mat-subheader>Favorites</div>
-  <mat-list-item *ngFor="let note of notes">
-    <mat-icon mat-list-icon>note</mat-icon>
-    <div mat-line>{{note.name}}</div>
-    <div mat-line> {{note.updated | date}} </div>
-  </mat-list-item>
-</mat-list>
+
+</mat-action-list>
 
 
 

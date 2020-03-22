@@ -35,6 +35,11 @@ export class MockPlayback implements IPlaybackControl {
     return Promise.resolve( this.status );
   }
 
+  setVolumeAsPercentage( volumeAsPercentage: number ): Promise<StatusReference> {
+    console.log( 'MockPlayback.setVolumeAsPercentage' );
+    return Promise.resolve( this.status );
+  }
+
   constructor() {
 
     const statusValue = `{

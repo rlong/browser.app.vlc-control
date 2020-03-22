@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: '', component:  PageHomeComponent,
     children: [
       { path: 'media', component: MediaComponent },
+      { path: 'media/:dir', component: MediaComponent },
       { path: 'playback', component: PagePlaybackControlComponent },
       { path: 'playlist', component: PlaylistComponent },
     ]

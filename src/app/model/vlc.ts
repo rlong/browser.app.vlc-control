@@ -45,8 +45,10 @@ export interface IFileNode {
 
 export class FileNode {
 
+
   isDirectory = false;
   isFile = false;
+
 
   constructor( public value: IFileNode ) {
 
@@ -61,6 +63,29 @@ export class FileNode {
       console.error( [this], 'constructor', value.type );
     }
   }
+
+}
+
+export class FileNodeArray {
+
+  static splitFilesAndFolders( fileNodes: FileNode[] ): FileNode[][] {
+
+    const answer = [[], []];
+    for( const fileNode of fileNodes ) {
+
+      if( fileNode.isDirectory ) {
+
+        answer[0].push( fileNode );
+      } else {
+
+        answer[1].push( fileNode );
+      }
+    }
+
+    return answer;
+
+  }
+
 }
 
 export interface IInformation {
@@ -346,6 +371,7 @@ export class VlcProxy {
   }
 
 
+  // 0 to 320
   async setVolume(val: number): Promise<StatusReference> {
 
     if ( 0 > val  ) {
@@ -371,7 +397,7 @@ export class VlcProxy {
   private async dispatchStatusRequest( url: string ): Promise<StatusReference> {
 
 
-    console.log( [this], 'constructor', `this.requestOptionsArgs`, this.requestOptionsArgs);
+    // console.log( [this], 'constructor', `this.requestOptionsArgs`, this.requestOptionsArgs);
 
     const response = await this.http.get( url, this.requestOptionsArgs ).toPromise() as any;
     return new StatusReference( response );

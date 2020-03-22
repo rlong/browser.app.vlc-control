@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ConfigurationService} from '../../service.configuration/configuration.service';
 import {VlcService} from '../../service.vlc/vlc.service';
-import {FileNode} from '../../model/vlc';
+import {FileNode, FileNodeArray} from '../../model/vlc';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 export interface Section {
@@ -19,6 +20,7 @@ export interface Section {
 export class MediaComponent implements OnInit {
 
 
+  folders: FileNode[] = null;
   files: FileNode[] = null;
 
   notes: Section[] = [
@@ -32,20 +34,51 @@ export class MediaComponent implements OnInit {
     }
   ];
 
+  async init( dir: string ) {
 
-  async asyncOnInit() {
 
-    this.files = await this.vlc.browse( '~' );
+    const files = await this.vlc.browse( dir );
+    const filesAndFolders =  FileNodeArray.splitFilesAndFolders( files );
+    this.folders = filesAndFolders[0];
+    this.files = filesAndFolders[1];
+
   }
+
+
+  onClick(file: FileNode) {
+
+    console.log( 'file', file );
+    if( file.isDirectory ) {
+
+      this.router.navigate( ['home/media/', file.value.path]);
+    } else {
+
+      this.vlc.in_play( file.value.path );
+    }
+  }
+
 
   ngOnInit() {
 
+    this.route.paramMap.subscribe(params => {
 
-    this.asyncOnInit();
+      let dir = this.route.snapshot.paramMap.get('dir');
+      console.log( 'dir', dir );
+      if( !dir ) {
+
+        dir = '~';
+      }
+      this.init( dir );
+
+    });
+
   }
 
   constructor( private config: ConfigurationService,
-               private vlc: VlcService ) {
+               private vlc: VlcService,
+               private route: ActivatedRoute,
+               private router: Router
+  ) {
   }
 
 }

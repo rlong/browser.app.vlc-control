@@ -1,9 +1,50 @@
-<p>playback-control works!</p>
-
 
 
 
 <mat-grid-list cols="12" [gutterSize]="8">
+
+
+  <mat-grid-tile colspan="12" >
+
+    <mat-slider min="0" max="100" [value]="status.volumePercentage"></mat-slider>
+
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="12" >
+
+    <button
+      mat-raised-button
+      (click)="onChangeVolume(-1)"
+    >
+      -1%
+    </button>
+    <button
+      mat-raised-button
+      (click)="onChangeVolume(-10)"
+    >
+      -10%
+    </button>
+    <button
+      mat-raised-button
+      (click)="onToggleMute()"
+    >
+      mute
+    </button>
+    <button
+      mat-raised-button
+      (click)="onChangeVolume(10)"
+    >
+      +10%
+    </button>
+    <button
+      mat-raised-button
+      (click)="onChangeVolume(1)"
+    >
+      +1%
+    </button>
+
+  </mat-grid-tile>
+
 
 
   <mat-grid-tile colspan="4">
@@ -41,7 +82,7 @@
 
 
 
-  <mat-grid-tile colspan="2">
+  <mat-grid-tile colspan="2" [rowspan]="2">
     <button mat-raised-button
             class="button__"
             [disabled]="!status||!isPlaying"
@@ -49,7 +90,7 @@
       <mat-icon>replay_10</mat-icon>
     </button>
   </mat-grid-tile>
-  <mat-grid-tile colspan="8">
+  <mat-grid-tile colspan="8" [rowspan]="2">
     <button mat-raised-button
             class="button__"
             (click)="playbackControl.playPause()"
@@ -60,7 +101,7 @@
       Play/Pause
     </button>
   </mat-grid-tile>
-  <mat-grid-tile colspan="2" class="mat-grid-tile__">
+  <mat-grid-tile colspan="2" class="mat-grid-tile__" [rowspan]="2">
     <button mat-raised-button
             class="button__ button__forward_30"
             [disabled]="!status||!isPlaying"
