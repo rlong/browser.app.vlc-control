@@ -20,15 +20,11 @@ export class MockPlayback implements IPlaybackControl {
     return Promise.resolve( this.status );
   }
 
-  skipBackward(delta: number): Promise<StatusReference> {
-    console.log( 'MockPlayback.skipBackward' );
+  seek(delta: number): Promise<StatusReference> {
+    console.log( 'MockPlayback.seek' );
     return Promise.resolve( this.status );
   }
 
-  skipForward(delta: number): Promise<StatusReference> {
-    console.log( 'MockPlayback.skipForward' );
-    return Promise.resolve( this.status );
-  }
 
   toggleFullScreen(): Promise<StatusReference> {
     console.log( 'MockPlayback.toggleFullScreen' );

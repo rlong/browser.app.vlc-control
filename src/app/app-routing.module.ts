@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./module.home/home.module').then(m => m.HomeModule )
   },
 
+  { path: 'test',
+    loadChildren: () => import('./module.test/test.module').then(m => m.TestModule )
+  },
+
   { path: PageStylingsRoute.PATH, component: PageStylingsComponent }, // /#/stylings
   { path: '**', component: PageNotFoundComponent },
 

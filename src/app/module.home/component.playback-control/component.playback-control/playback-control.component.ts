@@ -1,12 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {IPlaybackControl, StatusReference} from '../../../model/VlcPlayback';
-import {del} from 'selenium-webdriver/http';
-import {__await} from 'tslib';
 
 @Component({
   selector: 'app-playback-control',
   templateUrl: './playback-control.component.html',
-  styleUrls: ['./playback-control.component.scss']
+  styleUrls: ['./playback-control.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PlaybackControlComponent implements OnInit {
 
@@ -49,15 +48,17 @@ export class PlaybackControlComponent implements OnInit {
   }
 
 
+
+
   async onChangeVolume( delta: number ) {
 
 
-    console.log( 'this.status.volumePercentage', this.status.volumePercentage  );
-    console.log( 'this.status.value.volume', this.status.value.volume,  );
+    // console.log( 'this.status.volumePercentage', this.status.volumePercentage  );
+    // console.log( 'this.status.value.volume', this.status.value.volume,  );
     const volumePercentage = this.status.volumePercentage + delta;
     await this.playbackControl.setVolumeAsPercentage( volumePercentage );
-    console.log( 'this.status.volumePercentage', this.status.volumePercentage );
-    console.log( 'this.status.value.volume', this.status.value.volume  );
+    // console.log( 'this.status.volumePercentage', this.status.volumePercentage );
+    // console.log( 'this.status.value.volume', this.status.value.volume  );
   }
 
 
@@ -72,6 +73,13 @@ export class PlaybackControlComponent implements OnInit {
       this.playbackControl.setVolumeAsPercentage( this.mutedVolume );
       this.mutedVolume = null;
     }
+
+  }
+
+
+  async onSeek(val: number ) {
+
+    this.playbackControl.seek( val );
 
   }
 

@@ -247,22 +247,16 @@ export class VlcService implements IPlaybackControl {
   }
 
 
-  async skipBackward(delta: number): Promise<StatusReference> {
 
-    let val = this.status.value.time - delta;
-
-    if ( 0 > val )  {
-      val = 0;
-    }
-
-    return this.proxy.seek( val );
-  }
-
-  async skipForward(delta: number): Promise<StatusReference> {
+  async seek(delta: number): Promise<StatusReference> {
 
     let val = this.status.value.time + delta;
 
-    if ( this.status.value.length <= val )  {
+    if ( 0 > val )  { // not beyound the start
+
+      val = 0;
+    } else if ( this.status.value.length <= val )  { // not beyound the end
+
       val = this.status.value.length - 1;
     }
 

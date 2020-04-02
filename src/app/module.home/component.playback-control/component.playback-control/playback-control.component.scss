@@ -1,6 +1,68 @@
 
 
 
+div[cclass="playback-controls"] {
+
+  display: grid;
+  grid-template-columns: [cgl0] 1fr [cgl1] 1fr [cgl2] 1fr [cgl3] 1fr [cgl4] 1fr [cgl5];
+  grid-template-rows: [rgl0] 2fr [rgl1] 2fr [rgl2] 1fr [rgl3] 2fr [rgl4];
+  grid-template-areas:
+    "playback-card playback-card playback-card playback-card playback-card"
+    "volume-card volume-card volume-card volume-card volume-card"
+    "playlist-previous playlist-previous fullscreen playlist-next playlist-next"
+    "seek-back-10 play-pause play-pause play-pause seek-forward-30";
+
+  background-color: ghostwhite;
+  //border-width: 1px;
+  //border-style: solid;
+  cursor: pointer;
+
+  align-items: center;
+
+
+  div[cclass="playback-card"] {
+    grid-area: playback-card;
+  }
+
+  div[cclass="volume-card"] {
+    grid-area: volume-card;
+  }
+
+  div[cclass="playlist-previous"] {
+    grid-area: playlist-previous;
+  }
+
+  div[cclass="fullscreen"] {
+    grid-area: fullscreen;
+  }
+
+  div[cclass="playlist-next"] {
+    grid-area: playlist-next;
+  }
+
+  div[cclass="seek-back-10"] {
+    grid-area: seek-back-10;
+  }
+
+  div[cclass="play-pause"] {
+    grid-area: play-pause;
+  }
+
+  div[cclass="seek-forward-30"] {
+    grid-area: seek-forward-30;
+  }
+
+  mat-slider {
+    width: 100%;
+  }
+
+  button{
+    width: 100%;
+  }
+
+
+}
+
 
 mat-grid-tile.mat-grid-tile__forward_30 {
 
