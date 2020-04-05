@@ -1,15 +1,22 @@
 
 
+<div style="height: 100%;">
 
-<nav mat-tab-nav-bar>
-  <a mat-tab-link
-     *ngFor="let link of navLinks"
-     [routerLink]="link.link"
-     routerLinkActive #rla="routerLinkActive"
-     [active]="rla.isActive">
-    {{link.label}}
-  </a>
-</nav>
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link
+       *ngFor="let link of navLinks"
+       [routerLink]="link.link"
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{link.label}}
+    </a>
+  </nav>
 
+  <div style="height: calc( 100% - 48px);">
 
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>
+
+  </div>
+
+</div>
+
