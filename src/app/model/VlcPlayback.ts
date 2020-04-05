@@ -133,6 +133,7 @@ export interface IPlaybackControl {
   playlistPrevious(): Promise<StatusReference>;
   toggleFullScreen(): Promise<StatusReference>;
   playlistNext(): Promise<StatusReference>;
-  seek(delta: number): Promise<StatusReference>;
+  seekAbsolute(delta: number): Promise<StatusReference>;
+  seekRelative(delta: number): Promise<StatusReference>;
   setVolumeAsPercentage( volumeAsPercentage: number ): Promise<StatusReference>;
 }

@@ -248,7 +248,12 @@ export class VlcService implements IPlaybackControl {
 
 
 
-  async seek(delta: number): Promise<StatusReference> {
+  async seekAbsolute(val: number): Promise<StatusReference> {
+
+    return this.proxy.seek( val );
+  }
+
+  async seekRelative(delta: number): Promise<StatusReference> {
 
     let val = this.status.value.time + delta;
 

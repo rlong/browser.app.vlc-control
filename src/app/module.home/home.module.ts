@@ -19,6 +19,9 @@ import {PlaybackControlComponent} from './component.playback-control/component.p
 import {PageTestComponent} from './page-test/page-test.component';
 import {PlaylistComponent} from './component.playlist/playlist.component';
 import {PlaylistItemComponent} from './component.playlist/component.playlist-item/playlist-item.component';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { GestureConfig } from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -56,6 +59,11 @@ import {PlaylistItemComponent} from './component.playlist/component.playlist-ite
     HomeRoutingModule,
     WidgetsModule,
 
-  ]
+  ],
+  // // // vvv [Angular material slider not sliding - Stack Overflow](https://stackoverflow.com/questions/54347597/angular-material-slider-not-sliding/54347846)
+  // providers: [
+  //   {provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig}
+  // ]
+  // // // ^^^ [Angular material slider not sliding - Stack Overflow](https://stackoverflow.com/questions/54347597/angular-material-slider-not-sliding/54347846)
 })
 export class HomeModule { }

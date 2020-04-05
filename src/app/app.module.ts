@@ -18,10 +18,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PageStylingsComponent } from './page-stylings/page-stylings.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { PlaylistComponent } from './module.home/component.playlist/playlist.component';
-import { PlaylistItemComponent} from './module.home/component.playlist/component.playlist-item/playlist-item.component';
 import {WidgetsModule} from './widgets/widgets.module';
-
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { GestureConfig } from '@angular/material';
 
 
 
@@ -57,7 +56,11 @@ import {WidgetsModule} from './widgets/widgets.module';
     WidgetsModule,
 
   ],
-  providers: [],
+  providers: [
+    // vvv [Angular material slider not sliding - Stack Overflow](https://stackoverflow.com/questions/54347597/angular-material-slider-not-sliding/54347846)
+    {provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig}
+    // ^^^ [Angular material slider not sliding - Stack Overflow](https://stackoverflow.com/questions/54347597/angular-material-slider-not-sliding/54347846)
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

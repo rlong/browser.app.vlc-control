@@ -20,8 +20,14 @@ export class MockPlayback implements IPlaybackControl {
     return Promise.resolve( this.status );
   }
 
-  seek(delta: number): Promise<StatusReference> {
-    console.log( 'MockPlayback.seek' );
+
+  seekAbsolute(delta: number): Promise<StatusReference> {
+    console.log( 'MockPlayback.seekAbsolute' );
+    return Promise.resolve( this.status );
+  }
+
+  seekRelative(delta: number): Promise<StatusReference> {
+    console.log( 'MockPlayback.seekRelative' );
     return Promise.resolve( this.status );
   }
 
