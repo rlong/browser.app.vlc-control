@@ -19,6 +19,8 @@ class RouteDescriptor {
 
 export class RouteDescriptors {
 
-  static home = new RouteDescriptor('home' );
+  static readonly PLAYBACK_CONTROL = new RouteDescriptor('playback-control' );
+  static readonly BROWSE_FILES = new RouteDescriptor('home/media' );
+  static readonly PLAYLIST = new RouteDescriptor('home/playlist' );
 
 }

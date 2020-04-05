@@ -59,12 +59,29 @@ export class PageConnectComponent implements OnInit {
 
       this.connected = true;
       this.config.setHost( this.host.formControl.value );
-      RouteDescriptors.home.navigate( this.router );
+      // RouteDescriptors.home.navigate( this.router );
 
     } catch (e) {
 
       console.error( [this], 'tryConnect', e  );
     }
+  }
+
+
+  onPlaybackControl() {
+
+    RouteDescriptors.PLAYBACK_CONTROL.navigate( this.router );
+  }
+
+  onBrowseFiles() {
+
+    RouteDescriptors.BROWSE_FILES.navigate( this.router );
+  }
+
+
+  onPlaylist() {
+
+    RouteDescriptors.PLAYLIST.navigate( this.router );
   }
 
 

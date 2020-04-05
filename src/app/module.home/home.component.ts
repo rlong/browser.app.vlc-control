@@ -18,16 +18,10 @@ export class PageHomeComponent implements OnInit {
     index: 0
   };
 
-  static PLAYBACK_NAV_LINK = {
-    label: 'Playback',
-    link: './playback',
-    index: 1
-  };
-
   static PLAYLIST_NAV_LINK = {
     label: 'Playlist',
     link: './playlist',
-    index: 2
+    index: 1
   };
 
   initialising = true;
@@ -39,15 +33,10 @@ export class PageHomeComponent implements OnInit {
 
   navLinks = [
     PageHomeComponent.MEDIA_NAV_LINK,
-    PageHomeComponent.PLAYBACK_NAV_LINK,
     PageHomeComponent.PLAYLIST_NAV_LINK,
   ];
 
-
-
   onUrlChange( url: string ) {
-
-    // console.log( 'url', url );
 
     if( url.endsWith( 'playback')) {
 
@@ -61,9 +50,7 @@ export class PageHomeComponent implements OnInit {
 
         this.vlc.stopPollingStatus();
       }
-
     }
-
   }
 
 
