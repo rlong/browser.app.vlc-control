@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {PageHomeComponent} from './home.component';
-import {MediaComponent} from './component.media/media.component';
-import {PlaylistComponent} from './component.playlist/playlist.component';
 
 
 const routes: Routes = [
 
-
-  { path: '', component:  PageHomeComponent,
-    children: [
-      { path: 'media', component: MediaComponent },
-      { path: 'media/:dir', component: MediaComponent },
-      { path: 'playlist', component: PlaylistComponent },
-    ]
+  {
+    path: '',
+    component:  PageHomeComponent,
   },
 
 ];

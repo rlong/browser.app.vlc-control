@@ -21,6 +21,6 @@ export class RouteDescriptors {
 
   static readonly PLAYBACK_CONTROL = new RouteDescriptor('playback-control' );
   static readonly FILES = new RouteDescriptor('files' );
-  static readonly PLAYLIST = new RouteDescriptor('home/playlist' );
+  static readonly PLAYLIST = new RouteDescriptor('playlist' );
 
 }

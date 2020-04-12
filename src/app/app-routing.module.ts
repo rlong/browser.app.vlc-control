@@ -14,21 +14,28 @@ const routes: Routes = [
   { path: 'files',
     loadChildren: () => import('./module.files/files.module').then(m => m.FilesModule )
   },
-
   { path: 'home',
     loadChildren: () => import('./module.home/home.module').then(m => m.HomeModule )
   },
-
   { path: 'playback-control',
     loadChildren: () => import('./module.playback-control/playback-control.module').then(m => m.PlaybackControlModule )
   },
-
-  { path: 'test',
+  {
+    path: 'playlist',
+    loadChildren: () => import('./module.playlist/playlist.module').then(m => m.PlaylistModule )
+  },
+  {
+    path: 'test',
     loadChildren: () => import('./module.test/test.module').then(m => m.TestModule )
   },
-
-  { path: PageStylingsRoute.PATH, component: PageStylingsComponent }, // /#/stylings
-  { path: '**', component: PageNotFoundComponent },
+  { // /#/stylings
+    path: PageStylingsRoute.PATH,
+    component: PageStylingsComponent
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  },
 
 ];
 @NgModule({
