@@ -25,6 +25,7 @@ import {
 
     // material ...
     MatButtonModule,
+    MatListModule,
     MatRippleModule,
 
     // in-house ...

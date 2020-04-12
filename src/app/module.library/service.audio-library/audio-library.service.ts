@@ -143,7 +143,6 @@ export class AudioLibrary {
     const targetFolder = this.folders.get( folderPath );
     const filesInFolder = this.audioTracks.filter( (candidate) => candidate.folder === targetFolder);
 
-
     for ( const candidate of filesInFolder ) {
       if ( file.name === candidate.file_name ) {
         return true;

@@ -33,3 +33,16 @@ Folders scanned: {{stats.foldersFound}}
   Load library
 </button>
 
+
+<hr>
+
+<mat-action-list>
+
+
+  <div mat-subheader>Genres</div>
+
+  <mat-list-item
+    *ngFor="let genre of audioLibrary.audioLibrary.genres.values">
+    <div mat-line>{{genre.value}}</div>
+  </mat-list-item>
+</mat-action-list>
