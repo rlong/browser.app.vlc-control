@@ -1,26 +1,27 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {FileNode, IFileNode} from '../../model/vlc';
 import {VlcService} from '../../service.vlc/vlc.service';
 import {AngularIndexedDB} from '../../../lib/angular2-indexeddb/angular2-indexeddb';
 import {ICategoryMeta} from '../../model/VlcPlayback';
+import {LibrarySetupStats} from './LibrarySetupStats';
 
 
-
-class ReferenceDatum {
+class IndexedDatum {
 
   constructor( public index: number, public value: string ) {}
 }
 
-class ReferenceData {
+
+class IndexedData {
 
 
-  values: ReferenceDatum[] = [];
+  values: IndexedDatum[] = [];
   indexesByValue: {} = {};
 
   constructor() {}
 
 
-  get( value: string|null ): ReferenceDatum|null {
+  get( value: string|null ): IndexedDatum|null {
 
     if ( !value ) {
       return null;
@@ -33,7 +34,7 @@ class ReferenceData {
       return answer;
     }
 
-    answer = new ReferenceDatum( this.values.length, value );
+    answer = new IndexedDatum( this.values.length, value );
     this.values.push( answer );
     this.indexesByValue[value] = answer;
 
@@ -70,8 +71,8 @@ class AudioTrack {
   file_name: string;
   title: string;
 
-  album: ReferenceDatum;
-  folder: ReferenceDatum;
+  album: IndexedDatum;
+  folder: IndexedDatum;
 
 
   public static getFolder( path: string ) {
@@ -104,17 +105,17 @@ class AudioTrack {
 
 export class AudioLibrary {
 
-  albums: ReferenceData = new ReferenceData();
-  folders: ReferenceData = new ReferenceData();
+  albums: IndexedData = new IndexedData();
+  folders: IndexedData = new IndexedData();
   // TODO: add genre, artist
 
 
-  tracks: AudioTrack[] = [];
+  audioTracks: AudioTrack[] = [];
 
 
   public add( track: IAudioTrack ) {
 
-    this.tracks.push( new AudioTrack( this, track ));
+    this.audioTracks.push( new AudioTrack( this, track ));
   }
 
 
@@ -140,7 +141,7 @@ export class AudioLibrary {
 
 
     const targetFolder = this.folders.get( folderPath );
-    const filesInFolder = this.tracks.filter( (candidate) => candidate.folder === targetFolder);
+    const filesInFolder = this.audioTracks.filter( (candidate) => candidate.folder === targetFolder);
 
 
     for ( const candidate of filesInFolder ) {
@@ -160,12 +161,13 @@ export class AudioLibrary {
 })
 export class AudioLibraryService {
 
+  static readonly DB_VERSION = 12;
+
   private static readonly TRACK = 'track';
 
   db: AngularIndexedDB = null;
   private aidb: AngularIndexedDB = null;
   audioLibrary: AudioLibrary = new AudioLibrary();
-
 
 
   async loadLibrary() {
@@ -192,13 +194,11 @@ export class AudioLibraryService {
   }
 
 
-  async asyncInit() {
+  async init() {
 
-    const version = 11;
-    this.aidb = new AngularIndexedDB('audio-library', version);
+    this.aidb = new AngularIndexedDB('audio-library', AudioLibraryService.DB_VERSION);
 
-    await this.aidb.openDatabase(version, (changeEvent: any) => {
-
+    await this.aidb.openDatabase(AudioLibraryService.DB_VERSION, (changeEvent: any) => {
 
       console.log([this], 'asyncInit', 'onupgradeneeded', changeEvent);
 
@@ -209,15 +209,17 @@ export class AudioLibraryService {
     });
 
     this.loadLibrary();
-
   }
 
-  async loadFolder( pendingFolders: string[] = ['/Users/lrlong/Music/iTunes/iTunes Music/Akira'] ) {
+  async getAudioFiles( stats: LibrarySetupStats ): Promise<FileNode[]> {
 
+    const answer: FileNode[] = [];
+
+    const pendingFolders: string[] = ['/Users/lrlong/Music/iTunes/iTunes Music/Barenaked Ladies'];
     while (  0 !== pendingFolders.length ) {
 
       const pendingFolder = pendingFolders.pop();
-      console.log( [this], 'loadFolder', pendingFolder );
+      console.log([this], 'loadFolder', pendingFolder);
 
       const files: FileNode[] = await this.vlc.browse( pendingFolder );
 
@@ -225,46 +227,60 @@ export class AudioLibraryService {
 
         if ( file.isFile ) {
 
-          // has it been already added ?
-          if ( this.audioLibrary.containsFile( file.value )) {
-
-            console.log( [this], 'loadFolder', 'already added', file );
-            continue;
-          }
+          stats.filesFound++;
 
           if ( file.value.name.endsWith( '.mp3' )) {
 
-
-            const categoryMeta: ICategoryMeta = await this.getMeta( file.value.path, file.value.name );
-
-            const track: IAudioTrack = {
-
-              file: file.value,
-              meta: categoryMeta,
-            };
-
-
-            this.aidb.add( AudioLibraryService.TRACK, track );
-            this.audioLibrary.add( track );
-
-            // return;
-
-          } else {
-
-            console.log( [this], 'loadFolder', `skipping '${file.value.name}'` );
+            stats.audioFilesFound++;
+            answer.push( file );
           }
 
         } else if ( file.isDirectory ) {
 
+          if ( '..' === file.value.name ) {
+            continue;
+          }
+
+          stats.foldersFound++;
           pendingFolders.push( file.value.path );
         }
       }
-      this.vlc.pl_empty();
+    }
+    return answer;
+  }
 
 
+  async setupLibrary( audioFiles: FileNode[], stats: LibrarySetupStats ) {
+
+    await this.vlc.pl_empty();
+
+    let playlistSize = 0;
+    for ( const audioFile of audioFiles ) {
+
+      // const categoryMeta: ICategoryMeta = await this.getMeta( audioFile.value.path, audioFile.value.name );
+      const categoryMeta: ICategoryMeta = await this.getMeta( audioFile );
+
+      const track: IAudioTrack = {
+
+        file: audioFile.value,
+        meta: categoryMeta,
+      };
+
+      this.aidb.add( AudioLibraryService.TRACK, track );
+      this.audioLibrary.add( track );
+      playlistSize++;
+
+      if ( 10 === playlistSize ) {
+
+        await this.vlc.pl_empty();
+        playlistSize = 0;
+      }
 
     }
+    await this.vlc.pl_empty();
+
   }
+
 
   // vvv https://stackoverflow.com/questions/37764665/typescript-sleep
 
@@ -275,33 +291,31 @@ export class AudioLibraryService {
   // ^^^ https://stackoverflow.com/questions/37764665/typescript-sleep
 
 
-  async getMeta( trackPath: string, trackName: string ): Promise<ICategoryMeta|null> {
+  async getMeta( audioFile: FileNode ): Promise<ICategoryMeta|null> {
 
-    await this.vlc.in_play( trackPath );
 
-    const dataLoaded = false;
-    let retryCount = 5; //
-    while ( !dataLoaded && 0 !== retryCount ) {
+    await this.vlc.in_play( audioFile.value.path );
+
+    let retryCount = 5;
+    while ( 0 !== retryCount ) {
 
       await this.delay( 250 );
       const status = await this.vlc.getStatus( true );
 
-      if ( status.isPaused ) {
+      if ( status.value.information && status.value.information.category && status.value.information.category.meta ) {
 
-        if ( status.value.information && status.value.information.category && status.value.information.category.meta ) {
+        const meta: ICategoryMeta = status.value.information.category.meta;
+        if ( meta.filename === audioFile.value.name ) {
 
-          const meta: ICategoryMeta = status.value.information.category.meta;
-          if ( meta.filename === trackName ) {
-
-            return meta;
-          }
+          return meta;
         }
       }
+
 
       retryCount--;
     }
 
-    console.warn( [this], 'loadMeta', retryCount, trackPath, trackName );
+    console.warn( [this], 'loadMeta', retryCount, audioFile.value.path, audioFile.value.name );
     return null;
 
   }
@@ -309,6 +323,6 @@ export class AudioLibraryService {
 
   constructor( private vlc: VlcService) {
 
-    this.asyncInit();
+    this.init();
   }
 }

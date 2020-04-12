@@ -1,6 +1,35 @@
-<p>audio-library works!</p>
+
+Files count: {{stats.filesFound}}
+<br>
+Audio files count: {{stats.audioFilesFound}}
+<br>
+Folders scanned: {{stats.foldersFound}}
+<br>
 
 
-<button mat-button>
-  Hey hey
+<button mat-button
+        (click)="onGetAudioFiles()"
+        [disabled]="audioFiles"
+>
+  Get Audio Files
 </button>
+
+<br>
+
+<button mat-button
+        (click)="onSetupLibrary()"
+        [disabled]="!audioFiles"
+>
+  Setup library
+</button>
+
+
+<hr>
+
+
+<button mat-button
+        (click)="onLoadLibrary()"
+        >
+  Load library
+</button>
+
