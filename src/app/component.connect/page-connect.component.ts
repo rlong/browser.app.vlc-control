@@ -73,9 +73,9 @@ export class PageConnectComponent implements OnInit {
     RouteDescriptors.PLAYBACK_CONTROL.navigate( this.router );
   }
 
-  onBrowseFiles() {
+  onFiles() {
 
-    RouteDescriptors.BROWSE_FILES.navigate( this.router );
+    RouteDescriptors.FILES.navigate( this.router );
   }
 
 

@@ -11,6 +11,10 @@ const routes: Routes = [
 
   { path: PageConnectRoute.PATH, component: PageConnectComponent}, // /#/
 
+  { path: 'files',
+    loadChildren: () => import('./module.files/files.module').then(m => m.FilesModule )
+  },
+
   { path: 'home',
     loadChildren: () => import('./module.home/home.module').then(m => m.HomeModule )
   },

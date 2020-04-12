@@ -13,26 +13,15 @@ export interface Section {
 
 
 @Component({
-  selector: 'app-media',
-  templateUrl: './media.component.html',
-  styleUrls: ['./media.component.scss']
+  selector: 'app-folder-contents',
+  templateUrl: './folder-contents.component.html',
+  styleUrls: ['./folder-contents.component.scss']
 })
-export class MediaComponent implements OnInit {
+export class FolderContentsComponent implements OnInit {
 
 
   folders: FileNode[] = null;
   files: FileNode[] = null;
-
-  notes: Section[] = [
-    {
-      name: 'Vacation Itinerary',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/16'),
-    }
-  ];
 
   async init( dir: string ) {
 
@@ -41,7 +30,6 @@ export class MediaComponent implements OnInit {
     const filesAndFolders =  FileNodeArray.splitFilesAndFolders( files );
     this.folders = filesAndFolders[0];
     this.files = filesAndFolders[1];
-
   }
 
 
@@ -50,7 +38,7 @@ export class MediaComponent implements OnInit {
     console.log( 'file', file );
     if( file.isDirectory ) {
 
-      this.router.navigate( ['home/media/', file.value.path]);
+      this.router.navigate( ['files/', file.value.path]);
     } else {
 
       this.vlc.in_play( file.value.path );
