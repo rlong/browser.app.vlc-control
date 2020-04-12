@@ -13,9 +13,7 @@ import {
   MatRippleModule,
   MatTabsModule
 } from '@angular/material';
-import { PageConnectComponent } from './component.connect/page-connect.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { PageStylingsComponent } from './page-stylings/page-stylings.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {WidgetsModule} from './widgets/widgets.module';
@@ -27,9 +25,7 @@ import { GestureConfig } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
-    PageConnectComponent,
     PageNotFoundComponent,
-    PageStylingsComponent,
   ],
   imports: [
 

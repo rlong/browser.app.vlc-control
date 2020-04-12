@@ -3,6 +3,7 @@ import {ConfigurationService} from '../../service.configuration/configuration.se
 import {VlcService} from '../../service.vlc/vlc.service';
 import {FileNode, FileNodeArray} from '../../model/vlc';
 import {ActivatedRoute, Router} from '@angular/router';
+import {RouteManifest} from '../../RouteManifest';
 
 
 export interface Section {
@@ -33,7 +34,7 @@ export class FolderContentsComponent implements OnInit {
   }
 
 
-  onClick(file: FileNode) {
+  async onClick(file: FileNode) {
 
     console.log( 'file', file );
     if( file.isDirectory ) {
@@ -41,7 +42,8 @@ export class FolderContentsComponent implements OnInit {
       this.router.navigate( ['files/', file.value.path]);
     } else {
 
-      this.vlc.in_play( file.value.path );
+      await this.vlc.in_play( file.value.path );
+      RouteManifest.PLAYBACK_CONTROL.navigate( this.router );
     }
   }
 

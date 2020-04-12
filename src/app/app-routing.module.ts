@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {PageConnectRoute} from './component.connect/PageConnectRoute';
-import {PageConnectComponent} from './component.connect/page-connect.component';
-import {PageStylingsRoute} from './page-stylings/PageStylingsRoute';
-import {PageStylingsComponent} from './page-stylings/page-stylings.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {RouteManifest} from './RouteManifest';
+
+
 
 
 const routes: Routes = [
 
-  { path: PageConnectRoute.PATH, component: PageConnectComponent}, // /#/
 
+  { path: '',
+    loadChildren: () => import('./module.home/home.module').then(m => m.HomeModule )
+  },
   { path: 'files',
     loadChildren: () => import('./module.files/files.module').then(m => m.FilesModule )
   },
-  { path: 'home',
-    loadChildren: () => import('./module.home/home.module').then(m => m.HomeModule )
-  },
-  { path: 'playback-control',
+  // playback-control
+  {
+    path: RouteManifest.PLAYBACK_CONTROL.path,
     loadChildren: () => import('./module.playback-control/playback-control.module').then(m => m.PlaybackControlModule )
   },
   {
@@ -27,10 +27,6 @@ const routes: Routes = [
   {
     path: 'test',
     loadChildren: () => import('./module.test/test.module').then(m => m.TestModule )
-  },
-  { // /#/stylings
-    path: PageStylingsRoute.PATH,
-    component: PageStylingsComponent
   },
   {
     path: '**',

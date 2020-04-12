@@ -1,22 +1,25 @@
 
 
-<div style="height: 100%;">
+<mat-action-list>
+  <button mat-list-item (click)="onTestConnect()"> Test connection </button>
+  <button mat-list-item (click)="onPlaybackControl()"> Playback Control </button>
+  <button mat-list-item (click)="onFiles()"> Files </button>
+  <button mat-list-item (click)="onPlaylist()"> Playlist </button>
+</mat-action-list>
 
-  <nav mat-tab-nav-bar>
-    <a mat-tab-link
-       *ngFor="let link of navLinks"
-       [routerLink]="link.link"
-       routerLinkActive #rla="routerLinkActive"
-       [active]="rla.isActive">
-      {{link.label}}
-    </a>
-  </nav>
 
-  <div style="height: calc( 100% - 48px);">
 
-    <router-outlet></router-outlet>
+<!--<form class="form__"-->
+<!--      [formGroup]="formGroup"-->
+<!--      (ngSubmit)="onTestConnect()"-->
+<!--&gt;-->
 
-  </div>
 
-</div>
+
+<!--  <button mat-raised-button-->
+<!--          type="submit">-->
+<!--    Test connection-->
+<!--  </button>-->
+
+<!--</form>-->
 

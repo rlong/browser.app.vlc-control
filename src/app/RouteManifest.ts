@@ -12,12 +12,11 @@ class RouteDescriptor {
   constructor(public path: string) {
   }
 
-
 }
 
 
 
-export class RouteDescriptors {
+export class RouteManifest {
 
   static readonly PLAYBACK_CONTROL = new RouteDescriptor('playback-control' );
   static readonly FILES = new RouteDescriptor('files' );

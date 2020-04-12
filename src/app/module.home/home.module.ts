@@ -13,12 +13,12 @@ import {
   MatTabsModule
 } from '@angular/material';
 import {WidgetsModule} from '../widgets/widgets.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
 
   declarations: [
-
     PageHomeComponent,
   ],
 
@@ -26,6 +26,8 @@ import {WidgetsModule} from '../widgets/widgets.module';
 
     // core ...
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // 3rd party ...
 

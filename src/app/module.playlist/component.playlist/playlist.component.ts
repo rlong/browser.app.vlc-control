@@ -1,6 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {VlcService} from '../../service.vlc/vlc.service';
 import {CompositePlaylistNode, ICompositePlaylistNode, LeafPlaylistNode, Playlist, PlaylistNode} from '../../model/vlc';
+import {Router} from '@angular/router';
+import {RouteManifest} from '../../RouteManifest';
 
 
 
@@ -38,6 +40,8 @@ export class PlaylistComponent implements OnInit {
 
     await this.vlc.pl_play( playlistNode );
     this.playlist.current = playlistNode;
+    RouteManifest.PLAYBACK_CONTROL.navigate( this.router );
+
 
     this.playlistPlay.emit( playlistNode );
   }
@@ -48,7 +52,8 @@ export class PlaylistComponent implements OnInit {
   }
 
   constructor(
-    private vlc: VlcService
+    private vlc: VlcService,
+    private router: Router
   ) {
   }
 
