@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {FileNode, IFileNode} from '../model/vlc';
-import {VlcService} from '../service.vlc/vlc.service';
-import {AngularIndexedDB} from '../../lib/angular2-indexeddb/angular2-indexeddb';
-import {ICategoryMeta} from '../model/VlcPlayback';
+import {FileNode, IFileNode} from '../../model/vlc';
+import {VlcService} from '../../service.vlc/vlc.service';
+import {AngularIndexedDB} from '../../../lib/angular2-indexeddb/angular2-indexeddb';
+import {ICategoryMeta} from '../../model/VlcPlayback';
 
 
 
@@ -159,8 +159,6 @@ export class AudioLibrary {
   providedIn: 'root'
 })
 export class AudioLibraryService {
-
-
 
   private static readonly TRACK = 'track';
 

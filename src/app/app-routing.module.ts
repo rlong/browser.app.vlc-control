@@ -12,11 +12,16 @@ const routes: Routes = [
   { path: '',
     loadChildren: () => import('./module.home/home.module').then(m => m.HomeModule )
   },
-  { path: 'files',
+
+  { // audio-library
+    path: RouteManifest.AUDIO_LIBRARY.path,
+    loadChildren: () => import('./module.library/library.module').then(m => m.LibraryModule )
+  },
+  {
+    path: 'files',
     loadChildren: () => import('./module.files/files.module').then(m => m.FilesModule )
   },
-  // playback-control
-  {
+  { // playback-control
     path: RouteManifest.PLAYBACK_CONTROL.path,
     loadChildren: () => import('./module.playback-control/playback-control.module').then(m => m.PlaybackControlModule )
   },

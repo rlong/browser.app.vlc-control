@@ -58,6 +58,10 @@ export class PageHomeComponent implements OnInit {
     }
   }
 
+  onAudioLibrary() {
+
+    RouteManifest.AUDIO_LIBRARY.navigate( this.router );
+  }
 
   onPlaybackControl() {
 
