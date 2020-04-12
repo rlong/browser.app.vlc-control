@@ -59,10 +59,8 @@ class IndexedData {
 
 interface IAudioTrack {
 
-
   file: IFileNode;
   meta: ICategoryMeta;
-
 }
 
 
@@ -72,7 +70,9 @@ class AudioTrack {
   title: string;
 
   album: IndexedDatum;
+  artist: IndexedDatum;
   folder: IndexedDatum;
+  genre: IndexedDatum;
 
 
   public static getFolder( path: string ) {
@@ -93,11 +93,10 @@ class AudioTrack {
 
     this.file_name = audioTrack.file.name;
 
-    // this.path = audioTrack.path;
-    // this.size = audioTrack.file.size;
-
     this.album = audioLibrary.albums.get( audioTrack.meta.album );
+    this.artist = audioLibrary.artists.get( audioTrack.meta.artist );
     this.folder = audioLibrary.folders.get( AudioTrack.getFolder( audioTrack.file.path ));
+    this.genre = audioLibrary.genres.get( audioTrack.meta.genre );
   }
 
 }
@@ -107,7 +106,8 @@ export class AudioLibrary {
 
   albums: IndexedData = new IndexedData();
   folders: IndexedData = new IndexedData();
-  // TODO: add genre, artist
+  genres: IndexedData = new IndexedData();
+  artists: IndexedData = new IndexedData();
 
 
   audioTracks: AudioTrack[] = [];
