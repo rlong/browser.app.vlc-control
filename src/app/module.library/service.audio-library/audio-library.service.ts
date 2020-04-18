@@ -24,7 +24,7 @@ export class IndexedDatum<T> {
 class IndexedData<T> {
 
 
-  values: IndexedDatum<T>[] = [];
+  value: IndexedDatum<T>[] = [];
   indexesByValue: {} = {};
 
   constructor() {}
@@ -43,8 +43,8 @@ class IndexedData<T> {
       return answer;
     }
 
-    answer = new IndexedDatum( this.values.length, value );
-    this.values.push( answer );
+    answer = new IndexedDatum( this.value.length, value );
+    this.value.push( answer );
     this.indexesByValue[value] = answer;
 
     return answer;
@@ -73,10 +73,12 @@ interface IAudioTrack {
 }
 
 
-class AudioTrack {
+export class AudioTrack {
 
-  file_name: string;
+  filename: string;
   title: string;
+  // tslint:disable-next-line:variable-name
+  track_number: number|null;
 
   album: IndexedDatum<Album>;
   artist: IndexedDatum<Artist>;
@@ -100,7 +102,9 @@ class AudioTrack {
 
   constructor( audioLibrary: AudioLibrary, audioTrack: IAudioTrack ) {
 
-    this.file_name = audioTrack.file.name;
+    this.filename = audioTrack.meta.filename;
+    this.title = audioTrack.meta.title;
+    this.track_number = parseInt( audioTrack.meta.track_number, 10 );
 
     this.album = audioLibrary.albums.get( audioTrack.meta.album );
     this.artist = audioLibrary.artists.get( audioTrack.meta.artist );
@@ -110,10 +114,10 @@ class AudioTrack {
 
 }
 
-class AudioTrackList {
-
-  value: AudioTrack[] = [];
-}
+// class AudioTrackList {
+//
+//   value: AudioTrack[] = [];
+// }
 
 export class AudioLibrary {
 
@@ -134,7 +138,7 @@ export class AudioLibrary {
 
   findAlbumsByGenre( genre: IndexedDatum<Genre> ): IndexedDatum<Album>[] {
 
-    const albums = this.albums.values.slice(0);
+    const albums = this.albums.value.slice(0);
 
     for( const track of this.audioTracks ) {
 
@@ -150,7 +154,7 @@ export class AudioLibrary {
 
       if( !albums[index] ) {
 
-        answer.push( this.albums.values[index] );
+        answer.push( this.albums.value[index] );
       }
     }
 
@@ -182,7 +186,7 @@ export class AudioLibrary {
     const filesInFolder = this.audioTracks.filter( (candidate) => candidate.folder === targetFolder);
 
     for ( const candidate of filesInFolder ) {
-      if ( file.name === candidate.file_name ) {
+      if ( file.name === candidate.filename ) {
         return true;
       }
     }

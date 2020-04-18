@@ -1,7 +1,11 @@
-<mat-action-list>
+
+<app-initialising *ngIf="loading"></app-initialising>
+
+
+<mat-action-list *ngIf="!loading">
 
   <button mat-list-item
-      *ngFor="let genre of audioLibrary.audioLibrary.genres.values"
+      *ngFor="let genre of audioLibrary.audioLibrary.genres.value"
           (click)="onGenreClick( genre )"
   >
       <div mat-line>

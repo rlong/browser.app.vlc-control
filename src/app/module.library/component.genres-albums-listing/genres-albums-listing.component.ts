@@ -28,7 +28,7 @@ export class GenresAlbumsListingComponent implements OnInit {
       await this.audioLibrary.loading.toPromise();
     }
 
-    const genre = this.audioLibrary.audioLibrary.genres.values[genreIndex];
+    const genre = this.audioLibrary.audioLibrary.genres.value[genreIndex];
     console.log( 'genre', genre );
     this.albums = this.audioLibrary.audioLibrary.findAlbumsByGenre( genre );
 

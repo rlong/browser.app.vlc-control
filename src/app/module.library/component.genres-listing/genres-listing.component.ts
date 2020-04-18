@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AudioLibraryService, Genre, IndexedDatum} from '../service.audio-library/audio-library.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Location} from '@angular/common';
+import {Command} from '../../../util/Command';
 
 @Component({
   selector: 'app-genres-listing',
@@ -10,8 +10,23 @@ import {Location} from '@angular/common';
 })
 export class GenresListingComponent implements OnInit {
 
+  loading: Command<void> = null;
+
+  async init() {
+
+    this.loading = this.audioLibrary.loading;
+    if( this.loading ) {
+
+      await this.loading.toPromise();
+    }
+    this.loading = null;
+
+  }
+
 
   ngOnInit() {
+
+    this.init();
   }
 
 
