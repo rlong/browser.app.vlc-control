@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FilesRoutingModule } from './files-routing.module';
-import {WidgetsModule} from '../widgets/widgets.module';
+import {WidgetsModule} from '../module.widgets/widgets.module';
 import {
   MatButtonModule, MatCardModule,
   MatGridListModule,

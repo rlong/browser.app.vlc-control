@@ -19,8 +19,15 @@ export class AudioLibraryComponent implements OnInit {
   stats: LibrarySetupStats = new LibrarySetupStats();
 
 
-  init() {
+  showGenres = false;
+  showAlbums = false;
 
+
+  private resetFlags() {
+    this.showGenres = false;
+  }
+
+  init() {
 
     console.log('this.route.snapshot.fragment', this.route.snapshot.fragment );
     console.log('this.route.snapshot', this.route.snapshot );
@@ -54,9 +61,15 @@ export class AudioLibraryComponent implements OnInit {
     await this.audioLibrary.setupLibrary( this.audioFiles, this.stats );
   }
 
-  async onLoadLibrary()  {
+  // async onLoadLibrary()  {
+  //
+  //   await this.audioLibrary.loadLibrary();
+  // }
 
-    await this.audioLibrary.loadLibrary();
+
+  onOpenGenres() {
+
+    this.router.navigate( ['audio-library/genres']);
   }
 
   constructor( private audioLibrary: AudioLibraryService,

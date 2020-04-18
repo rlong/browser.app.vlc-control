@@ -16,7 +16,7 @@ import {
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {WidgetsModule} from './widgets/widgets.module';
+import {WidgetsModule} from './module.widgets/widgets.module';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { GestureConfig } from '@angular/material';
 

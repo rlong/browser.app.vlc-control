@@ -12,11 +12,18 @@ import {
   MatRippleModule,
   MatTabsModule
 } from '@angular/material';
+import { GenresListingComponent } from './component.genres-listing/genres-listing.component';
+import { GenresAlbumsListingComponent } from './component.genres-albums-listing/genres-albums-listing.component';
+import { TracksListingComponent } from './component.tracks-listing/tracks-listing.component';
+import {WidgetsModule} from '../module.widgets/widgets.module';
 
 
 @NgModule({
   declarations: [
-    AudioLibraryComponent
+    AudioLibraryComponent,
+    GenresListingComponent,
+    GenresAlbumsListingComponent,
+    TracksListingComponent
   ],
   imports: [
 
@@ -29,7 +36,8 @@ import {
     MatRippleModule,
 
     // in-house ...
-    LibraryRoutingModule
+    LibraryRoutingModule,
+    WidgetsModule
   ]
 })
 export class LibraryModule { }

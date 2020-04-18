@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PlaylistRoutingModule } from './playlist-routing.module';
 import {PlaylistComponent} from './component.playlist/playlist.component';
 import {PlaylistItemComponent} from './component.playlist/component.playlist-item/playlist-item.component';
-import {HomeRoutingModule} from '../module.home/home-routing.module';
-import {WidgetsModule} from '../widgets/widgets.module';
+import {WidgetsModule} from '../module.widgets/widgets.module';
 import {
   MatButtonModule, MatCardModule,
   MatGridListModule,

@@ -1,0 +1,12 @@
+<mat-action-list>
+
+  <button mat-list-item
+      *ngFor="let genre of audioLibrary.audioLibrary.genres.values"
+          (click)="onGenreClick( genre )"
+  >
+      <div mat-line>
+        {{genre.value}}
+      </div>
+    </button>
+
+</mat-action-list>

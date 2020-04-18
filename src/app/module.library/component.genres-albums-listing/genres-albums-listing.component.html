@@ -1,0 +1,21 @@
+
+
+<app-initialising *ngIf="!albums"></app-initialising>
+
+
+<mat-action-list *ngIf="albums">
+
+  <button mat-list-item>
+    Tracks
+  </button>
+
+  <button mat-list-item
+          *ngFor="let album of albums"
+          (click)="onAlbumClick( album )"
+  >
+    <div mat-line>
+      {{album.value}}
+    </div>
+  </button>
+
+</mat-action-list>

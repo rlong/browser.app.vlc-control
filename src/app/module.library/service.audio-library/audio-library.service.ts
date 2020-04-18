@@ -4,24 +4,33 @@ import {VlcService} from '../../service.vlc/vlc.service';
 import {AngularIndexedDB} from '../../../lib/angular2-indexeddb/angular2-indexeddb';
 import {ICategoryMeta} from '../../model/VlcPlayback';
 import {LibrarySetupStats} from './LibrarySetupStats';
+import {Command} from '../../../util/Command';
 
 
-class IndexedDatum {
+export type Album = string;
+export type Artist = string;
+export type Folder = string;
+export type Genre = string;
 
-  constructor( public index: number, public value: string ) {}
+
+export class IndexedDatum<T> {
+
+  constructor( public index: number,
+               public value: T ) {
+  }
 }
 
 
-class IndexedData {
+class IndexedData<T> {
 
 
-  values: IndexedDatum[] = [];
+  values: IndexedDatum<T>[] = [];
   indexesByValue: {} = {};
 
   constructor() {}
 
 
-  get( value: string|null ): IndexedDatum|null {
+  get( value: string|null ): IndexedDatum<T>|null {
 
     if ( !value ) {
       return null;
@@ -69,10 +78,10 @@ class AudioTrack {
   file_name: string;
   title: string;
 
-  album: IndexedDatum;
-  artist: IndexedDatum;
-  folder: IndexedDatum;
-  genre: IndexedDatum;
+  album: IndexedDatum<Album>;
+  artist: IndexedDatum<Artist>;
+  genre: IndexedDatum<Genre>;
+  folder: IndexedDatum<Folder>;
 
 
   public static getFolder( path: string ) {
@@ -101,13 +110,17 @@ class AudioTrack {
 
 }
 
+class AudioTrackList {
+
+  value: AudioTrack[] = [];
+}
 
 export class AudioLibrary {
 
-  albums: IndexedData = new IndexedData();
-  folders: IndexedData = new IndexedData();
-  genres: IndexedData = new IndexedData();
-  artists: IndexedData = new IndexedData();
+  albums = new IndexedData<Album>();
+  artists = new IndexedData<Artist>();
+  folders  = new IndexedData<Folder>();
+  genres = new IndexedData<Genre>();
 
 
   audioTracks: AudioTrack[] = [];
@@ -118,6 +131,31 @@ export class AudioLibrary {
     this.audioTracks.push( new AudioTrack( this, track ));
   }
 
+
+  findAlbumsByGenre( genre: IndexedDatum<Genre> ): IndexedDatum<Album>[] {
+
+    const albums = this.albums.values.slice(0);
+
+    for( const track of this.audioTracks ) {
+
+      if( genre === track.genre ) {
+
+        // null out the matching album
+        albums[track.album.index] = null;
+      }
+    }
+
+    const answer: IndexedDatum<Album>[] = [];
+    for( const index in albums ) {
+
+      if( !albums[index] ) {
+
+        answer.push( this.albums.values[index] );
+      }
+    }
+
+    return answer;
+  }
 
 
   getTracksInFolder( folder: string ): AudioTrack[] {
@@ -167,33 +205,37 @@ export class AudioLibraryService {
   db: AngularIndexedDB = null;
   private aidb: AngularIndexedDB = null;
   audioLibrary: AudioLibrary = new AudioLibrary();
+  loading: Command<void> = null;
 
 
-  async loadLibrary() {
+  private loadLibrary( loading: Command<void>) {
 
-    const answer = new Promise( (resolve, reject) => {
+    const start = new Date();
 
-      this.aidb.openCursor(AudioLibraryService.TRACK, (evt) => {
-        const cursor = (evt.target as any).result;
-        if (cursor) {
 
-          const track: IAudioTrack = cursor.value;
-          this.audioLibrary.add( track );
+    this.aidb.openCursor(AudioLibraryService.TRACK, (evt) => {
+      const cursor = (evt.target as any).result;
+      if (cursor) {
 
-          cursor.continue();
-        } else {
+        const track: IAudioTrack = cursor.value;
+        this.audioLibrary.add( track );
 
-          console.log( [this], 'loadLibrary', this.audioLibrary );
-          resolve();
-        }
-      });
+        cursor.continue();
+      } else {
+
+        const elapsed = new Date().getTime() - start.getTime();
+        console.log( [this], 'elapsed', elapsed );
+        console.log( [this], 'this.audioLibrary.audioTracks.length', this.audioLibrary.audioTracks.length );
+        loading.resolve();
+      }
     });
 
-    return answer;
   }
 
 
   async init() {
+
+    this.loading = new Command<void>();
 
     this.aidb = new AngularIndexedDB('audio-library', AudioLibraryService.DB_VERSION);
 
@@ -207,7 +249,8 @@ export class AudioLibraryService {
 
     });
 
-    this.loadLibrary();
+    this.loadLibrary( this.loading );
+    this.loading = null;
   }
 
   async getAudioFiles( stats: LibrarySetupStats ): Promise<FileNode[]> {
