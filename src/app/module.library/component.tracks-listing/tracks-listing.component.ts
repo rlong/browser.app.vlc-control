@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AudioTrack, AudioLibraryService, IndexedDatum, Album, Genre} from '../service.audio-library/audio-library.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {VlcService} from '../../service.vlc/vlc.service';
+import {Playlist} from '../../model/vlc';
 
 @Component({
   selector: 'app-tracks-listing',
@@ -10,6 +12,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class TracksListingComponent implements OnInit {
 
   audioTracks: AudioTrack[] = null;
+  playlist: Playlist = null;
 
 
   async init( albumIndex: number|null, genreIndex: number|null ) {
@@ -56,9 +59,33 @@ export class TracksListingComponent implements OnInit {
   }
 
 
-  onAudioTrackClick( audioTrack: AudioTrack ) {
+  async onAudioTrackClick( audioTrack: AudioTrack ) {
 
-    console.log( 'audioTrack', audioTrack );
+
+    if( !this.playlist ) {
+
+      await this.vlc.pl_empty();
+
+      const orderedTracks = AudioTrack.sortByTrackNumber( this.audioTracks );
+      for( const orderedTrack of orderedTracks ) {
+
+        this.vlc.in_enqueue( orderedTrack.path );
+      }
+
+      this.playlist = await this.vlc.getPlaylist( true );
+      console.log( this.playlist );
+
+    }
+
+    for( const candidate of this.playlist.root.children ) {
+
+      if( audioTrack.filename === candidate.value.name ) {
+
+        this.vlc.pl_play( candidate );
+        return;
+      }
+    }
+
 
   }
 
@@ -89,6 +116,7 @@ export class TracksListingComponent implements OnInit {
 
   constructor( private audioLibrary: AudioLibraryService,
                private route: ActivatedRoute,
-               private router: Router ) { }
+               private router: Router,
+               private vlc: VlcService) { }
 
 }

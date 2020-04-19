@@ -266,7 +266,6 @@ export class VlcProxy {
 
   constructor(private http: HttpClient, host = '') {
 
-
     if ( 0 !== host.length ) {
 
       this.baseUrl = `http://${host}`;
@@ -303,9 +302,17 @@ export class VlcProxy {
     return fileNodes.element.map( (e) => new FileNode( e ));
   }
 
+  async in_enqueue(input: string ): Promise<StatusReference> {
+
+    const encodedInput = encodeURIComponent( input );
+
+    const url = `${this.baseUrl}/requests/status.json?command=in_enqueue&input=${encodedInput}`;
+    return this.dispatchStatusRequest( url );
+  }
+
   async in_play(input: string ): Promise<StatusReference> {
 
-    const encodedInput = encodeURI( input); // encodeURIComponent( input );
+    const encodedInput = encodeURIComponent( input );
 
     const url = `${this.baseUrl}/requests/status.json?command=in_play&input=${encodedInput}`;
     return this.dispatchStatusRequest( url );

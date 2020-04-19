@@ -203,7 +203,15 @@ export class VlcService implements IPlaybackControl {
   }
 
 
+  async in_enqueue(input: string ): Promise<StatusReference> {
+
+    const answer = this.proxy.in_enqueue( input );
+    this.handleStatusPromise( answer );
+    return answer;
+  }
+
   async in_play(input: string ): Promise<StatusReference>  {
+
     const answer = this.proxy.in_play( input );
     this.handleStatusPromise( answer );
     return answer;

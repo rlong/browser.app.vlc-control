@@ -12,30 +12,6 @@ const routes: Routes = [
     path: '',
     component:  AudioLibraryComponent,
     children: [
-      // {
-      //   path: 'albums',
-      //   component:  AudioLibraryComponent,
-      // },
-      // {
-      //   path: 'albums/:albumIndex',
-      //   component:  AudioLibraryComponent,
-      // },
-      // {
-      //   path: 'artists',
-      //   component:  AudioLibraryComponent,
-      // },
-      // {
-      //   path: 'artists/:artistIndex',
-      //   component:  AudioLibraryComponent,
-      // },
-      // {
-      //   path: 'artists/:artistIndex/albums/:albumIndex',
-      //   component:  AudioLibraryComponent,
-      // },
-      // {
-      //   path: 'genres/:genreIndex/albums/:albumIndex',
-      //   component:  AudioLibraryComponent,
-      // }
     ]
   },
   {
@@ -45,6 +21,10 @@ const routes: Routes = [
   {
     path: 'genres/:genreIndex',
     component:  GenresAlbumsListingComponent,
+  },
+  {
+    path: 'genres/:genreIndex/tracks',
+    component:  TracksListingComponent,
   },
   {
     path: 'genres/:genreIndex/albums/:albumIndex',

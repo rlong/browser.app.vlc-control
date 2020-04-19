@@ -18,6 +18,19 @@ export class IndexedDatum<T> {
   constructor( public index: number,
                public value: T ) {
   }
+
+  artists: IndexedDatum<Artist>[] = [];
+
+  addArtist( artist: IndexedDatum<Artist> ) {
+
+    for( const candidate of this.artists ) {
+      // already add ?
+      if( artist === candidate ) {
+        return;
+      }
+    }
+    this.artists.push( artist );
+  }
 }
 
 
@@ -86,6 +99,40 @@ export class AudioTrack {
   folder: IndexedDatum<Folder>;
 
 
+  get path() {
+
+    return this.folder.value + '/' + this.filename;
+  }
+
+
+  static sortByTrackNumber( audioTracks: AudioTrack[] ): AudioTrack[] {
+
+    const answer  = audioTracks.slice(0);
+    answer.sort( (a, b) => {
+
+      if( !a.track_number ) {
+
+        if( b.track_number ) {
+          return 1;
+        }
+        return 0; // both null
+      } else {
+
+        if( !b.track_number ) {
+
+          return -1;
+        } else  {
+
+          return a.track_number - b.track_number;
+        }
+      }
+
+
+    });
+    return answer;
+
+  }
+
   public static getFolder( path: string ) {
 
     const lastForwardSlash = path.lastIndexOf( '/');
@@ -106,18 +153,20 @@ export class AudioTrack {
     this.title = audioTrack.meta.title;
     this.track_number = parseInt( audioTrack.meta.track_number, 10 );
 
-    this.album = audioLibrary.albums.get( audioTrack.meta.album );
+
     this.artist = audioLibrary.artists.get( audioTrack.meta.artist );
+    this.album = audioLibrary.albums.get( audioTrack.meta.album );
+
+    if( this.album && this.artist ) {
+
+      this.album.addArtist( this.artist );
+    }
     this.folder = audioLibrary.folders.get( AudioTrack.getFolder( audioTrack.file.path ));
     this.genre = audioLibrary.genres.get( audioTrack.meta.genre );
   }
 
 }
 
-// class AudioTrackList {
-//
-//   value: AudioTrack[] = [];
-// }
 
 export class AudioLibrary {
 
@@ -261,7 +310,7 @@ export class AudioLibraryService {
 
     const answer: FileNode[] = [];
 
-    const pendingFolders: string[] = ['/Users/lrlong/Music/iTunes/iTunes Music/Barenaked Ladies'];
+    const pendingFolders: string[] = ['/Users/lrlong/Music/iTunes/iTunes Music/'];
     while (  0 !== pendingFolders.length ) {
 
       const pendingFolder = pendingFolders.pop();
@@ -287,6 +336,10 @@ export class AudioLibraryService {
             continue;
           }
 
+          if ( -1 !== file.value.path.indexOf( ',')  ) {
+            continue;
+          }
+
           stats.foldersFound++;
           pendingFolders.push( file.value.path );
         }
@@ -304,7 +357,7 @@ export class AudioLibraryService {
     for ( const audioFile of audioFiles ) {
 
       // const categoryMeta: ICategoryMeta = await this.getMeta( audioFile.value.path, audioFile.value.name );
-      const categoryMeta: ICategoryMeta = await this.getMeta( audioFile );
+      const categoryMeta: ICategoryMeta|null = await this.getMeta( audioFile );
 
       const track: IAudioTrack = {
 
@@ -312,7 +365,7 @@ export class AudioLibraryService {
         meta: categoryMeta,
       };
 
-      this.aidb.add( AudioLibraryService.TRACK, track );
+      await this.aidb.add( AudioLibraryService.TRACK, track );
       this.audioLibrary.add( track );
       playlistSize++;
 
@@ -321,7 +374,6 @@ export class AudioLibraryService {
         await this.vlc.pl_empty();
         playlistSize = 0;
       }
-
     }
     await this.vlc.pl_empty();
 
@@ -340,7 +392,13 @@ export class AudioLibraryService {
   async getMeta( audioFile: FileNode ): Promise<ICategoryMeta|null> {
 
 
-    await this.vlc.in_play( audioFile.value.path );
+    try {
+
+      await this.vlc.in_play( audioFile.value.path );
+    } catch (e) {
+      console.error( e );
+      return null;
+    }
 
     let retryCount = 5;
     while ( 0 !== retryCount ) {
