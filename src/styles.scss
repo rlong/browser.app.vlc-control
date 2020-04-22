@@ -64,3 +64,17 @@ mat-tab-group[acclass="full-height"] {
 div.mat-tab-body-wrapper {
   height: calc( 100% - 48px);
 }
+
+
+/// full height: redux
+
+
+div[aclass="full-height-page"] {
+  height: 100%;
+}
+
+
+div[aclass="full-height-page-content"] {
+  height: calc( 100% - 128px);
+  overflow: scroll;
+}

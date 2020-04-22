@@ -1,16 +1,34 @@
 
-<app-initialising *ngIf="loading"></app-initialising>
 
 
-<mat-action-list *ngIf="!loading">
+<div aclass="full-height-page">
 
-  <button mat-list-item
-      *ngFor="let genre of audioLibrary.audioLibrary.genres.value"
-          (click)="onGenreClick( genre )"
-  >
-      <div mat-line>
-        {{genre.value}}
-      </div>
-    </button>
 
-</mat-action-list>
+  <app-header title="Genres"></app-header>
+
+
+  <div aclass="full-height-page-content">
+
+    <app-initialising *ngIf="loading"></app-initialising>
+
+
+    <mat-action-list *ngIf="!loading">
+
+      <button mat-list-item
+              *ngFor="let genre of audioLibrary.audioLibrary.genres.value"
+              (click)="onGenreClick( genre )"
+      >
+        <div mat-line>
+          {{genre.value}}
+        </div>
+      </button>
+
+    </mat-action-list>
+  </div>
+
+  <app-footer>
+  </app-footer>
+
+
+</div>
+

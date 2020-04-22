@@ -1,53 +1,68 @@
 
-Files count: {{stats.filesFound}}
-<br>
-Audio files count: {{stats.audioFilesFound}}
-<br>
-Folders scanned: {{stats.foldersFound}}
-<br>
+<div aclass="full-height-page">
+
+  <app-header title="Audio Library">
+  </app-header>
+
+  <div aclass="full-height-page-content">
+
+    Files count: {{stats.filesFound}}
+    <br>
+    Audio files count: {{stats.audioFilesFound}}
+    <br>
+    Folders scanned: {{stats.foldersFound}}
+    <br>
 
 
-<button mat-button
-        (click)="onGetAudioFiles()"
-        [disabled]="audioFiles"
->
-  Get Audio Files
-</button>
+    <button mat-button
+            (click)="onGetAudioFiles()"
+            [disabled]="audioFiles"
+    >
+      Get Audio Files
+    </button>
 
-<br>
+    <br>
 
-<button mat-button
-        (click)="onSetupLibrary()"
-        [disabled]="!audioFiles"
->
-  Setup library
-</button>
-
-
-<hr>
+    <button mat-button
+            (click)="onSetupLibrary()"
+            [disabled]="!audioFiles"
+    >
+      Setup library
+    </button>
 
 
-<!--<button mat-button-->
-<!--        (click)="onLoadLibrary()"-->
-<!--        >-->
-<!--  Load library-->
-<!--</button>-->
+    <hr>
 
 
-<hr>
+    <!--<button mat-button-->
+    <!--        (click)="onLoadLibrary()"-->
+    <!--        >-->
+    <!--  Load library-->
+    <!--</button>-->
 
-<mat-action-list>
+
+    <hr>
+
+    <mat-action-list>
 
 
-  <div mat-subheader>Genres</div>
+      <div mat-subheader>Genres</div>
 
 
-  <button mat-list-item> Albums </button>
-  <button mat-list-item> Artists </button>
-  <button mat-list-item (click)="onOpenGenres()"> Genres </button>
+      <button mat-list-item> Albums </button>
+      <button mat-list-item> Artists </button>
+      <button mat-list-item (click)="onOpenGenres()"> Genres </button>
 
-<!--<mat-list-item-->
-<!--    *ngFor="let genre of audioLibrary.audioLibrary.genres.value">-->
-<!--    <div mat-line>{{genre.value}}</div>-->
-<!--  </mat-list-item>-->
-</mat-action-list>
+      <!--<mat-list-item-->
+      <!--    *ngFor="let genre of audioLibrary.audioLibrary.genres.value">-->
+      <!--    <div mat-line>{{genre.value}}</div>-->
+      <!--  </mat-list-item>-->
+    </mat-action-list>
+
+
+  </div>
+
+  <app-footer></app-footer>
+</div>
+
+

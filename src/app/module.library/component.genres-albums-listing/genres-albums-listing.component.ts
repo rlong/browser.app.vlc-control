@@ -9,8 +9,8 @@ import {Album, AudioLibraryService, Genre, IndexedDatum} from '../service.audio-
 })
 export class GenresAlbumsListingComponent implements OnInit {
 
-
   genreIndex: number;
+  genre: IndexedDatum<Genre> = null;
 
   albums: IndexedDatum<Album>[] = null;
 
@@ -18,7 +18,6 @@ export class GenresAlbumsListingComponent implements OnInit {
 
     this.router.navigate( ['audio-library/genres', this.genreIndex, 'albums', album.index]);
   }
-
 
   async init( genreIndex: number ) {
 
@@ -28,10 +27,8 @@ export class GenresAlbumsListingComponent implements OnInit {
       await this.audioLibrary.loading.toPromise();
     }
 
-    const genre = this.audioLibrary.audioLibrary.genres.value[genreIndex];
-    console.log( 'genre', genre );
-    this.albums = this.audioLibrary.audioLibrary.findAlbumsByGenre( genre );
-
+    this.genre = this.audioLibrary.audioLibrary.genres.value[genreIndex];
+    this.albums = this.audioLibrary.audioLibrary.findAlbumsByGenre( this.genre );
   }
 
   ngOnInit() {

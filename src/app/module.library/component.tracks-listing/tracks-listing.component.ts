@@ -13,6 +13,7 @@ export class TracksListingComponent implements OnInit {
 
   audioTracks: AudioTrack[] = null;
   playlist: Playlist = null;
+  title = '';
 
 
   async init( albumIndex: number|null, genreIndex: number|null ) {
@@ -26,24 +27,28 @@ export class TracksListingComponent implements OnInit {
     if( null !== albumIndex ) {
 
       const album: IndexedDatum<Album> = this.audioLibrary.audioLibrary.albums.value[ albumIndex ];
+      this.title = album.value;
       for (const i in audioTracks ) {
 
         if( album !== audioTracks[i].album ) {
           audioTracks[i] = null;
         }
       }
-    }
+    } else {
 
-    if( null !== genreIndex ) {
+      if( null !== genreIndex ) {
 
-      const genre: IndexedDatum<Genre> = this.audioLibrary.audioLibrary.genres.value[ genreIndex ];
-      for (const i in audioTracks ) {
+        const genre: IndexedDatum<Genre> = this.audioLibrary.audioLibrary.genres.value[ genreIndex ];
+        for (const i in audioTracks ) {
 
-        if( audioTracks[i] && genre !== audioTracks[i].genre ) {
-          audioTracks[i] = null;
+          if( audioTracks[i] && genre !== audioTracks[i].genre ) {
+            audioTracks[i] = null;
+          }
         }
       }
+
     }
+
 
     const filteredAudioTracks = [];
     // this.audioTracks = [];

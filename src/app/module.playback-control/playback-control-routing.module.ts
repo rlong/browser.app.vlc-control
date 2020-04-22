@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {PagePlaybackControlComponent} from './component.playback-control/page-playback-control.component';
 import {PageTestComponent} from './page-test/page-test.component';
+import {FullPageComponent} from '../module.test/full-page/full-page.component';
 
 
 const routes: Routes = [

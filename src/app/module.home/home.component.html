@@ -1,11 +1,21 @@
 
 
-<mat-action-list>
-  <button mat-list-item (click)="onTestConnect()"> Test connection </button>
-  <button mat-list-item (click)="onPlaybackControl()"> Playback Control </button>
-  <button mat-list-item (click)="onFiles()"> Files </button>
-  <button mat-list-item (click)="onPlaylist()"> Playlist </button>
-  <button mat-list-item (click)="onAudioLibrary()"> Audio library </button>
-</mat-action-list>
+<div aclass="full-height-page">
+
+  <app-header title="VLC Control">
+  </app-header>
+
+  <div aclass="full-height-page-content">
+    <mat-action-list>
+      <button mat-list-item (click)="onTestConnect()"> Test connection </button>
+      <button mat-list-item (click)="onPlaybackControl()"> Playback Control </button>
+      <button mat-list-item (click)="onFiles()"> Files </button>
+      <button mat-list-item (click)="onPlaylist()"> Playlist </button>
+      <button mat-list-item (click)="onAudioLibrary()"> Audio library </button>
+    </mat-action-list>
+  </div>
+
+  <app-footer></app-footer>
+</div>
 
 

@@ -1,21 +1,35 @@
 
 
-<app-initialising *ngIf="!albums"></app-initialising>
 
+<div aclass="full-height-page">
 
-<mat-action-list *ngIf="albums">
+  <app-header [title]="genre?genre.value:''">
+  </app-header>
 
-  <button mat-list-item>
-    Tracks
-  </button>
+  <div aclass="full-height-page-content">
 
-  <button mat-list-item
-          *ngFor="let album of albums"
-          (click)="onAlbumClick( album )"
-  >
-    <div mat-line>
-      {{album.value}}
-    </div>
-  </button>
+    <app-initialising *ngIf="!albums"></app-initialising>
 
-</mat-action-list>
+    <mat-action-list *ngIf="albums">
+
+      <button mat-list-item>
+        Tracks
+      </button>
+
+      <button mat-list-item
+              *ngFor="let album of albums"
+              (click)="onAlbumClick( album )"
+      >
+        <div mat-line>
+          {{album.value}}
+        </div>
+      </button>
+
+    </mat-action-list>
+
+  </div>
+
+  <app-footer>
+  </app-footer>
+
+</div>

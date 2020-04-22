@@ -16,6 +16,7 @@ import { GenresListingComponent } from './component.genres-listing/genres-listin
 import { GenresAlbumsListingComponent } from './component.genres-albums-listing/genres-albums-listing.component';
 import { TracksListingComponent } from './component.tracks-listing/tracks-listing.component';
 import {WidgetsModule} from '../module.widgets/widgets.module';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import {WidgetsModule} from '../module.widgets/widgets.module';
     AudioLibraryComponent,
     GenresListingComponent,
     GenresAlbumsListingComponent,
-    TracksListingComponent
+    TracksListingComponent,
   ],
   imports: [
 
@@ -34,6 +35,7 @@ import {WidgetsModule} from '../module.widgets/widgets.module';
     MatButtonModule,
     MatListModule,
     MatRippleModule,
+    MatToolbarModule,
 
     // in-house ...
     LibraryRoutingModule,
