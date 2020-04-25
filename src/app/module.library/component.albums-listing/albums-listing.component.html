@@ -1,16 +1,20 @@
 
 
 
+
+
+
 <div aclass="full-height-page">
 
-  <app-header [title]="genre?genre.value:''">
+  <app-header [title]="title">
   </app-header>
 
   <div aclass="full-height-page-content">
 
-    <app-initialising *ngIf="!albums"></app-initialising>
 
-    <mat-action-list *ngIf="albums">
+    <app-initialising *ngIf="audioLibrary.initialising"></app-initialising>
+
+    <mat-action-list *ngIf="!audioLibrary.initialising">
 
       <button mat-list-item>
         Tracks

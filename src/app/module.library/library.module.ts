@@ -13,18 +13,20 @@ import {
   MatTabsModule
 } from '@angular/material';
 import { GenresListingComponent } from './component.genres-listing/genres-listing.component';
-import { GenresAlbumsListingComponent } from './component.genres-albums-listing/genres-albums-listing.component';
 import { TracksListingComponent } from './component.tracks-listing/tracks-listing.component';
 import {WidgetsModule} from '../module.widgets/widgets.module';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {AlbumsListingComponent} from './component.albums-listing/albums-listing.component';
+import { ArtistsListingComponent} from './component.artists-listing/artists-listing.component';
 
 
 @NgModule({
   declarations: [
+    AlbumsListingComponent,
     AudioLibraryComponent,
     GenresListingComponent,
-    GenresAlbumsListingComponent,
     TracksListingComponent,
+    ArtistsListingComponent,
   ],
   imports: [
 

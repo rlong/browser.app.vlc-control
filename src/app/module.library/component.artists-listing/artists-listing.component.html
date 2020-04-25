@@ -1,10 +1,7 @@
-
-
-
 <div aclass="full-height-page">
 
 
-  <app-header title="Genres"></app-header>
+  <app-header title="Artists"></app-header>
 
 
   <div aclass="full-height-page-content">
@@ -15,11 +12,11 @@
     <mat-action-list *ngIf="!audioLibrary.initialising">
 
       <button mat-list-item
-              *ngFor="let genre of audioLibrary.audioLibrary.genres.value"
-              (click)="onGenreClick( genre )"
+              *ngFor="let artist of audioLibrary.audioLibrary.artists.value"
+              (click)="onArtistClick( artist )"
       >
         <div mat-line>
-          {{genre.value}}
+          {{artist.value}}
         </div>
       </button>
 

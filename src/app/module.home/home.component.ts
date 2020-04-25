@@ -12,8 +12,6 @@ import {RouteManifest} from '../RouteManifest';
 })
 export class PageHomeComponent implements OnInit {
 
-  initialising = true;
-  private connected = false;
 
 
   host = {
@@ -29,34 +27,8 @@ export class PageHomeComponent implements OnInit {
 
   ngOnInit() {
 
-    const host = this.config.getHost( 'localhost:4200');
-    if ( host ) {
-
-      this.host.formControl.setValue( host );
-      this.vlc.init( host );
-      this.onTestConnect();
-    }
   }
 
-  async onTestConnect() {
-
-    try {
-
-      this.connected = false;
-
-      this.vlc.init( this.host.formControl.value );
-      const status = await this.vlc.getStatus();
-      console.log( [this], 'onTestConnect', status );
-
-      this.connected = true;
-      this.config.setHost( this.host.formControl.value );
-      // RouteDescriptors.home.navigate( this.router );
-
-    } catch (e) {
-
-      console.error( [this], 'onTestConnect', e  );
-    }
-  }
 
   onAudioLibrary() {
 
@@ -79,12 +51,9 @@ export class PageHomeComponent implements OnInit {
     RouteManifest.PLAYLIST.navigate( this.router );
   }
 
-  constructor( private config: ConfigurationService,
-               private vlc: VlcService,
+  constructor( private vlc: VlcService,
                private router: Router ) {
 
-    const host = this.config.getHost( 'localhost:4200');
-    this.vlc.init( host );
   }
 
 }

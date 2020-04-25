@@ -2,46 +2,10 @@ import {Injectable} from '@angular/core';
 import {FileNode, Playlist, PlaylistNode, Status, VlcProxy} from '../model/vlc';
 import {HttpClient} from '@angular/common/http';
 import {IPlaybackControl, StatusReference} from '../model/VlcPlayback';
+import {ConfigurationService} from '../service.configuration/configuration.service';
+import {Command} from '../../util/Command';
 
 
-// export class StatusReference {
-//
-//   isPending = false;
-//
-//   private _promise: Promise<Status>;
-//
-//
-//   constructor( public value: Status = null ) {
-//
-//     if ( value ) {
-//
-//       this._promise = Promise.resolve( value );
-//     }
-//   }
-//
-//   public get promise() {
-//     return this._promise;
-//   }
-//
-//
-//   public set promise(promise: Promise<Status>) {
-//
-//     this._promise = promise;
-//
-//     this.isPending = true;
-//
-//     this._promise.then( (value: Status) => {
-//
-//       this.value = value;
-//       this.isPending = false;
-//     }).catch( () => {
-//
-//       this.isPending = false;
-//     });
-//   }
-//
-//
-// }
 
 
 export class PlaylistReference {
@@ -135,6 +99,8 @@ class StatusPoller {
 export class VlcService implements IPlaybackControl {
 
 
+  initialising = new Command<void>();
+
   public status: StatusReference|null;
   public inflightStatusRequest: Promise<StatusReference> = null;
   public playlist: PlaylistReference|null;
@@ -143,7 +109,11 @@ export class VlcService implements IPlaybackControl {
   public proxy: VlcProxy|null;
 
 
-  init( host: string ) {
+  private init( host: string ) {
+
+    if( !this.initialising ) {
+      this.initialising = new Command<void>();
+    }
 
     // clean-up
     if ( this.statusPoller ) {
@@ -156,6 +126,9 @@ export class VlcService implements IPlaybackControl {
     this.playlist = new PlaylistReference();
     // this.status = new StatusReference();
     this.statusPoller = new StatusPoller( this );
+
+    this.initialising.resolve();
+    this.initialising = null;
   }
 
   async browse( dir: string, excludeDotDot: boolean = true ): Promise<FileNode[]> {
@@ -310,6 +283,12 @@ export class VlcService implements IPlaybackControl {
     return answer;
   }
 
-  constructor(private http: HttpClient ) {}
+  constructor(private http: HttpClient,
+              private config: ConfigurationService) {
+
+    const host = this.config.getHost( 'localhost:4200');
+    this.init( host );
+
+  }
 
 }

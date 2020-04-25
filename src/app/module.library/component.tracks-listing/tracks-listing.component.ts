@@ -18,9 +18,9 @@ export class TracksListingComponent implements OnInit {
 
   async init( albumIndex: number|null, genreIndex: number|null ) {
 
-    if( this.audioLibrary.loading ) {
+    if( this.audioLibrary.initialising ) {
 
-      await this.audioLibrary.loading.toPromise();
+      await this.audioLibrary.initialising.toPromise();
     }
 
     const audioTracks = this.audioLibrary.audioLibrary.audioTracks.slice(0);

@@ -66,6 +66,15 @@ export class AudioLibraryComponent implements OnInit {
   //   await this.audioLibrary.loadLibrary();
   // }
 
+  onOpenAlbums() {
+
+    this.router.navigate( ['audio-library/albums']);
+  }
+
+  onOpenArtists() {
+
+    this.router.navigate( ['audio-library/artists']);
+  }
 
   onOpenGenres() {
 

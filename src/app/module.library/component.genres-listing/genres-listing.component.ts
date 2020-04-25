@@ -10,34 +10,20 @@ import {Command} from '../../../util/Command';
 })
 export class GenresListingComponent implements OnInit {
 
-  loading: Command<void> = null;
-
-  async init() {
-
-    this.loading = this.audioLibrary.loading;
-    if( this.loading ) {
-
-      await this.loading.toPromise();
-    }
-    this.loading = null;
-
-  }
 
 
   ngOnInit() {
-
-    this.init();
   }
 
 
   onGenreClick( genre: IndexedDatum<Genre> ) {
 
-    this.router.navigate( ['audio-library/genres', genre.index]);
+    // genres/:genreIndex/albums
+    this.router.navigate( ['audio-library/genres', genre.index, 'albums']);
   }
 
 
   constructor( private audioLibrary: AudioLibraryService,
-               private route: ActivatedRoute,
                private router: Router,
   ) {
   }

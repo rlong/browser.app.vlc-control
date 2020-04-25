@@ -184,6 +184,33 @@ export class AudioLibrary {
     this.audioTracks.push( new AudioTrack( this, track ));
   }
 
+  findAlbumsByArtist(artist: IndexedDatum<Artist> ): IndexedDatum<Album>[] {
+
+    const albums = this.artists.value.slice(0);
+
+    for( const track of this.audioTracks ) {
+
+      if( artist === track.artist ) {
+
+        // null out the matching album
+        albums[track.album.index] = null;
+      }
+    }
+
+    const answer: IndexedDatum<Album>[] = [];
+    for( const index in albums ) {
+
+      if( !albums[index] ) {
+
+        answer.push( this.albums.value[index] );
+      }
+    }
+
+    return answer;
+
+
+  }
+
 
   findAlbumsByGenre( genre: IndexedDatum<Genre> ): IndexedDatum<Album>[] {
 
@@ -251,20 +278,23 @@ export class AudioLibrary {
 })
 export class AudioLibraryService {
 
+
+
+
   static readonly DB_VERSION = 12;
 
   private static readonly TRACK = 'track';
 
+  initialising = new Command<void>();
+
   db: AngularIndexedDB = null;
   private aidb: AngularIndexedDB = null;
   audioLibrary: AudioLibrary = new AudioLibrary();
-  loading: Command<void> = null;
 
 
-  private loadLibrary( loading: Command<void>) {
+  private loadLibrary( initialising: Command<void>) {
 
     const start = new Date();
-
 
     this.aidb.openCursor(AudioLibraryService.TRACK, (evt) => {
       const cursor = (evt.target as any).result;
@@ -279,7 +309,7 @@ export class AudioLibraryService {
         const elapsed = new Date().getTime() - start.getTime();
         console.log( [this], 'elapsed', elapsed );
         console.log( [this], 'this.audioLibrary.audioTracks.length', this.audioLibrary.audioTracks.length );
-        loading.resolve();
+        initialising.resolve();
       }
     });
 
@@ -288,7 +318,10 @@ export class AudioLibraryService {
 
   async init() {
 
-    this.loading = new Command<void>();
+
+    if( !this.initialising ) {
+      this.initialising = new Command<void>();
+    }
 
     this.aidb = new AngularIndexedDB('audio-library', AudioLibraryService.DB_VERSION);
 
@@ -302,8 +335,8 @@ export class AudioLibraryService {
 
     });
 
-    this.loadLibrary( this.loading );
-    this.loading = null;
+    this.loadLibrary( this.initialising );
+    this.initialising = null;
   }
 
   async getAudioFiles( stats: LibrarySetupStats ): Promise<FileNode[]> {
