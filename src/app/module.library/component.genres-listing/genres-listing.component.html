@@ -4,7 +4,11 @@
 <div aclass="full-height-page">
 
 
-  <app-header title="Genres"></app-header>
+  <app-header title="Genres"
+              svgIcon="music-box-multiple"
+  >
+
+  </app-header>
 
 
   <div aclass="full-height-page-content">
@@ -18,9 +22,16 @@
               *ngFor="let genre of audioLibrary.audioLibrary.genres.value"
               (click)="onGenreClick( genre )"
       >
-        <div mat-line>
+
+        <mat-icon svgIcon="music-box-multiple"></mat-icon>
+        <span>
+            &nbsp;
           {{genre.value}}
-        </div>
+          </span>
+
+<!--        <div mat-line>-->
+<!--          {{genre.value}}-->
+<!--        </div>-->
       </button>
 
     </mat-action-list>

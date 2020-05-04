@@ -6,7 +6,9 @@
 
 <div aclass="full-height-page">
 
-  <app-header [title]="title">
+  <app-header
+    [svgIcon]="headerSvgIcon"
+    [title]="title">
   </app-header>
 
   <div aclass="full-height-page-content">
@@ -24,9 +26,16 @@
               *ngFor="let album of albums"
               (click)="onAlbumClick( album )"
       >
-        <div mat-line>
+
+        <mat-icon svgIcon="album"></mat-icon>
+        <span>
+            &nbsp;
           {{album.value}}
-        </div>
+          </span>
+
+<!--        <div mat-line>-->
+<!--        </div>-->
+
       </button>
 
     </mat-action-list>

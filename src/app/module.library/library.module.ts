@@ -35,6 +35,7 @@ import { ArtistsListingComponent} from './component.artists-listing/artists-list
 
     // material ...
     MatButtonModule,
+    MatIconModule,
     MatListModule,
     MatRippleModule,
     MatToolbarModule,

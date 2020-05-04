@@ -17,9 +17,17 @@
                 *ngFor="let audioTrack of audioTracks"
                 (click)="onAudioTrackClick( audioTrack )"
         >
-          <div mat-line>
+
+          <mat-icon svgIcon="music"></mat-icon>
+          <span>
+            &nbsp;
             {{audioTrack.title}}
-          </div>
+          </span>
+
+
+<!--          <div mat-line>-->
+<!--            {{audioTrack.title}}-->
+<!--          </div>-->
         </button>
 
       </mat-action-list>

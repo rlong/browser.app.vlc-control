@@ -2,7 +2,10 @@
 
   <ng-content></ng-content>
 
-  <button mat-raised-button color="primary">
+  <button mat-raised-button color="primary"
+          *ngIf="showPlaybackControl"
+          (click)="onPlaybackControl()"
+  >
     <mat-icon svgIcon="remote"></mat-icon>
   </button>
 

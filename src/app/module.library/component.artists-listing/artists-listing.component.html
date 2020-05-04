@@ -1,7 +1,7 @@
 <div aclass="full-height-page">
 
 
-  <app-header title="Artists"></app-header>
+  <app-header title="Artists" svgIcon="account-multiple"></app-header>
 
 
   <div aclass="full-height-page-content">
@@ -15,9 +15,17 @@
               *ngFor="let artist of audioLibrary.audioLibrary.artists.value"
               (click)="onArtistClick( artist )"
       >
-        <div mat-line>
+
+
+        <mat-icon svgIcon="account-multiple"></mat-icon>
+        <span>
+            &nbsp;
           {{artist.value}}
-        </div>
+          </span>
+
+<!--        <div mat-line>-->
+<!--          {{artist.value}}-->
+<!--        </div>-->
       </button>
 
     </mat-action-list>

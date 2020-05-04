@@ -12,6 +12,7 @@ export class AlbumsListingComponent implements OnInit {
 
   albums: IndexedDatum<Album>[] = null;
   title: string = null;
+  headerSvgIcon: string = null;
 
   onAlbumClick( album: IndexedDatum<Album> ) {
 
@@ -31,6 +32,7 @@ export class AlbumsListingComponent implements OnInit {
       const genre = this.audioLibrary.audioLibrary.genres.value[genreIndex];
       this.title = genre.value;
       this.albums = this.audioLibrary.audioLibrary.findAlbumsByGenre( genre );
+      this.headerSvgIcon = 'music-box-multiple';
 
       return;
     }
@@ -40,6 +42,7 @@ export class AlbumsListingComponent implements OnInit {
       const artist = this.audioLibrary.audioLibrary.artists.value[artistIndex];
       this.title = artist.value;
       this.albums = this.audioLibrary.audioLibrary.findAlbumsByArtist( artist );
+      this.headerSvgIcon = 'account-multiple';
 
       return;
     }
@@ -47,6 +50,7 @@ export class AlbumsListingComponent implements OnInit {
 
     this.title = 'Albums';
     this.albums = this.audioLibrary.audioLibrary.albums.value.slice(0);
+    this.headerSvgIcon = 'album';
   }
 
   ngOnInit() {

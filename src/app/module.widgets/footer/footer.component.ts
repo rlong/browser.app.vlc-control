@@ -1,4 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {RouteManifest} from '../../RouteManifest';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -8,10 +10,17 @@ import {Component, Input, OnInit} from '@angular/core';
 export class FooterComponent implements OnInit {
 
 
-
-  constructor() { }
+  @Input() showPlaybackControl = true;
 
   ngOnInit() {
   }
+
+  onPlaybackControl() {
+
+    RouteManifest.PLAYBACK_CONTROL.navigate( this.router );
+  }
+
+
+  constructor( private router: Router ) { }
 
 }

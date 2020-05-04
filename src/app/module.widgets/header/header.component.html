@@ -1,5 +1,14 @@
 
 <mat-toolbar>
-  <span>{{title}}</span>
+
+  <span *ngIf="svgIcon">
+    <mat-icon [svgIcon]="svgIcon"></mat-icon>
+    &nbsp;
+  </span>
+
+  <span>
+    {{title}}
+  </span>
+
 </mat-toolbar>
 
