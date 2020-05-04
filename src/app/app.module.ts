@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +9,7 @@ import {
   MatGridListModule,
   MatIconModule,
   MatInputModule,
+  MatIconRegistry,
   MatListModule,
   MatRippleModule,
   MatTabsModule
@@ -59,4 +60,12 @@ import { GestureConfig } from '@angular/material';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  // vvv [Material Design Icons](https://dev.materialdesignicons.com/getting-started/angular)
+  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer){
+    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg')); // Or whatever path you placed mdi.svg at
+  }
+  // ^^^ [Material Design Icons](https://dev.materialdesignicons.com/getting-started/angular)
+
+}

@@ -4,6 +4,8 @@ import {InitialisingComponent} from './component.initialising/initialising.compo
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -20,7 +22,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
   ],
   imports: [
 
+    // material ...
+    MatButtonModule,
     MatToolbarModule,
+    MatIconModule,
 
     CommonModule,
   ]
