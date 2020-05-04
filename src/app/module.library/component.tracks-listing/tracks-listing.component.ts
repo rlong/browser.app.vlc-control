@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AudioTrack, AudioLibraryService, IndexedDatum, Album, Genre} from '../service.audio-library/audio-library.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {VlcService} from '../../service.vlc/vlc.service';
+import {VlcContextService} from '../../service.vlc-context/vlc-context.service';
 import {Playlist} from '../../model/vlc';
 
 @Component({
@@ -122,6 +122,6 @@ export class TracksListingComponent implements OnInit {
   constructor( private audioLibrary: AudioLibraryService,
                private route: ActivatedRoute,
                private router: Router,
-               private vlc: VlcService) { }
+               private vlc: VlcContextService) { }
 
 }

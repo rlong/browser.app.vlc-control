@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { VlcService } from './vlc.service';
+import { VlcContextService } from './vlc-context.service';
 
-describe('VlcService', () => {
+describe('VlcContextService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: VlcService = TestBed.get(VlcService);
+    const service: VlcContextService = TestBed.get(VlcContextService);
     expect(service).toBeTruthy();
   });
 });

@@ -24,23 +24,29 @@ div[cclass="playback-controls"] {
   div[cclass="progress-card"] {
 
     grid-area: progress-card;
+    height: 100%;
 
     mat-card {
       background-color: ghostwhite;
+      height: calc( 100% - 40px);
     }
   }
 
   div[cclass="volume-card"] {
     grid-area: volume-card;
+    height: 100%;
     mat-card {
       background-color: ghostwhite;
+      height: calc( 100% - 40px);
     }
   }
 
   div[cclass="playback-card"] {
     grid-area: playback-card;
+    height: 100%;
     mat-card {
       background-color: ghostwhite;
+      height: calc( 100% - 40px);
     }
   }
 

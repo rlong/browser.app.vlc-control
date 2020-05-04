@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {VlcService} from '../../service.vlc/vlc.service';
+import {VlcContextService} from '../../service.vlc-context/vlc-context.service';
 import {CompositePlaylistNode, ICompositePlaylistNode, LeafPlaylistNode, Playlist, PlaylistNode} from '../../model/vlc';
 import {Router} from '@angular/router';
 import {RouteManifest} from '../../RouteManifest';
@@ -52,7 +52,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   constructor(
-    private vlc: VlcService,
+    private vlc: VlcContextService,
     private router: Router
   ) {
   }

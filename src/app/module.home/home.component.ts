@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {VlcService} from '../service.vlc/vlc.service';
+import {VlcContextService} from '../service.vlc-context/vlc-context.service';
 import {ConfigurationService} from '../service.configuration/configuration.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -51,7 +51,7 @@ export class PageHomeComponent implements OnInit {
     RouteManifest.PLAYLIST.navigate( this.router );
   }
 
-  constructor( private vlc: VlcService,
+  constructor( private vlc: VlcContextService,
                private router: Router ) {
 
   }

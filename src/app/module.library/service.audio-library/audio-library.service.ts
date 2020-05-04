@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {FileNode, IFileNode} from '../../model/vlc';
-import {VlcService} from '../../service.vlc/vlc.service';
+import {VlcContextService} from '../../service.vlc-context/vlc-context.service';
 import {AngularIndexedDB} from '../../../lib/angular2-indexeddb/angular2-indexeddb';
 import {ICategoryMeta} from '../../model/VlcPlayback';
 import {LibrarySetupStats} from './LibrarySetupStats';
@@ -458,7 +458,7 @@ export class AudioLibraryService {
   }
 
 
-  constructor( private vlc: VlcService) {
+  constructor( private vlc: VlcContextService) {
 
     this.init();
   }

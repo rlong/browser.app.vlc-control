@@ -87,7 +87,7 @@ class StatusPoller {
     this.timer = null;
   }
 
-  constructor( public vlc: VlcService ) {
+  constructor( public vlc: VlcContextService ) {
   }
 
 }
@@ -96,7 +96,7 @@ class StatusPoller {
 @Injectable({
   providedIn: 'root'
 })
-export class VlcService implements IPlaybackControl {
+export class VlcContextService implements IPlaybackControl {
 
 
   initialising = new Command<void>();
@@ -109,7 +109,7 @@ export class VlcService implements IPlaybackControl {
   public proxy: VlcProxy|null;
 
 
-  private init( host: string ) {
+  private async init( host: string ) {
 
     if( !this.initialising ) {
       this.initialising = new Command<void>();
@@ -126,6 +126,9 @@ export class VlcService implements IPlaybackControl {
     this.playlist = new PlaylistReference();
     // this.status = new StatusReference();
     this.statusPoller = new StatusPoller( this );
+
+    await this.getStatus();
+    await this.getPlaylist();
 
     this.initialising.resolve();
     this.initialising = null;

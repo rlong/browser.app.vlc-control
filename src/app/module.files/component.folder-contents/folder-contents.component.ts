@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ConfigurationService} from '../../service.configuration/configuration.service';
-import {VlcService} from '../../service.vlc/vlc.service';
+import {VlcContextService} from '../../service.vlc-context/vlc-context.service';
 import {FileNode, FileNodeArray} from '../../model/vlc';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RouteManifest} from '../../RouteManifest';
@@ -65,7 +65,7 @@ export class FolderContentsComponent implements OnInit {
   }
 
   constructor( private config: ConfigurationService,
-               private vlc: VlcService,
+               private vlc: VlcContextService,
                private route: ActivatedRoute,
                private router: Router
   ) {

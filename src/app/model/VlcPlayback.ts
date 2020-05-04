@@ -115,6 +115,29 @@ export class StatusReference extends BaseReference<IStatus> {
     this.volumePercentage = Math.round(100 * (this.value.volume / 320));
   }
 
+  title(): string|null {
+
+    const information = this.value.information;
+    if( !information ) {
+      return null;
+    }
+
+    const category = information.category;
+    if( !category ) {
+
+      return null;
+    }
+
+    const meta = category.meta;
+    if( !meta ) {
+
+      return null;
+    }
+
+    return meta.title;
+
+  }
+
 
   constructor(value: IStatus) {
 
