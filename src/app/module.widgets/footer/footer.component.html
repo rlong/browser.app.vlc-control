@@ -2,6 +2,17 @@
 
   <ng-content></ng-content>
 
+
+  <button mat-raised-button color="primary"
+          *ngIf="showBack"
+          (click)="onGoBack()"
+          style="margin-right: 8px;"
+  >
+    <mat-icon svgIcon="chevron-left"></mat-icon>
+
+  </button>
+
+
   <button mat-raised-button color="primary"
           *ngIf="showPlaybackControl"
           (click)="onPlaybackControl()"

@@ -10,11 +10,13 @@
       <button mat-list-item (click)="onPlaybackControl()"> Playback Control </button>
       <button mat-list-item (click)="onFiles()"> Files </button>
       <button mat-list-item (click)="onPlaylist()"> Playlist </button>
-      <button mat-list-item (click)="onAudioLibrary()"> Audio library </button>
+      <button mat-list-item (click)="onAudioLibrary()">
+        <mat-icon svgIcon="headphones"></mat-icon> Audio library
+      </button>
     </mat-action-list>
   </div>
 
-  <app-footer>
+  <app-footer [showBack]="false">
 
 
   </app-footer>

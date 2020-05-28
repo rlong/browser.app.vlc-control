@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RouteManifest} from '../../RouteManifest';
 import {Router} from '@angular/router';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-footer',
@@ -10,9 +12,15 @@ import {Router} from '@angular/router';
 export class FooterComponent implements OnInit {
 
 
+  @Input() showBack = true;
   @Input() showPlaybackControl = true;
 
   ngOnInit() {
+  }
+
+  onGoBack() {
+
+    this.location.back();
   }
 
   onPlaybackControl() {
@@ -21,6 +29,7 @@ export class FooterComponent implements OnInit {
   }
 
 
-  constructor( private router: Router ) { }
+  constructor( private router: Router,
+               private location: Location ) { }
 
 }
