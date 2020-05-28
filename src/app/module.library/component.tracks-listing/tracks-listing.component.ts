@@ -91,7 +91,6 @@ export class TracksListingComponent implements OnInit {
       }
     }
 
-
   }
 
   private getIndex( paramName ): number|null {

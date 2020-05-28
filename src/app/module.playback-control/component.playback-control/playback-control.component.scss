@@ -14,12 +14,6 @@ div[cclass="playback-controls"] {
     "volume-card"
     "playback-card";
 
-
-  //background-color: ghostwhite;
-  //border-width: 1px;
-  //border-style: solid;
-  cursor: pointer;
-
   height: 100%;
 
   align-items: center;
@@ -57,6 +51,92 @@ div[cclass="playback-controls"] {
     width: 100%;
   }
 
+
+}
+
+
+div[cclass="progress-card-content"] {
+
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr;
+  grid-template-areas:
+    "progress-slider progress-slider progress-slider progress-slider"
+    "minus-1-minute minus-10-minute plus-10-minute plus-1-minute";
+
+  button {
+    height: calc( 100% - 16px);
+    width: calc( 100% - 16px);;
+  }
+
+  div[cclass="progress-slider"] {
+    grid-area: progress-slider;
+  }
+
+  div[cclass="minus-1-minute"] {
+    grid-area: minus-1-minute;
+  }
+
+
+  div[cclass="minus-10-minute"] {
+    grid-area: minus-10-minute;
+  }
+
+
+  div[cclass="plus-10-minute"] {
+    grid-area: plus-10-minute;
+  }
+
+  div[cclass="plus-1-minute"] {
+    grid-area: plus-1-minute;
+  }
+
+}
+
+
+div[cclass="volume-card-content"] {
+
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr;
+  grid-template-areas:
+    "volume-slider volume-slider volume-slider volume-slider volume-slider"
+    "volume-minus-1 volume-minus-10 volume-mute volume-plus-10 volume-plus-1";
+
+
+  button {
+    height: calc( 100% - 16px);
+    width: calc( 100% - 16px);;
+  }
+
+
+  div[cclass="volume-slider"] {
+    grid-area: volume-slider;
+  }
+
+  div[cclass="volume-minus-1"] {
+    grid-area: volume-minus-1;
+  }
+
+
+  div[cclass="volume-minus-10"] {
+    grid-area: volume-minus-10;
+  }
+
+
+  div[cclass="volume-mute"] {
+    grid-area: volume-mute;
+  }
+
+  div[cclass="volume-plus-10"] {
+    grid-area: volume-plus-10;
+  }
+
+  div[cclass="volume-plus-1"] {
+    grid-area: volume-plus-1;
+  }
 
 }
 

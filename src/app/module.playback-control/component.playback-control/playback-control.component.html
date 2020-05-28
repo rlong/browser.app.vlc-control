@@ -33,121 +33,112 @@
       <div cclass="progress-card">
         <mat-card>
 
-          <mat-grid-list cols="4" [gutterSize]="8" [rowHeight]="60">
 
-            <mat-grid-tile colspan="4" >
+          <div cclass="progress-card-content">
+
+            <div cclass="progress-slider">
               <mat-slider min="0"
                           [max]="vlc.status.value.length"
                           [value]="vlc.status.value.time"
                           (input)="onProgressInput($event)"
               ></mat-slider>
-            </mat-grid-tile>
+            </div>
 
-
-            <mat-grid-tile colspan="1" >
-              <button
-                mat-raised-button
-                (click)="onSeekRelative(-600)"
-              >
-                - 10:00
-              </button>
-            </mat-grid-tile>
-
-            <mat-grid-tile colspan="1" >
-              <button
-                mat-raised-button
-                (click)="onSeekRelative(-60)"
+            <div cclass="minus-1-minute">
+              <button mat-raised-button color="primary"
+                      (click)="onSeekRelative(-60)"
               >
                 - 1:00
               </button>
-            </mat-grid-tile>
+            </div>
 
-            <mat-grid-tile colspan="1" >
-              <button
-                mat-raised-button
-                (click)="onSeekRelative(60)"
+            <div cclass="minus-10-minute">
+              <button mat-raised-button color="primary"
+                      (click)="onSeekRelative(-600)"
               >
-                + 1:00
+                - 10:00
               </button>
-            </mat-grid-tile>
+            </div>
 
-            <mat-grid-tile colspan="1" >
-              <button
-                mat-raised-button
-                (click)="onSeekRelative(600)"
+            <div cclass="plus-10-minute">
+              <button mat-raised-button color="primary"
+                      (click)="onSeekRelative(600)"
               >
                 + 10:00
               </button>
-            </mat-grid-tile>
+            </div>
 
-          </mat-grid-list>
+            <div cclass="plus-1-minute">
+              <button mat-raised-button color="primary"
+                      (click)="onSeekRelative(60)"
+              >
+                + 1:00
+              </button>
+            </div>
+          </div>
+
         </mat-card>
       </div>
 
       <div cclass="volume-card">
         <mat-card>
 
+          <div cclass="volume-card-content">
 
-          <mat-grid-list cols="10" [gutterSize]="8" [rowHeight]="60">
 
-
-            <mat-grid-tile colspan="10" >
-
+            <div cclass="volume-slider">
               <mat-slider min="0" max="100"
                           [value]="vlc.status.volumePercentage"
                           (input)="onVolumeInput($event)"
               ></mat-slider>
+            </div>
 
-            </mat-grid-tile>
-
-
-            <mat-grid-tile colspan="2" >
-              <button
-                mat-raised-button
-                (click)="onVolumeChange(-1)"
+            <div cclass="volume-minus-1">
+              <button mat-raised-button color="primary"
+                      (click)="onVolumeChange(-1)"
               >
                 -1%
               </button>
-            </mat-grid-tile>
+            </div>
 
-            <mat-grid-tile colspan="2" >
-              <button
-                mat-raised-button
-                (click)="onVolumeChange(-10)"
+            <div cclass="volume-minus-10">
+              <button mat-raised-button color="primary"
+                      (click)="onVolumeChange(-10)"
               >
                 -10%
               </button>
-            </mat-grid-tile>
 
-            <mat-grid-tile colspan="2" >
-              <button
-                mat-raised-button
-                (click)="onToggleMute()"
+            </div>
+
+            <div cclass="volume-mute">
+              <button mat-raised-button color="primary"
+                      (click)="onToggleMute()"
               >
                 mute
               </button>
-            </mat-grid-tile>
 
-            <mat-grid-tile colspan="2" >
-              <button
-                mat-raised-button
-                (click)="onVolumeChange(10)"
+            </div>
+
+            <div cclass="volume-plus-10">
+              <button mat-raised-button color="primary"
+                      (click)="onVolumeChange(10)"
               >
                 +10%
               </button>
-            </mat-grid-tile>
 
-            <mat-grid-tile colspan="2" >
-              <button
-                mat-raised-button
-                (click)="onVolumeChange(1)"
+            </div>
+
+            <div cclass="volume-plus-1">
+              <button mat-raised-button color="primary"
+                      (click)="onVolumeChange(1)"
               >
                 +1%
               </button>
-            </mat-grid-tile>
 
+            </div>
 
-          </mat-grid-list>
+          </div>
+
         </mat-card>
       </div>
 
@@ -156,8 +147,7 @@
         <mat-card>
           <div cclass="playback-card-content">
             <div cclass="playlist-previous">
-              <button
-                mat-raised-button
+              <button mat-raised-button color="primary"
                 class="button__"
                 (click)="playbackControl.playlistPrevious()"
               >
@@ -166,9 +156,7 @@
             </div>
 
             <div cclass="fullscreen">
-              <button
-
-                mat-raised-button
+              <button mat-raised-button color="primary"
                 class="button__"
                 (click)="playbackControl.toggleFullScreen()"
               >
@@ -179,9 +167,7 @@
             </div>
 
             <div cclass="playlist-next">
-              <button
-
-                mat-raised-button
+              <button mat-raised-button color="primary"
                 class="button__"
                 (click)="playbackControl.playlistNext()"
               >
@@ -191,7 +177,7 @@
             </div>
 
             <div cclass="seek-back-10">
-              <button mat-raised-button
+              <button mat-raised-button color="primary"
                       class="button__"
                       (click)="onSeekRelative(-10)"
               >
@@ -201,7 +187,7 @@
             </div>
 
             <div cclass="play-pause">
-              <button mat-raised-button
+              <button mat-raised-button color="primary"
                       class="button__"
                       (click)="playbackControl.playPause()"
               >
@@ -213,7 +199,7 @@
             </div>
 
             <div cclass="seek-forward-30">
-              <button mat-raised-button
+              <button mat-raised-button color="primary"
                       class="button__ button__forward_30"
                       (click)="onSeekRelative(30)"
               >
